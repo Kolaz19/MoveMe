@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class Character {
     public Animation mr_animationHorizontal;
     public Animation mr_animationVertically;
+    public Animation mr_animationIdle;
     private Rectangle  mr_collisionBox;
     private TextureRegion mr_currentFrame;
     private float mv_drawX;
@@ -27,12 +28,38 @@ public class Character {
     }
 
     public void setY(float iv_y) {
-        mr_collisionBox.setY(iv_y + mr_collisionBox.getY() - mv_drawY);
+        mr_collisionBox.setY(iv_y);
         mv_drawX = iv_y;
     }
 
-    public void playIdleAnimation() {
+    public void addIdleAnimation(String iv_pathToAtlas,int iv_durationInFrames,int iv_maxFrames) {
+        mr_animationIdle = new Animation(iv_pathToAtlas,iv_durationInFrames,iv_maxFrames);
+    }
 
+    public void addVerticalAnimation(String iv_pathToAtlas,int iv_durationInFrames,int iv_maxFrames) {
+        mr_animationVertically = new Animation(iv_pathToAtlas,iv_durationInFrames,iv_maxFrames);
+    }
+
+    public void addHorizontalAnimation(String iv_pathToAtlas,int iv_durationInFrames,int iv_maxFrames) {
+        mr_animationHorizontal = new Animation(iv_pathToAtlas,iv_durationInFrames,iv_maxFrames);
+    }
+
+    public void playIdleAnimation() {
+        mr_animationIdle.play();
+        mr_currentFrame = mr_animationIdle.getCurrentFrame();
+    }
+
+    public void playVerticalAnimation() {
+        mr_animationVertically.play();
+        mr_currentFrame = mr_animationIdle.getCurrentFrame();
+    }
+
+    public boolean isMidAnimationVertical() {
+        return mr_animationVertically.isMidAnimation();
+    }
+
+    public boolean isMidAnimationHorizontal() {
+        return mr_animationHorizontal.isMidAnimation();
     }
 
     public TextureRegion getCurrentFrame() {

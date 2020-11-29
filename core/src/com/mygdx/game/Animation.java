@@ -12,8 +12,8 @@ public class Animation {
     private int mv_frameCounter;
 
 
-    Animation(String ir_atlasPath,int iv_durationInFrames,int iv_maxFrames) {
-        Texture lr_texture = new Texture(ir_atlasPath);
+    Animation(String iv_atlasPath,int iv_durationInFrames,int iv_maxFrames) {
+        Texture lr_texture = new Texture(iv_atlasPath);
         mv_maxFrames = iv_maxFrames;
         ma_frames = new TextureRegion[mv_maxFrames];
         int lv_frameWidth = lr_texture.getWidth()/mv_maxFrames;
@@ -48,6 +48,11 @@ public class Animation {
         } else {
             return ma_frames[0]; //return first frame if index is out of bounds
         }
+    }
+
+    //has to be checked before drawing for accurate result
+    public boolean isMidAnimation () {
+        return mv_currentFrame > 0;
     }
 
 }
