@@ -21,7 +21,7 @@ public class MyGdxGame extends Game {
 		//camera
 		gr_camera = new OrthographicCamera(960,960);
 		//Level 1
-		setScreen(new LevelBasic(this,null,"Level1.tmx"));
+		setScreen(new LevelBasic(this,null,"Level1.tmx","Default"));
 
 
 
