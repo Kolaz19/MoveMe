@@ -20,6 +20,9 @@ public class MyGdxGame extends Game {
 		gr_batch = new SpriteBatch();
 		//camera
 		gr_camera = new OrthographicCamera(960,960);
+		//Create char
+		gr_char = new Character(3*16,0,16);
+		gr_char.addIdleAnimation("charIdle.png",60,1);
 		//Level 1
 		setScreen(new LevelBasic(this,null,"Level1.tmx","Default"));
 
