@@ -1,6 +1,9 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Character {
@@ -10,6 +13,8 @@ public class Character {
     private TextureRegion mr_currentFrame;
     private float mv_drawX;
     private float mv_drawY;
+    private float mv_targetX;
+    private float mv_targetY;
 
     public Character(float iv_posX, float iv_posY, int iv_heightWidth) {
         mr_collisionBox = new Rectangle();
@@ -64,8 +69,23 @@ public class Character {
     public float getDrawY() {
         return mv_drawY;
     }
+    //Just get input and set target position, no other check
+    public void calibrateTargetPosition() {
+        if (Gdx.input.isButtonPressed(Input.Keys.W) || Gdx.input.isButtonPressed(Input.Keys.UP)) {
+            mv_targetY = mv_drawY + mr_collisionBox.getHeight();
+        } else if (Gdx.input.isButtonPressed(Input.Keys.S) || Gdx.input.isButtonPressed(Input.Keys.DOWN)) {
+            mv_targetY = mv_drawY - mr_collisionBox.getHeight();
+        } else if (Gdx.input.isButtonPressed(Input.Keys.A) || Gdx.input.isButtonPressed(Input.Keys.LEFT)) {
+            mv_targetX = mv_drawX + mr_collisionBox.getWidth();
+        } else if (Gdx.input.isButtonPressed(Input.Keys.D) || Gdx.input.isButtonPressed(Input.Keys.RIGHT)) {
+            mv_targetX = mv_drawX - mr_collisionBox.getWidth();
+        }
+    }
+    //Checks if target position will hit map boundary - reset target position
+    //TODO also play animation
+    public void checkFutureMapCollision(TiledMapTileLayer ir_mapLayer) {
 
-
+    }
 
 
 }
