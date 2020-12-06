@@ -21,15 +21,11 @@ public class MyGdxGame extends Game {
 		//camera
 		gr_camera = new OrthographicCamera(960,960);
 		//Create char
-		gr_char = new Character(3*16,0,16);
+		gr_char = new Character(3*16+0.5f,0+0.5f,16);
 		gr_char.addIdleAnimation("charIdle.png",60,1);
 		//Level 1
 		setScreen(new LevelBasic(this,null,"Level1.tmx","Default"));
-
-
-
 		//TODO check if you can return from LevelBasic and dispose its elements
-
 	}
 
 

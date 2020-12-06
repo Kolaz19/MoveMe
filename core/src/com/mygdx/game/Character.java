@@ -11,7 +11,7 @@ public class Character {
     private float mv_drawX;
     private float mv_drawY;
 
-    public Character(int iv_posX, int iv_posY, int iv_heightWidth) {
+    public Character(float iv_posX, float iv_posY, int iv_heightWidth) {
         mr_collisionBox = new Rectangle();
         mr_collisionBox.setHeight(iv_heightWidth);
         mr_collisionBox.setWidth(iv_heightWidth);

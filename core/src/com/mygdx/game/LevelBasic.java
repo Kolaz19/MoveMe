@@ -20,13 +20,12 @@ public class LevelBasic extends ScreenAdapter {
     private int mv_mapHeight;
     private int mv_mapWidth;
     private ShapeRenderer mr_shapeRenderer;
-    private int ma_lineCoordinates[][];
+    private float ma_lineCoordinates[][];
 
 
     LevelBasic(MyGdxGame ir_maingame,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName) {
         mr_main = ir_maingame;
         ma_enemies = ia_enemies;
-
         //Manage Map & animation
         mr_map = MapManager.mr_mapLoader.load(iv_pathToMap);
         MapManager.replaceTilesAnimated(mr_map,"BasicTileset","animation","target",0.5f,iv_mapLayerName,"animation","target",16);
@@ -66,9 +65,9 @@ public class LevelBasic extends ScreenAdapter {
         mr_main.gr_mapRender.getBatch().end();
         //Render lines/grid
         mr_shapeRenderer.begin();
-        for (int lv_i = 0;lv_i < ma_lineCoordinates.length;lv_i++) {
-            mr_shapeRenderer.line(ma_lineCoordinates[lv_i][0], ma_lineCoordinates[lv_i][1], ma_lineCoordinates[lv_i][2], ma_lineCoordinates[lv_i][3]);
-        }
+            for (int lv_i = 0; lv_i < ma_lineCoordinates.length; lv_i++) {
+                mr_shapeRenderer.line(ma_lineCoordinates[lv_i][0], ma_lineCoordinates[lv_i][1], ma_lineCoordinates[lv_i][2], ma_lineCoordinates[lv_i][3]);
+            }
         mr_shapeRenderer.end();
         //Render characters
         mr_main.gr_batch.begin();
@@ -94,7 +93,7 @@ public class LevelBasic extends ScreenAdapter {
         mr_shapeRenderer.setColor(Color.BLACK);
         mr_main.gr_mapRender = new OrthogonalTiledMapRenderer(mr_map);
         //Set coordinates for the lines
-        ma_lineCoordinates = new int[lv_horizontalLines+lv_verticalLines][4];
+        ma_lineCoordinates = new float[lv_horizontalLines+lv_verticalLines][4];
         //Set coordinates for horizontal lines
         for(int lv_i = 0; lv_i < lv_horizontalLines;lv_i++) {
             ma_lineCoordinates[lv_i][0] = 0;
