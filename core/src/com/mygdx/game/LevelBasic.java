@@ -1,8 +1,6 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -36,6 +34,7 @@ public class LevelBasic extends ScreenAdapter {
         mv_mapWidth = mr_mapLayer.getWidth() * mr_mapLayer.getTileWidth();
         //Add lines to render on screen
         addLinesToRender();
+
     }
 
     public void show() {
@@ -58,6 +57,9 @@ public class LevelBasic extends ScreenAdapter {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //Render char
+        mr_main.gr_char.calibrateTargetPosition();
+        mr_main.gr_char.checkFutureMapCollision(mr_mapLayer);
+        mr_main.gr_char.move(0.1f);
         mr_main.gr_char.playIdleAnimation();
 
         //Render map

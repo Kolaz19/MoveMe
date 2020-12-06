@@ -24,6 +24,8 @@ public class Character {
         mr_collisionBox.setY(iv_posY);
         mv_drawX = iv_posX;
         mv_drawY = iv_posY;
+        mv_targetX = iv_posX;
+        mv_targetY = iv_posY;
     }
 
     public void setX(float iv_x) {
@@ -33,10 +35,10 @@ public class Character {
 
     public void setY(float iv_y) {
         mr_collisionBox.setY(iv_y);
-        mv_drawX = iv_y;
+        mv_drawY = iv_y;
     }
 
-    public void addIdleAnimation(String iv_pathToAtlas,int iv_durationInFrames,int iv_maxFrames) {
+    public void addAnimationIdle(String iv_pathToAtlas,int iv_durationInFrames,int iv_maxFrames) {
         mr_animationIdle = new Animation(iv_pathToAtlas,iv_durationInFrames,iv_maxFrames);
     }
 
@@ -71,20 +73,42 @@ public class Character {
     }
     //Just get input and set target position, no other check
     public void calibrateTargetPosition() {
-        if (Gdx.input.isButtonPressed(Input.Keys.W) || Gdx.input.isButtonPressed(Input.Keys.UP)) {
+        //Check if char is still moving
+        if((mv_targetY != mv_drawY) || (mv_targetX != mv_drawX)) {
+            return;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
             mv_targetY = mv_drawY + mr_collisionBox.getHeight();
-        } else if (Gdx.input.isButtonPressed(Input.Keys.S) || Gdx.input.isButtonPressed(Input.Keys.DOWN)) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             mv_targetY = mv_drawY - mr_collisionBox.getHeight();
-        } else if (Gdx.input.isButtonPressed(Input.Keys.A) || Gdx.input.isButtonPressed(Input.Keys.LEFT)) {
-            mv_targetX = mv_drawX + mr_collisionBox.getWidth();
-        } else if (Gdx.input.isButtonPressed(Input.Keys.D) || Gdx.input.isButtonPressed(Input.Keys.RIGHT)) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             mv_targetX = mv_drawX - mr_collisionBox.getWidth();
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            mv_targetX = mv_drawX + mr_collisionBox.getWidth();
         }
     }
     //Checks if target position will hit map boundary - reset target position
     //TODO also play animation
     public void checkFutureMapCollision(TiledMapTileLayer ir_mapLayer) {
+        int lv_cellX =(int) this.mv_targetX / ir_mapLayer.getTileWidth();
+        int lv_cellY = (int) this.mv_targetY / ir_mapLayer.getTileHeight();
+        TiledMapTileLayer.Cell lr_cellToHit = ir_mapLayer.getCell(lv_cellX,lv_cellY);
+        if (lr_cellToHit.getTile().getProperties().containsKey("blocked") && lr_cellToHit.getTile().getProperties().get("blocked",Boolean.class).equals(true)) {
+            mv_targetX = 0;
+            mv_targetY = 0;
+        }
+    }
 
+    public void move(float iv_speed) {
+        if (getDrawX() < mv_targetX) {
+            this.setX(getDrawX() + iv_speed);
+        } else if (getDrawX() > mv_targetX) {
+            this.setX(getDrawX() - iv_speed);
+        } else if (getDrawY() < mv_targetY) {
+            this.setY(getDrawY() + iv_speed);
+        } else if (getDrawY() > mv_targetY) {
+            this.setY(getDrawY() - iv_speed);
+        }
     }
 
 
