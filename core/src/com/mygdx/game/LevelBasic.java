@@ -57,10 +57,11 @@ public class LevelBasic extends ScreenAdapter {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //Render char
+        mr_main.gr_char.animationStillPlaying();
         mr_main.gr_char.calibrateTargetPosition();
         mr_main.gr_char.checkFutureMapCollision(mr_mapLayer);
-        mr_main.gr_char.move(0.1f);
-        mr_main.gr_char.playIdleAnimation();
+        mr_main.gr_char.move(1f);
+
 
         //Render map
         mr_main.gr_mapRender.getBatch().begin();
@@ -74,7 +75,7 @@ public class LevelBasic extends ScreenAdapter {
         mr_shapeRenderer.end();
         //Render characters
         mr_main.gr_batch.begin();
-        mr_main.gr_batch.draw(mr_main.gr_char.getCurrentFrame(),mr_main.gr_char.getDrawX(),mr_main.gr_char.getDrawY());
+        mr_main.gr_batch.draw(mr_main.gr_char.getCurrentFrame(),mr_main.gr_char.getDrawX(),mr_main.gr_char.getDrawY(),mr_main.gr_char.getDrawX(),mr_main.gr_char.getDrawY(),mr_main.gr_char.getWidth(),mr_main.gr_char.getHeight(),1f,1f,mr_main.gr_char.getRotation());
         mr_main.gr_batch.end();
     }
 
