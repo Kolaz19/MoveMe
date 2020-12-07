@@ -75,7 +75,7 @@ public class LevelBasic extends ScreenAdapter {
         mr_shapeRenderer.end();
         //Render characters
         mr_main.gr_batch.begin();
-        mr_main.gr_batch.draw(mr_main.gr_char.getCurrentFrame(),mr_main.gr_char.getDrawX(),mr_main.gr_char.getDrawY(),mr_main.gr_char.getDrawX(),mr_main.gr_char.getDrawY(),mr_main.gr_char.getWidth(),mr_main.gr_char.getHeight(),1f,1f,mr_main.gr_char.getRotation());
+        mr_main.gr_batch.draw(mr_main.gr_char.getCurrentFrame(),mr_main.gr_char.getDrawX(),mr_main.gr_char.getDrawY(),mr_main.gr_char.getWidth()/2,mr_main.gr_char.getHeight()/2,mr_main.gr_char.getWidth(),mr_main.gr_char.getHeight(),1f,1f,mr_main.gr_char.getRotation());
         mr_main.gr_batch.end();
     }
 

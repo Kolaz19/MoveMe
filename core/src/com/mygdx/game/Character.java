@@ -140,14 +140,19 @@ public class Character {
         if (getDrawX() < mv_targetX) {
             this.setX(getDrawX() + iv_speed);
             this.playMoveAnimation();
+            mv_rotation = 270;
         } else if (getDrawX() > mv_targetX) {
             this.setX(getDrawX() - iv_speed);
+            this.playMoveAnimation();
+            mv_rotation = 90;
         } else if (getDrawY() < mv_targetY) {
             this.setY(getDrawY() + iv_speed);
             this.playMoveAnimation();
             mv_rotation = 0;
         } else if (getDrawY() > mv_targetY) {
             this.setY(getDrawY() - iv_speed);
+            this.playMoveAnimation();
+            mv_rotation = 180;
         }
     }
 
