@@ -14,8 +14,8 @@ public class Character {
     private TextureRegion mr_currentFrame;
     private float mv_drawX;
     private float mv_drawY;
-    private float mv_targetX;
-    private float mv_targetY;
+    public float mv_targetX;
+    public float mv_targetY;
     private float mv_rotation;
 
     public Character(float iv_posX, float iv_posY, int iv_heightWidth) {
@@ -86,6 +86,8 @@ public class Character {
     public float getDrawY() {
         return mv_drawY;
     }
+
+
     //Just get input and set target position, no other check
     public void calibrateTargetPosition() {
         //Check if char is still moving
@@ -139,19 +141,27 @@ public class Character {
         //Move with consistent speed
         if (getDrawX() < mv_targetX) {
             this.setX(getDrawX() + iv_speed);
-            this.playMoveAnimation();
+            if (!this.isMidAnimationMove()) {
+                this.playMoveAnimation();
+            }
             mv_rotation = 270;
         } else if (getDrawX() > mv_targetX) {
             this.setX(getDrawX() - iv_speed);
-            this.playMoveAnimation();
+            if (!this.isMidAnimationMove()) {
+                this.playMoveAnimation();
+            }
             mv_rotation = 90;
         } else if (getDrawY() < mv_targetY) {
             this.setY(getDrawY() + iv_speed);
-            this.playMoveAnimation();
+            if (!this.isMidAnimationMove()) {
+                this.playMoveAnimation();
+            }
             mv_rotation = 0;
         } else if (getDrawY() > mv_targetY) {
             this.setY(getDrawY() - iv_speed);
-            this.playMoveAnimation();
+            if (!this.isMidAnimationMove()) {
+                this.playMoveAnimation();
+            }
             mv_rotation = 180;
         }
     }

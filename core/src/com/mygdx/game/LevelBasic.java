@@ -60,9 +60,7 @@ public class LevelBasic extends ScreenAdapter {
         mr_main.gr_char.animationStillPlaying();
         mr_main.gr_char.calibrateTargetPosition();
         mr_main.gr_char.checkFutureMapCollision(mr_mapLayer);
-        mr_main.gr_char.move(1f);
-
-
+        mr_main.gr_char.move(0.5f);
         //Render map
         mr_main.gr_mapRender.getBatch().begin();
         mr_main.gr_mapRender.renderTileLayer((TiledMapTileLayer) mr_map.getLayers().get("Default"));

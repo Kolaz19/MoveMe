@@ -19,7 +19,7 @@ public class MyGdxGame extends Game {
 		//Create char
 		gr_char = new Character(3*16+0.5f,0+0.5f,15);
 		gr_char.addAnimationIdle("charIdle.png",60,1);
-		gr_char.addAnimationMove("charMove.png",2,17);
+		gr_char.addAnimationMove("charMove.png",3,11);
 		//Level 1
 		setScreen(new LevelBasic(this,null,"Level1.tmx","Default"));
 		//TODO check if you can return from LevelBasic and dispose its elements
