@@ -4,13 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 public class Enemy extends Character {
-    public Enemy(int iv_posX, int iv_posY, int iv_heightWidth) {
+    public Enemy(float iv_posX, float iv_posY, int iv_heightWidth) {
         super(iv_posX, iv_posY, iv_heightWidth);
     }
 
     public void calibrateTargetPosition() {
         //Check if char is still moving
-        if((mv_targetY != getDrawY()) || (mv_targetX != getDrawY())) {
+        if((mv_targetY != getDrawY()) || (mv_targetX != getDrawX())) {
             return;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {

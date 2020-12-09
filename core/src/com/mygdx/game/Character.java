@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
@@ -53,12 +54,12 @@ public class Character {
         return mv_rotation;
     }
 
-    public void addAnimationIdle(String iv_pathToAtlas,int iv_durationInFrames,int iv_maxFrames) {
-        mr_animationIdle = new Animation(iv_pathToAtlas,iv_durationInFrames,iv_maxFrames);
+    public void addAnimationIdle(Texture ir_pathToAtlas, int iv_durationInFrames, int iv_maxFrames) {
+        mr_animationIdle = new Animation(ir_pathToAtlas,iv_durationInFrames,iv_maxFrames);
     }
 
-    public void addAnimationMove(String iv_pathToAtlas,int iv_durationInFrames,int iv_maxFrames) {
-        mr_animationMove = new Animation(iv_pathToAtlas,iv_durationInFrames,iv_maxFrames);
+    public void addAnimationMove(Texture ir_pathToAtlas,int iv_durationInFrames,int iv_maxFrames) {
+        mr_animationMove = new Animation(ir_pathToAtlas,iv_durationInFrames,iv_maxFrames);
     }
 
     public void playIdleAnimation() {

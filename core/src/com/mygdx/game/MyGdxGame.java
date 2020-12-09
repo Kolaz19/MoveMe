@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
@@ -18,10 +19,16 @@ public class MyGdxGame extends Game {
 		gr_camera = new OrthographicCamera(960,960);
 		//Create char
 		gr_char = new Character(3*16+0.5f,0+0.5f,15);
-		gr_char.addAnimationIdle("charIdle.png",60,1);
-		gr_char.addAnimationMove("charMove.png",3,11);
+		gr_char.addAnimationIdle(new Texture("charIdle.png"),60,1);
+		gr_char.addAnimationMove(new Texture("charMove.png"),3,11);
+		//Create enemy array
+		Enemy[] la_enemies = new Enemy[1];
+		Enemy lr_enemy = new Enemy(16+0.5f, 3*16+0.5f,15);
+		lr_enemy.addAnimationIdle(new Texture("charIdle.png"),60,1);
+		lr_enemy.addAnimationMove(new Texture("charMove.png"),3,11);
+		la_enemies[0] = lr_enemy;
 		//Level 1
-		setScreen(new LevelBasic(this,null,"Level1.tmx","Default"));
+		setScreen(new LevelBasic(this,la_enemies,"Level1.tmx","Default"));
 		//TODO check if you can return from LevelBasic and dispose its elements
 	}
 

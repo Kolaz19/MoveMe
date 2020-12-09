@@ -12,14 +12,13 @@ public class Animation {
     private int mv_frameCounter;
 
 
-    Animation(String iv_atlasPath,int iv_durationInFrames,int iv_maxFrames) {
-        Texture lr_texture = new Texture(iv_atlasPath);
+    Animation(Texture ir_atlasPath,int iv_durationInFrames,int iv_maxFrames) {
         mv_maxFrames = iv_maxFrames;
         ma_frames = new TextureRegion[mv_maxFrames];
-        int lv_frameWidth = lr_texture.getWidth()/mv_maxFrames;
+        int lv_frameWidth = ir_atlasPath.getWidth()/mv_maxFrames;
         mv_durationInFrames = iv_durationInFrames;
         for (int i = 0; i < mv_maxFrames;i++) {
-            ma_frames[i]=new TextureRegion(lr_texture,i*lv_frameWidth,0,lv_frameWidth,lr_texture.getHeight());
+            ma_frames[i]=new TextureRegion(ir_atlasPath,i*lv_frameWidth,0,lv_frameWidth, ir_atlasPath.getHeight());
         }
     }
 

@@ -61,6 +61,13 @@ public class LevelBasic extends ScreenAdapter {
         mr_main.gr_char.calibrateTargetPosition();
         mr_main.gr_char.checkFutureMapCollision(mr_mapLayer);
         mr_main.gr_char.move(0.5f);
+        //Render enemies
+        for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
+            ma_enemies[lv_i].animationStillPlaying();
+            ma_enemies[lv_i].calibrateTargetPosition();
+            ma_enemies[lv_i].checkFutureMapCollision(mr_mapLayer);
+            ma_enemies[lv_i].move(0.5f);
+        }
         //Render map
         mr_main.gr_mapRender.getBatch().begin();
         mr_main.gr_mapRender.renderTileLayer((TiledMapTileLayer) mr_map.getLayers().get("Default"));
@@ -74,6 +81,9 @@ public class LevelBasic extends ScreenAdapter {
         //Render characters
         mr_main.gr_batch.begin();
         mr_main.gr_batch.draw(mr_main.gr_char.getCurrentFrame(),mr_main.gr_char.getDrawX(),mr_main.gr_char.getDrawY(),mr_main.gr_char.getWidth()/2,mr_main.gr_char.getHeight()/2,mr_main.gr_char.getWidth(),mr_main.gr_char.getHeight(),1f,1f,mr_main.gr_char.getRotation());
+        for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
+            mr_main.gr_batch.draw(ma_enemies[lv_i].getCurrentFrame(),ma_enemies[lv_i].getDrawX(),ma_enemies[lv_i].getDrawY(),ma_enemies[lv_i].getWidth()/2,ma_enemies[lv_i].getHeight()/2,ma_enemies[lv_i].getWidth(),ma_enemies[lv_i].getHeight(),1f,1f,ma_enemies[lv_i].getRotation());
+        }
         mr_main.gr_batch.end();
     }
 
