@@ -56,18 +56,22 @@ public class LevelBasic extends ScreenAdapter {
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //Render char
+        //Logic char
         mr_main.gr_char.animationStillPlaying();
         mr_main.gr_char.calibrateTargetPosition();
         mr_main.gr_char.checkFutureMapCollision(mr_mapLayer);
-        mr_main.gr_char.move(0.5f);
-        //Render enemies
+        //Logic enemies
         for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
             ma_enemies[lv_i].animationStillPlaying();
             ma_enemies[lv_i].calibrateTargetPosition();
             ma_enemies[lv_i].checkFutureMapCollision(mr_mapLayer);
+        }
+        //Move char / enemies
+        Character.checkFutureCharCollision(mr_main.gr_char,ma_enemies);
+        for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
             ma_enemies[lv_i].move(0.5f);
         }
+        mr_main.gr_char.move(0.5f);
         //Render map
         mr_main.gr_mapRender.getBatch().begin();
         mr_main.gr_mapRender.renderTileLayer((TiledMapTileLayer) mr_map.getLayers().get("Default"));

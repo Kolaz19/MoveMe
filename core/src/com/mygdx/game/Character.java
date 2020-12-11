@@ -124,6 +124,34 @@ public class Character {
         }
     }
 
+    public static void checkFutureCharCollision(Character ir_char, Enemy[] ia_enemies) {
+        //Only check for collision if target coordinates are set
+        if (ir_char.mv_targetX == ir_char.getDrawX() && ir_char.mv_targetY == ir_char.getDrawY()) {
+            return;
+        }
+        for (int lv_i = 0;lv_i < ia_enemies.length; lv_i++) {
+            //Check if char will collide with enemy
+            if (ir_char.mv_targetX == ia_enemies[lv_i].getDrawX() && ir_char.mv_targetY == ia_enemies[lv_i].getDrawY()) {
+                ir_char.mv_targetX = ir_char.getDrawX();
+                ir_char.mv_targetY = ir_char.getDrawY();
+            }
+            //Check if enemy will collide with char
+            if (ia_enemies[lv_i].mv_targetX == ir_char.getDrawX() && ia_enemies[lv_i].mv_targetY == ir_char.getDrawY()) {
+                ia_enemies[lv_i].mv_targetX = ia_enemies[lv_i].getDrawX();
+                ia_enemies[lv_i].mv_targetY = ia_enemies[lv_i].getDrawY();
+            }
+            //Check if enemy will collide with another enemy
+            for (int lv_a = 0; lv_a < ia_enemies.length; lv_a++) {
+                if (lv_i != lv_a && ia_enemies[lv_i].mv_targetX == ia_enemies[lv_a].getDrawX() && ia_enemies[lv_i].mv_targetY == ia_enemies[lv_a].getDrawY()) {
+
+                }
+            }
+        }
+
+    }
+
+
+
     public void move(float iv_speed) {
         //No need to move if target and drawing coordinates are the same
         if (mv_targetX == getDrawX() && mv_targetY == getDrawY()) {
