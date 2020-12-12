@@ -8,9 +8,9 @@ public class Enemy extends Character {
         super(iv_posX, iv_posY, iv_heightWidth);
     }
 
-    public void calibrateTargetPosition() {
-        //Check if char is still moving
-        if((mv_targetY != getDrawY()) || (mv_targetX != getDrawX())) {
+    public void calibrateTargetPosition(Character ir_char) {
+        //Check if enemy is still moving - check also if char will move (because enemy should not move if char does not move)
+        if(((mv_targetY != getDrawY()) || (mv_targetX != getDrawX())) || (ir_char.mv_targetX == ir_char.getDrawX() && ir_char.mv_targetY == ir_char.getDrawY())) {
             return;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {

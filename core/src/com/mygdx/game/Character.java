@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 public class Character {
     public Animation mr_animationMove;

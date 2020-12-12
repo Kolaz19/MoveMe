@@ -63,7 +63,7 @@ public class LevelBasic extends ScreenAdapter {
         //Logic enemies
         for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
             ma_enemies[lv_i].animationStillPlaying();
-            ma_enemies[lv_i].calibrateTargetPosition();
+            ma_enemies[lv_i].calibrateTargetPosition(mr_main.gr_char);
             ma_enemies[lv_i].checkFutureMapCollision(mr_mapLayer);
         }
         //Move char / enemies
