@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class Character {
     public Animation mr_animationMove;
     public Animation mr_animationIdle;
+    private Animation mr_animationExpl;
     private Rectangle  mr_collisionBox;
     private TextureRegion mr_currentFrame;
     private float mv_drawX;
@@ -55,6 +56,10 @@ public class Character {
 
     public void addAnimationIdle(Texture ir_pathToAtlas, int iv_durationInFrames, int iv_maxFrames) {
         mr_animationIdle = new Animation(ir_pathToAtlas,iv_durationInFrames,iv_maxFrames);
+    }
+
+    public void addAnimationExplode(Texture ir_pathToAtlas, int iv_durationInFrames, int iv_maxFrames) {
+        mr_animationExpl = new Animation(ir_pathToAtlas,iv_durationInFrames,iv_maxFrames);
     }
 
     public void addAnimationMove(Texture ir_pathToAtlas,int iv_durationInFrames,int iv_maxFrames) {
@@ -153,7 +158,16 @@ public class Character {
         }
     }
 
-
+    //Has to be called after EVERY other check
+    public boolean willDie(Enemy[] ia_enemies) {
+        for (int lv_b = 0; lv_b < ia_enemies.length; lv_b++) {
+            if (this.mv_targetX == ia_enemies[lv_b].mv_targetX && this.mv_targetY == ia_enemies[lv_b].mv_targetY) {
+                ia_enemies[lv_b].changeScaling(1.1f);
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void move(float iv_speed) {
         //No need to move if target and drawing coordinates are the same
@@ -208,3 +222,6 @@ public class Character {
     }
 
 }
+
+
+//TODO extract hero stuff in hero class and let Character be the parent class

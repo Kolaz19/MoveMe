@@ -4,8 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 public class Enemy extends Character {
+
+    private float mv_scaling;
+
     public Enemy(float iv_posX, float iv_posY, int iv_heightWidth) {
         super(iv_posX, iv_posY, iv_heightWidth);
+        mv_scaling = 1f;
+    }
+
+    public void changeScaling(float iv_scaling) {
+        mv_scaling = iv_scaling;
+    }
+
+    public float getScaling() {
+        return mv_scaling;
     }
 
     public void calibrateTargetPosition(Character ir_char) {

@@ -20,9 +20,11 @@ public class LevelBasic extends ScreenAdapter {
     private int mv_mapWidth;
     private ShapeRenderer mr_shapeRenderer;
     private float ma_lineCoordinates[][];
+    private boolean mv_charWillDie;
 
 
     LevelBasic(MyGdxGame ir_maingame,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName) {
+        mv_charWillDie = false;
         mr_main = ir_maingame;
         ma_enemies = ia_enemies;
         //Manage Map & animation
@@ -56,6 +58,8 @@ public class LevelBasic extends ScreenAdapter {
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
         //Logic char
         mr_main.gr_char.animationStillPlaying();
         mr_main.gr_char.calibrateTargetPosition();
@@ -66,8 +70,13 @@ public class LevelBasic extends ScreenAdapter {
             ma_enemies[lv_i].calibrateTargetPosition(mr_main.gr_char);
             ma_enemies[lv_i].checkFutureMapCollision(mr_mapLayer);
         }
-        //Move char / enemies
+        //Check logic char/enemies
         Character.checkFutureCharCollision(mr_main.gr_char,ma_enemies);
+        //Check if char will die
+        if (mr_main.gr_char.willDie(ma_enemies)) {
+            mv_charWillDie = true;
+        }
+        //Move char / enemies
         for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
             ma_enemies[lv_i].move(0.5f);
         }
@@ -86,7 +95,7 @@ public class LevelBasic extends ScreenAdapter {
         mr_main.gr_batch.begin();
         mr_main.gr_batch.draw(mr_main.gr_char.getCurrentFrame(),mr_main.gr_char.getDrawX(),mr_main.gr_char.getDrawY(),mr_main.gr_char.getWidth()/2,mr_main.gr_char.getHeight()/2,mr_main.gr_char.getWidth(),mr_main.gr_char.getHeight(),1f,1f,mr_main.gr_char.getRotation());
         for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
-            mr_main.gr_batch.draw(ma_enemies[lv_i].getCurrentFrame(),ma_enemies[lv_i].getDrawX(),ma_enemies[lv_i].getDrawY(),ma_enemies[lv_i].getWidth()/2,ma_enemies[lv_i].getHeight()/2,ma_enemies[lv_i].getWidth(),ma_enemies[lv_i].getHeight(),1f,1f,ma_enemies[lv_i].getRotation());
+            mr_main.gr_batch.draw(ma_enemies[lv_i].getCurrentFrame(),ma_enemies[lv_i].getDrawX(),ma_enemies[lv_i].getDrawY(),ma_enemies[lv_i].getWidth()/2,ma_enemies[lv_i].getHeight()/2,ma_enemies[lv_i].getWidth(),ma_enemies[lv_i].getHeight(),ma_enemies[lv_i].getScaling(),ma_enemies[lv_i].getScaling(),ma_enemies[lv_i].getRotation());
         }
         mr_main.gr_batch.end();
     }
