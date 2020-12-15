@@ -18,6 +18,7 @@ public class Character {
     public float mv_targetX;
     public float mv_targetY;
     private float mv_rotation;
+    private float mv_scaling;
 
     public Character(float iv_posX, float iv_posY, int iv_heightWidth) {
         mr_collisionBox = new Rectangle();
@@ -30,6 +31,15 @@ public class Character {
         mv_targetX = iv_posX;
         mv_targetY = iv_posY;
         mv_rotation = 0;
+        mv_scaling = 1f;
+    }
+
+    public void changeScaling(float iv_scaling) {
+        mv_scaling = iv_scaling;
+    }
+
+    public float getScaling() {
+        return mv_scaling;
     }
 
     public float getWidth() {
@@ -74,6 +84,11 @@ public class Character {
     public void playMoveAnimation() {
         mr_animationMove.play();
         mr_currentFrame = mr_animationMove.getCurrentFrame();
+    }
+
+    public void playDeathAnimation() {
+        mr_animationExpl.play();
+        mr_currentFrame = mr_animationExpl.getCurrentFrame();
     }
 
     public boolean isMidAnimationMove() {
@@ -128,35 +143,7 @@ public class Character {
         }
     }
 
-    public static void checkFutureCharCollision(Character ir_char, Enemy[] ia_enemies) {
 
-        for (int lv_i = 0;lv_i < ia_enemies.length; lv_i++) {
-            //Check if char will collide with enemy
-            if (ir_char.mv_targetX == ia_enemies[lv_i].getDrawX() && ir_char.mv_targetY == ia_enemies[lv_i].getDrawY()) {
-                ir_char.mv_targetX = ir_char.getDrawX();
-                ir_char.mv_targetY = ir_char.getDrawY();
-            }
-            //Check if enemy will collide with char
-            if (ia_enemies[lv_i].mv_targetX == ir_char.getDrawX() && ia_enemies[lv_i].mv_targetY == ir_char.getDrawY()) {
-                ia_enemies[lv_i].mv_targetX = ia_enemies[lv_i].getDrawX();
-                ia_enemies[lv_i].mv_targetY = ia_enemies[lv_i].getDrawY();
-            }
-            //Check if enemy will collide with another enemy
-            for (int lv_a = 0; lv_a < ia_enemies.length; lv_a++) {
-                if (lv_i != lv_a && (ia_enemies[lv_i].mv_targetX == ia_enemies[lv_a].mv_targetX && ia_enemies[lv_i].mv_targetY == ia_enemies[lv_a].mv_targetY)) {
-                    ia_enemies[lv_i].mv_targetX = ia_enemies[lv_i].getDrawX();
-                    ia_enemies[lv_i].mv_targetY = ia_enemies[lv_i].getDrawY();
-                }
-            }
-        }
-        //If character does not move, enemies should also not move
-        if (ir_char.mv_targetX == ir_char.getDrawX() && ir_char.mv_targetY == ir_char.getDrawY()) {
-            for (int lv_b = 0; lv_b < ia_enemies.length; lv_b++) {
-                ia_enemies[lv_b].mv_targetY = ia_enemies[lv_b].getDrawY();
-                ia_enemies[lv_b].mv_targetX = ia_enemies[lv_b].getDrawX();
-            }
-        }
-    }
 
     //Has to be called after EVERY other check
     public boolean willDie(Enemy[] ia_enemies) {
@@ -212,7 +199,13 @@ public class Character {
         }
     }
 
-    public void animationStillPlaying() {
+    public void playAnimations(boolean iv_deathCondition, boolean iv_winCondition) {
+        if (iv_deathCondition && this.mv_targetY == this.getDrawY() && this.mv_targetX == this.getDrawX()) {
+            playDeathAnimation();
+            this.changeScaling(3f);
+            return;
+        }
+
         if (this.isMidAnimationMove()) {
             this.playMoveAnimation();
         } else {

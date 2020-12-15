@@ -1,0 +1,45 @@
+//Death
+[.] Play devour animation at the right time and release it at the right time
+[?] Experiment with ONE time play of death animation and ENDLESS play of death animation
+
+
+//Win Condition
+[?] Set win condition
+[?] Create win animation
+[?] Block input when win condition is met (combine with death condition)
+
+//Restructure
+[?] Inherit hero class from character class 
+[?] Look for opportunities to clean up code and restructure methods
+
+//Continue/Reset level
+[?] Catch input after win/lose condition
+[?] Create method that does dispose elements and resets or continues screen
+[?] Let win and lose condition lead to same method
+
+
+//Test UI possibilitys
+[?] Get informations about the implementation of UIs
+[?] Set UI per second batch.draw() method
+[?] Create stage for UI
+[?] Set UI per second stage
+
+_____________________________________________________________________________________
+//15.12.20
+[X] Play death animation 
+[X] Block input when death condition is met
+[X] Creation of death condition
+
+
+
+
+
+
+
+
+
+
+
+
+
+

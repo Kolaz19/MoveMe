@@ -60,18 +60,24 @@ public class LevelBasic extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
+
+
         //Logic char
-        mr_main.gr_char.animationStillPlaying();
-        mr_main.gr_char.calibrateTargetPosition();
+        mr_main.gr_char.playAnimations(mv_charWillDie,false);
+        if (!mv_charWillDie) {
+            mr_main.gr_char.calibrateTargetPosition();
+        }
         mr_main.gr_char.checkFutureMapCollision(mr_mapLayer);
         //Logic enemies
         for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
-            ma_enemies[lv_i].animationStillPlaying();
-            ma_enemies[lv_i].calibrateTargetPosition(mr_main.gr_char);
+            ma_enemies[lv_i].playAnimations(false,false);
+            if (!mv_charWillDie) {
+                ma_enemies[lv_i].calibrateTargetPosition(mr_main.gr_char);
+            }
             ma_enemies[lv_i].checkFutureMapCollision(mr_mapLayer);
         }
         //Check logic char/enemies
-        Character.checkFutureCharCollision(mr_main.gr_char,ma_enemies);
+        this.checkFutureCharCollision(mr_main.gr_char,ma_enemies);
         //Check if char will die
         if (mr_main.gr_char.willDie(ma_enemies)) {
             mv_charWillDie = true;
@@ -93,7 +99,7 @@ public class LevelBasic extends ScreenAdapter {
         mr_shapeRenderer.end();
         //Render characters
         mr_main.gr_batch.begin();
-        mr_main.gr_batch.draw(mr_main.gr_char.getCurrentFrame(),mr_main.gr_char.getDrawX(),mr_main.gr_char.getDrawY(),mr_main.gr_char.getWidth()/2,mr_main.gr_char.getHeight()/2,mr_main.gr_char.getWidth(),mr_main.gr_char.getHeight(),1f,1f,mr_main.gr_char.getRotation());
+        mr_main.gr_batch.draw(mr_main.gr_char.getCurrentFrame(),mr_main.gr_char.getDrawX(),mr_main.gr_char.getDrawY(),mr_main.gr_char.getWidth()/2,mr_main.gr_char.getHeight()/2,mr_main.gr_char.getWidth(),mr_main.gr_char.getHeight(),mr_main.gr_char.getScaling(),mr_main.gr_char.getScaling(),mr_main.gr_char.getRotation());
         for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
             mr_main.gr_batch.draw(ma_enemies[lv_i].getCurrentFrame(),ma_enemies[lv_i].getDrawX(),ma_enemies[lv_i].getDrawY(),ma_enemies[lv_i].getWidth()/2,ma_enemies[lv_i].getHeight()/2,ma_enemies[lv_i].getWidth(),ma_enemies[lv_i].getHeight(),ma_enemies[lv_i].getScaling(),ma_enemies[lv_i].getScaling(),ma_enemies[lv_i].getRotation());
         }
@@ -134,5 +140,36 @@ public class LevelBasic extends ScreenAdapter {
             ma_lineCoordinates[lv_i][3] = mr_mapLayer.getHeight() * mr_mapLayer.getTileHeight();
         }
     }
+
+    public static void checkFutureCharCollision(Character ir_char, Enemy[] ia_enemies) {
+
+        for (int lv_i = 0;lv_i < ia_enemies.length; lv_i++) {
+            //Check if char will collide with enemy
+            if (ir_char.mv_targetX == ia_enemies[lv_i].getDrawX() && ir_char.mv_targetY == ia_enemies[lv_i].getDrawY()) {
+                ir_char.mv_targetX = ir_char.getDrawX();
+                ir_char.mv_targetY = ir_char.getDrawY();
+            }
+            //Check if enemy will collide with char
+            if (ia_enemies[lv_i].mv_targetX == ir_char.getDrawX() && ia_enemies[lv_i].mv_targetY == ir_char.getDrawY()) {
+                ia_enemies[lv_i].mv_targetX = ia_enemies[lv_i].getDrawX();
+                ia_enemies[lv_i].mv_targetY = ia_enemies[lv_i].getDrawY();
+            }
+            //Check if enemy will collide with another enemy
+            for (int lv_a = 0; lv_a < ia_enemies.length; lv_a++) {
+                if (lv_i != lv_a && (ia_enemies[lv_i].mv_targetX == ia_enemies[lv_a].mv_targetX && ia_enemies[lv_i].mv_targetY == ia_enemies[lv_a].mv_targetY)) {
+                    ia_enemies[lv_i].mv_targetX = ia_enemies[lv_i].getDrawX();
+                    ia_enemies[lv_i].mv_targetY = ia_enemies[lv_i].getDrawY();
+                }
+            }
+        }
+        //If character does not move, enemies should also not move
+        if (ir_char.mv_targetX == ir_char.getDrawX() && ir_char.mv_targetY == ir_char.getDrawY()) {
+            for (int lv_b = 0; lv_b < ia_enemies.length; lv_b++) {
+                ia_enemies[lv_b].mv_targetY = ia_enemies[lv_b].getDrawY();
+                ia_enemies[lv_b].mv_targetX = ia_enemies[lv_b].getDrawX();
+            }
+        }
+    }
+
 
 }

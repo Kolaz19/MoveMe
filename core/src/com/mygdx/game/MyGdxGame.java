@@ -21,7 +21,7 @@ public class MyGdxGame extends Game {
 		gr_char = new Character(3*16+0.5f,0+0.5f,15);
 		gr_char.addAnimationIdle(new Texture("charIdle.png"),60,1);
 		gr_char.addAnimationMove(new Texture("charMove.png"),3,11);
-		gr_char.addAnimationExplode(new Texture("charExplode.png"),4,16);
+		gr_char.addAnimationExplode(new Texture("charExplode.png"),3,17);
 		//Create enemy array
 		Enemy[] la_enemies = new Enemy[2];
 		Enemy lr_enemy1 = new Enemy(16+0.5f, 3*16+0.5f,15);
