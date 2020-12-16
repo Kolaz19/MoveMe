@@ -95,6 +95,10 @@ public class Character {
         return mr_animationMove.isMidAnimation();
     }
 
+    public boolean isMidAnimationDeath() {
+        return mr_animationExpl.isMidAnimation();
+    }
+
     public TextureRegion getCurrentFrame() {
         return mr_currentFrame;
     }
@@ -109,20 +113,21 @@ public class Character {
 
 
     //Just get input and set target position, no other check
-    public void calibrateTargetPosition() {
+    public boolean calibrateTargetPosition() {
         //Check if char is still moving
         if((mv_targetY != mv_drawY) || (mv_targetX != mv_drawX)) {
-            return;
+            return false;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            mv_targetY = mv_drawY + 16;
+            mv_targetY = getDrawY() + 16;
         } else if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            mv_targetY = mv_drawY - 16;
+            mv_targetY = getDrawY() - 16;
         } else if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            mv_targetX = mv_drawX - 16;
+            mv_targetX = getDrawX() - 16;
         } else if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            mv_targetX = mv_drawX + 16;
+            mv_targetX = getDrawX() + 16;
         }
+        return true;
     }
     //Checks if target position will hit map boundary - reset target position
     //TODO also play animation
@@ -149,7 +154,17 @@ public class Character {
     public boolean willDie(Enemy[] ia_enemies) {
         for (int lv_b = 0; lv_b < ia_enemies.length; lv_b++) {
             if (this.mv_targetX == ia_enemies[lv_b].mv_targetX && this.mv_targetY == ia_enemies[lv_b].mv_targetY) {
-                ia_enemies[lv_b].changeScaling(1.1f);
+                //Increase size of enemy until position reached (devour animation) - then shrink it
+                if (ia_enemies[lv_b].mv_targetX == ia_enemies[lv_b].getDrawX() && ia_enemies[lv_b].mv_targetY == ia_enemies[lv_b].getDrawY()) {
+                    if (ia_enemies[lv_b].getScaling()>1f) {
+                        ia_enemies[lv_b].changeScaling(ia_enemies[lv_b].getScaling() - 0.10f);
+                    } else {
+                        ia_enemies[lv_b].changeScaling(1f);
+                    }
+
+                } else {
+                    ia_enemies[lv_b].changeScaling(ia_enemies[lv_b].getScaling()+0.05f);
+                }
                 return true;
             }
         }
@@ -201,11 +216,21 @@ public class Character {
 
     public void playAnimations(boolean iv_deathCondition, boolean iv_winCondition) {
         if (iv_deathCondition && this.mv_targetY == this.getDrawY() && this.mv_targetX == this.getDrawX()) {
-            playDeathAnimation();
-            this.changeScaling(3f);
+            if (this.getScaling() != 3f) {
+                playDeathAnimation();
+                this.changeScaling(3f);
+                return;
+            } else {
+                if (this.isMidAnimationDeath()) {
+                    this.playDeathAnimation();
+                    return;
+                }
+            }
+        }
+        //This is after char was crushed
+        if (getScaling() == 3f) {
             return;
         }
-
         if (this.isMidAnimationMove()) {
             this.playMoveAnimation();
         } else {

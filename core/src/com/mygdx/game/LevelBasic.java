@@ -21,9 +21,11 @@ public class LevelBasic extends ScreenAdapter {
     private ShapeRenderer mr_shapeRenderer;
     private float ma_lineCoordinates[][];
     private boolean mv_charWillDie;
+    private boolean mv_acceptInputs;
 
 
     LevelBasic(MyGdxGame ir_maingame,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName) {
+        mv_acceptInputs = false;
         mv_charWillDie = false;
         mr_main = ir_maingame;
         ma_enemies = ia_enemies;
@@ -65,16 +67,18 @@ public class LevelBasic extends ScreenAdapter {
         //Logic char
         mr_main.gr_char.playAnimations(mv_charWillDie,false);
         if (!mv_charWillDie) {
-            mr_main.gr_char.calibrateTargetPosition();
+            mv_acceptInputs = mr_main.gr_char.calibrateTargetPosition();
         }
         mr_main.gr_char.checkFutureMapCollision(mr_mapLayer);
         //Logic enemies
         for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
             ma_enemies[lv_i].playAnimations(false,false);
             if (!mv_charWillDie) {
-                ma_enemies[lv_i].calibrateTargetPosition(mr_main.gr_char);
+                if (mv_acceptInputs) {
+                    ma_enemies[lv_i].calibrateTargetPosition(mr_main.gr_char);
+                }
             }
-            ma_enemies[lv_i].checkFutureMapCollision(mr_mapLayer);
+                ma_enemies[lv_i].checkFutureMapCollision(mr_mapLayer);
         }
         //Check logic char/enemies
         this.checkFutureCharCollision(mr_main.gr_char,ma_enemies);

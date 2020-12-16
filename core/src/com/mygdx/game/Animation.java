@@ -10,9 +10,12 @@ public class Animation {
     private int mv_currentFrame;
     private int mv_durationInFrames;
     private int mv_frameCounter;
+    private boolean mv_isMidAnimation;
 
 
     Animation(Texture ir_atlasPath,int iv_durationInFrames,int iv_maxFrames) {
+        mv_isMidAnimation = false;
+        mv_currentFrame = 0;
         mv_maxFrames = iv_maxFrames;
         ma_frames = new TextureRegion[mv_maxFrames];
         int lv_frameWidth = ir_atlasPath.getWidth()/mv_maxFrames;
@@ -23,11 +26,13 @@ public class Animation {
     }
 
     public void play() {
+        mv_isMidAnimation = true;
         mv_frameCounter++;
         if(mv_frameCounter % mv_durationInFrames == 0) {
             mv_currentFrame++;
             if (mv_currentFrame == mv_maxFrames) {
                 mv_currentFrame = 0;
+                mv_isMidAnimation = false;
             }
         }
     }
@@ -51,7 +56,7 @@ public class Animation {
 
     //has to be checked before drawing for accurate result
     public boolean isMidAnimation () {
-        return mv_currentFrame > 0;
+        return mv_isMidAnimation;
     }
 
 }
