@@ -21,10 +21,12 @@ public class LevelBasic extends ScreenAdapter {
     private ShapeRenderer mr_shapeRenderer;
     private float ma_lineCoordinates[][];
     private boolean mv_charWillDie;
+    private boolean mv_charWillWin;
     private boolean mv_acceptInputs;
 
 
     LevelBasic(MyGdxGame ir_maingame,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName) {
+        mv_charWillWin = false;
         mv_acceptInputs = false;
         mv_charWillDie = false;
         mr_main = ir_maingame;
@@ -81,9 +83,9 @@ public class LevelBasic extends ScreenAdapter {
                 ma_enemies[lv_i].checkFutureMapCollision(mr_mapLayer);
         }
         //Check logic char/enemies
-        this.checkFutureCharCollision(mr_main.gr_char,ma_enemies);
+        checkFutureCharCollision(mr_main.gr_char,ma_enemies);
         //Check if char will die
-        if (mr_main.gr_char.willDie(ma_enemies)) {
+        if (willDie(mr_main.gr_char,ma_enemies)) {
             mv_charWillDie = true;
         }
         //Move char / enemies
@@ -173,6 +175,26 @@ public class LevelBasic extends ScreenAdapter {
                 ia_enemies[lv_b].mv_targetX = ia_enemies[lv_b].getDrawX();
             }
         }
+    }
+
+    //Has to be called after EVERY other check
+    public boolean willDie(Character ir_char,Enemy[] ia_enemies) {
+        for (int lv_b = 0; lv_b < ia_enemies.length; lv_b++) {
+            if (ir_char.mv_targetX == ia_enemies[lv_b].mv_targetX && ir_char.mv_targetY == ia_enemies[lv_b].mv_targetY) {
+                //Increase size of enemy until position reached (devour animation) - then shrink it
+                if (ia_enemies[lv_b].mv_targetX == ia_enemies[lv_b].getDrawX() && ia_enemies[lv_b].mv_targetY == ia_enemies[lv_b].getDrawY()) {
+                    if (ia_enemies[lv_b].getScaling()>1f) {
+                        ia_enemies[lv_b].changeScaling(ia_enemies[lv_b].getScaling() - 0.10f);
+                    } else {
+                        ia_enemies[lv_b].changeScaling(1f);
+                    }
+                } else {
+                    ia_enemies[lv_b].changeScaling(ia_enemies[lv_b].getScaling()+0.04f);
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
 

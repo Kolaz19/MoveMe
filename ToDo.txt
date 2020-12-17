@@ -1,14 +1,9 @@
-//Death
-[X] Play devour animation at the right time and release it at the right time
-[X] Experiment with ONE time play of death animation and ENDLESS play of death animation
-
 //Win Condition
 [?] Create win animation
 [?] Set win condition
 [?] Block input when win condition is met (combine with death condition)
 
 //Restructure
-[?] Remove bug where tiles get shifted
 [?] Inherit hero class from character class 
 [?] Look for opportunities to clean up code and restructure methods
 [?] Replace direct access to attributes with setter/getter methods
@@ -26,6 +21,10 @@
 [?] Set UI per second stage
 
 _____________________________________________________________________________________
+//16.12.20
+[X] Play devour animation at the right time and release it at the right time
+[X] Experiment with ONE time play of death animation and ENDLESS play of death animation
+[X] Remove bug where tiles get shifted
 //15.12.20
 [X] Play death animation 
 [X] Block input when death condition is met

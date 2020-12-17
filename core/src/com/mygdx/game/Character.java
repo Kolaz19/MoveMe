@@ -150,26 +150,7 @@ public class Character {
 
 
 
-    //Has to be called after EVERY other check
-    public boolean willDie(Enemy[] ia_enemies) {
-        for (int lv_b = 0; lv_b < ia_enemies.length; lv_b++) {
-            if (this.mv_targetX == ia_enemies[lv_b].mv_targetX && this.mv_targetY == ia_enemies[lv_b].mv_targetY) {
-                //Increase size of enemy until position reached (devour animation) - then shrink it
-                if (ia_enemies[lv_b].mv_targetX == ia_enemies[lv_b].getDrawX() && ia_enemies[lv_b].mv_targetY == ia_enemies[lv_b].getDrawY()) {
-                    if (ia_enemies[lv_b].getScaling()>1f) {
-                        ia_enemies[lv_b].changeScaling(ia_enemies[lv_b].getScaling() - 0.10f);
-                    } else {
-                        ia_enemies[lv_b].changeScaling(1f);
-                    }
 
-                } else {
-                    ia_enemies[lv_b].changeScaling(ia_enemies[lv_b].getScaling()+0.05f);
-                }
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void move(float iv_speed) {
         //No need to move if target and drawing coordinates are the same
