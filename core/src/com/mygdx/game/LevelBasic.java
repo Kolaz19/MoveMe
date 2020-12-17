@@ -74,7 +74,7 @@ public class LevelBasic extends ScreenAdapter {
         mr_main.gr_char.checkFutureMapCollision(mr_mapLayer);
         //Logic enemies
         for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
-            ma_enemies[lv_i].playAnimations(false,false);
+            ma_enemies[lv_i].playAnimations();
             if (!mv_charWillDie) {
                 if (mv_acceptInputs) {
                     ma_enemies[lv_i].calibrateTargetPosition(mr_main.gr_char);
@@ -151,28 +151,28 @@ public class LevelBasic extends ScreenAdapter {
 
         for (int lv_i = 0;lv_i < ia_enemies.length; lv_i++) {
             //Check if char will collide with enemy
-            if (ir_char.mv_targetX == ia_enemies[lv_i].getDrawX() && ir_char.mv_targetY == ia_enemies[lv_i].getDrawY()) {
-                ir_char.mv_targetX = ir_char.getDrawX();
-                ir_char.mv_targetY = ir_char.getDrawY();
+            if (ir_char.getTargetX() == ia_enemies[lv_i].getDrawX() && ir_char.getTargetY() == ia_enemies[lv_i].getDrawY()) {
+                ir_char.setTargetX(ir_char.getDrawX());
+                ir_char.setTargetY(ir_char.getDrawY());
             }
             //Check if enemy will collide with char
-            if (ia_enemies[lv_i].mv_targetX == ir_char.getDrawX() && ia_enemies[lv_i].mv_targetY == ir_char.getDrawY()) {
-                ia_enemies[lv_i].mv_targetX = ia_enemies[lv_i].getDrawX();
-                ia_enemies[lv_i].mv_targetY = ia_enemies[lv_i].getDrawY();
+            if (ia_enemies[lv_i].getTargetX() == ir_char.getDrawX() && ia_enemies[lv_i].getTargetY() == ir_char.getDrawY()) {
+                ia_enemies[lv_i].setTargetX(ia_enemies[lv_i].getDrawX());
+                ia_enemies[lv_i].setTargetY(ia_enemies[lv_i].getDrawY());
             }
             //Check if enemy will collide with another enemy
             for (int lv_a = 0; lv_a < ia_enemies.length; lv_a++) {
-                if (lv_i != lv_a && (ia_enemies[lv_i].mv_targetX == ia_enemies[lv_a].mv_targetX && ia_enemies[lv_i].mv_targetY == ia_enemies[lv_a].mv_targetY)) {
-                    ia_enemies[lv_i].mv_targetX = ia_enemies[lv_i].getDrawX();
-                    ia_enemies[lv_i].mv_targetY = ia_enemies[lv_i].getDrawY();
+                if (lv_i != lv_a && (ia_enemies[lv_i].getTargetX() == ia_enemies[lv_a].getTargetX() && ia_enemies[lv_i].getTargetY() == ia_enemies[lv_a].getTargetY())) {
+                    ia_enemies[lv_i].setTargetX(ia_enemies[lv_i].getDrawX());
+                    ia_enemies[lv_i].setTargetY(ia_enemies[lv_i].getDrawY());
                 }
             }
         }
-        //If character does not move, enemies should also not move
-        if (ir_char.mv_targetX == ir_char.getDrawX() && ir_char.mv_targetY == ir_char.getDrawY()) {
+        //TODO If character does not move, enemies should also not move - check if necessary
+        if (ir_char.getTargetX() == ir_char.getDrawX() && ir_char.getTargetY() == ir_char.getDrawY()) {
             for (int lv_b = 0; lv_b < ia_enemies.length; lv_b++) {
-                ia_enemies[lv_b].mv_targetY = ia_enemies[lv_b].getDrawY();
-                ia_enemies[lv_b].mv_targetX = ia_enemies[lv_b].getDrawX();
+                ia_enemies[lv_b].setTargetY(ia_enemies[lv_b].getDrawY());
+                ia_enemies[lv_b].setTargetX(ia_enemies[lv_b].getDrawX());
             }
         }
     }
@@ -180,16 +180,16 @@ public class LevelBasic extends ScreenAdapter {
     //Has to be called after EVERY other check
     public boolean willDie(Character ir_char,Enemy[] ia_enemies) {
         for (int lv_b = 0; lv_b < ia_enemies.length; lv_b++) {
-            if (ir_char.mv_targetX == ia_enemies[lv_b].mv_targetX && ir_char.mv_targetY == ia_enemies[lv_b].mv_targetY) {
+            if (ir_char.getTargetX() == ia_enemies[lv_b].getTargetX() && ir_char.getTargetY() == ia_enemies[lv_b].getTargetY()) {
                 //Increase size of enemy until position reached (devour animation) - then shrink it
-                if (ia_enemies[lv_b].mv_targetX == ia_enemies[lv_b].getDrawX() && ia_enemies[lv_b].mv_targetY == ia_enemies[lv_b].getDrawY()) {
+                if (ia_enemies[lv_b].getTargetX() == ia_enemies[lv_b].getDrawX() && ia_enemies[lv_b].getTargetY() == ia_enemies[lv_b].getDrawY()) {
                     if (ia_enemies[lv_b].getScaling()>1f) {
-                        ia_enemies[lv_b].changeScaling(ia_enemies[lv_b].getScaling() - 0.10f);
+                        ia_enemies[lv_b].setScaling(ia_enemies[lv_b].getScaling() - 0.10f);
                     } else {
-                        ia_enemies[lv_b].changeScaling(1f);
+                        ia_enemies[lv_b].setScaling(1f);
                     }
                 } else {
-                    ia_enemies[lv_b].changeScaling(ia_enemies[lv_b].getScaling()+0.04f);
+                    ia_enemies[lv_b].setScaling(ia_enemies[lv_b].getScaling()+0.04f);
                 }
                 return true;
             }

@@ -8,15 +8,15 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Character {
-    public Animation mr_animationMove;
-    public Animation mr_animationIdle;
+    private Animation mr_animationMove;
+    private Animation mr_animationIdle;
     private Animation mr_animationExpl;
     private Rectangle  mr_collisionBox;
     private TextureRegion mr_currentFrame;
     private float mv_drawX;
     private float mv_drawY;
-    public float mv_targetX;
-    public float mv_targetY;
+    private float mv_targetX;
+    private float mv_targetY;
     private float mv_rotation;
     private float mv_scaling;
 
@@ -34,10 +34,9 @@ public class Character {
         mv_scaling = 1f;
     }
 
-    public void changeScaling(float iv_scaling) {
+    public void setScaling(float iv_scaling) {
         mv_scaling = iv_scaling;
     }
-
     public float getScaling() {
         return mv_scaling;
     }
@@ -45,23 +44,45 @@ public class Character {
     public float getWidth() {
         return mr_collisionBox.getWidth();
     }
-
     public float getHeight() {
         return mr_collisionBox.getHeight();
     }
-
     public void setX(float iv_x) {
         mr_collisionBox.setX(iv_x);
         mv_drawX = iv_x;
     }
-
+    public float getDrawX() {
+        return mv_drawX;
+    }
     public void setY(float iv_y) {
         mr_collisionBox.setY(iv_y);
         mv_drawY = iv_y;
     }
+    public float getDrawY() {
+        return mv_drawY;
+    }
+
+    public void setTargetX(float iv_targetX) {
+        mv_targetX = iv_targetX;
+    }
+
+    public float getTargetX() {
+        return mv_targetX;
+    }
+
+    public void setTargetY(float iv_targetY) {
+        mv_targetY = iv_targetY;
+    }
+
+    public float getTargetY() {
+        return mv_targetY;
+    }
 
     public float getRotation() {
         return mv_rotation;
+    }
+    public void setRotation(float iv_rotation) {
+        mv_rotation = iv_rotation;
     }
 
     public void addAnimationIdle(Texture ir_pathToAtlas, int iv_durationInFrames, int iv_maxFrames) {
@@ -103,124 +124,76 @@ public class Character {
         return mr_currentFrame;
     }
 
-    public float getDrawX() {
-        return mv_drawX;
-    }
-
-    public float getDrawY() {
-        return mv_drawY;
-    }
-
-
-    //Just get input and set target position, no other check
-    public boolean calibrateTargetPosition() {
-        //Check if char is still moving
-        if((mv_targetY != mv_drawY) || (mv_targetX != mv_drawX)) {
-            return false;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            mv_targetY = getDrawY() + 16;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            mv_targetY = getDrawY() - 16;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            mv_targetX = getDrawX() - 16;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            mv_targetX = getDrawX() + 16;
-        }
-        return true;
-    }
     //Checks if target position will hit map boundary - reset target position
-    //TODO also play animation
     public void checkFutureMapCollision(TiledMapTileLayer ir_mapLayer) {
         //first check if target is out of map
-        if (mv_targetX < 0 || mv_targetX > ir_mapLayer.getTileWidth() * ir_mapLayer.getWidth() || mv_targetY < 0 || mv_targetY > ir_mapLayer.getTileHeight() * ir_mapLayer.getHeight()) {
-            mv_targetX = getDrawX();
-            mv_targetY = getDrawY();
+        if (getTargetX() < 0 || getTargetX() > ir_mapLayer.getTileWidth() * ir_mapLayer.getWidth() || getTargetY() < 0 || getTargetY() > ir_mapLayer.getTileHeight() * ir_mapLayer.getHeight()) {
+            setTargetX(getDrawX());
+            setTargetY(getDrawY());
             return;
         }
         //then check if target would hit blocked tile
-        int lv_cellX =(int) this.mv_targetX / ir_mapLayer.getTileWidth();
-        int lv_cellY = (int) this.mv_targetY / ir_mapLayer.getTileHeight();
+        int lv_cellX =(int) getTargetX() / ir_mapLayer.getTileWidth();
+        int lv_cellY = (int) getTargetY() / ir_mapLayer.getTileHeight();
         TiledMapTileLayer.Cell lr_cellToHit = ir_mapLayer.getCell(lv_cellX,lv_cellY);
         if (lr_cellToHit.getTile().getProperties().containsKey("blocked") && lr_cellToHit.getTile().getProperties().get("blocked",Boolean.class).equals(true)) {
-            mv_targetX = getDrawX();
-            mv_targetY = getDrawY();
+            setTargetX(getDrawX());
+            setTargetY(getDrawY());
         }
     }
-
-
-
 
 
     public void move(float iv_speed) {
         //No need to move if target and drawing coordinates are the same
-        if (mv_targetX == getDrawX() && mv_targetY == getDrawY()) {
+        if (getTargetX() == getDrawX() && getTargetY() == getDrawY()) {
             return;
         }
         //Snap to target coordinate if near enough
-        if (mv_targetX > getDrawX() && mv_targetX - getDrawX() < iv_speed) {
-            setX(mv_targetX);
-        } else if (mv_targetX < getDrawX() && getDrawX() - mv_targetX < iv_speed) {
-            setX(mv_targetX);
-        } else if (mv_targetY > getDrawY() && mv_targetY - getDrawY() < iv_speed) {
-            setY(mv_targetY);
-        } else if (mv_targetY < getDrawY() && getDrawY() - mv_targetY < iv_speed) {
-            setY(mv_targetY);
+        if (getTargetX() > getDrawX() && getTargetX() - getDrawX() < iv_speed) {
+            setX(getTargetX());
+        } else if (getTargetX() < getDrawX() && getDrawX() - getTargetX() < iv_speed) {
+            setX(getTargetX());
+        } else if (getTargetY() > getDrawY() && getTargetY() - getDrawY() < iv_speed) {
+            setY(getTargetY());
+        } else if (getTargetY() < getDrawY() && getDrawY() - getTargetY() < iv_speed) {
+            setY(getTargetY());
         }
         //Move with consistent speed
-        if (getDrawX() < mv_targetX) {
-            this.setX(getDrawX() + iv_speed);
-            if (!this.isMidAnimationMove()) {
-                this.playMoveAnimation();
+        if (getDrawX() < getTargetX()) {
+            setX(getDrawX() + iv_speed);
+            if (!isMidAnimationMove()) {
+                playMoveAnimation();
             }
-            mv_rotation = 270;
-        } else if (getDrawX() > mv_targetX) {
-            this.setX(getDrawX() - iv_speed);
-            if (!this.isMidAnimationMove()) {
-                this.playMoveAnimation();
+            setRotation(270);
+        } else if (getDrawX() > getTargetX()) {
+            setX(getDrawX() - iv_speed);
+            if (!isMidAnimationMove()) {
+                playMoveAnimation();
             }
-            mv_rotation = 90;
-        } else if (getDrawY() < mv_targetY) {
-            this.setY(getDrawY() + iv_speed);
-            if (!this.isMidAnimationMove()) {
-                this.playMoveAnimation();
+            setRotation(90);
+        } else if (getDrawY() < getTargetY()) {
+            setY(getDrawY() + iv_speed);
+            if (!isMidAnimationMove()) {
+                playMoveAnimation();
             }
-            mv_rotation = 0;
-        } else if (getDrawY() > mv_targetY) {
-            this.setY(getDrawY() - iv_speed);
-            if (!this.isMidAnimationMove()) {
-                this.playMoveAnimation();
+            setRotation(0);
+        } else if (getDrawY() > getTargetY()) {
+            setY(getDrawY() - iv_speed);
+            if (!isMidAnimationMove()) {
+                playMoveAnimation();
             }
-            mv_rotation = 180;
+            setRotation(180);
         }
     }
 
-    public void playAnimations(boolean iv_deathCondition, boolean iv_winCondition) {
-        if (iv_deathCondition && this.mv_targetY == this.getDrawY() && this.mv_targetX == this.getDrawX()) {
-            if (this.getScaling() != 3f) {
-                playDeathAnimation();
-                this.changeScaling(3f);
-                return;
-            } else {
-                if (this.isMidAnimationDeath()) {
-                    this.playDeathAnimation();
-                    return;
-                }
-            }
-        }
-        //This is after char was crushed
-        if (getScaling() == 3f) {
-            return;
-        }
-        if (this.isMidAnimationMove()) {
-            this.playMoveAnimation();
+    public void playAnimations() {
+        if (isMidAnimationMove()) {
+            playMoveAnimation();
         } else {
             playIdleAnimation();
-            mv_rotation = 0;
+            setRotation(0);
         }
     }
 
 }
 
-
-//TODO extract hero stuff in hero class and let Character be the parent class

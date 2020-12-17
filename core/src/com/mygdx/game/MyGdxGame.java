@@ -9,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 public class MyGdxGame extends Game {
 	public SpriteBatch gr_batch;
 	public OrthographicCamera gr_camera;
-	public Character gr_char;
+	public Hero gr_char;
 	OrthogonalTiledMapRenderer gr_mapRender;
 
 	@Override
@@ -18,7 +18,7 @@ public class MyGdxGame extends Game {
 		//camera
 		gr_camera = new OrthographicCamera(960,960);
 		//Create char
-		gr_char = new Character(3*16+0.5f,0+0.5f,15);
+		gr_char = new Hero(3*16+0.5f,0+0.5f,15);
 		gr_char.addAnimationIdle(new Texture("charIdle.png"),60,1);
 		gr_char.addAnimationMove(new Texture("charMove.png"),3,11);
 		gr_char.addAnimationExplode(new Texture("charExplode.png"),3,17);
@@ -34,7 +34,6 @@ public class MyGdxGame extends Game {
 		la_enemies[1] = lr_enemy2;
 		//Level 1
 		setScreen(new LevelBasic(this,la_enemies,"Level1.tmx","Default"));
-		//TODO check if you can return from LevelBasic and dispose its elements
 	}
 
 

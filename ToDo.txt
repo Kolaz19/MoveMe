@@ -4,9 +4,8 @@
 [?] Block input when win condition is met (combine with death condition)
 
 //Restructure
-[?] Inherit hero class from character class 
 [?] Look for opportunities to clean up code and restructure methods
-[?] Replace direct access to attributes with setter/getter methods
+[?] Create method to allow input in LevelBasic
 
 //Continue/Reset level
 [?] Catch input after win/lose condition
@@ -20,7 +19,10 @@
 [?] Create stage for UI
 [?] Set UI per second stage
 
-_____________________________________________________________________________________
+_______________________________________________________________________________
+//17.12.20
+[X] Inherit hero class from character class 
+[X] Replace direct access to attributes with setter/getter methods
 //16.12.20
 [X] Play devour animation at the right time and release it at the right time
 [X] Experiment with ONE time play of death animation and ENDLESS play of death animation
