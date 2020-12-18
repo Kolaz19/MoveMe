@@ -20,15 +20,11 @@ public class LevelBasic extends ScreenAdapter {
     private int mv_mapWidth;
     private ShapeRenderer mr_shapeRenderer;
     private float ma_lineCoordinates[][];
-    private boolean mv_charWillDie;
-    private boolean mv_charWillWin;
     private boolean mv_acceptInputs;
 
 
     LevelBasic(MyGdxGame ir_maingame,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName) {
-        mv_charWillWin = false;
         mv_acceptInputs = false;
-        mv_charWillDie = false;
         mr_main = ir_maingame;
         ma_enemies = ia_enemies;
         //Manage Map & animation
@@ -64,7 +60,7 @@ public class LevelBasic extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Check if inputs should be allowed
-        if (mr_main.gr_char.isTargetSet() || mv_charWillDie || mv_charWillWin) {
+        if (mr_main.gr_char.isTargetSet() || mr_main.gr_char.mv_willDie) {
             mv_acceptInputs = false;
         } else {
             mv_acceptInputs = true;
@@ -72,7 +68,7 @@ public class LevelBasic extends ScreenAdapter {
 
 
         //Logic char
-        mr_main.gr_char.playAnimations(mv_charWillDie,mv_charWillWin);
+        mr_main.gr_char.playAnimations();
         if (mv_acceptInputs) {
             mr_main.gr_char.calibrateTargetPosition();
             if (mr_main.gr_char.isTargetSet()) {
@@ -94,11 +90,6 @@ public class LevelBasic extends ScreenAdapter {
         //Check collision between char and enemies
         if (mv_acceptInputs) {
             checkFutureCharCollision(mr_main.gr_char, ma_enemies);
-        }
-
-        //Check if char will die
-        if (willDie(mr_main.gr_char,ma_enemies)) {
-            mv_charWillDie = true;
         }
 
         //Move char / enemies
@@ -162,13 +153,15 @@ public class LevelBasic extends ScreenAdapter {
         }
     }
 
-    public static void checkFutureCharCollision(Character ir_char, Enemy[] ia_enemies) {
+    public static void checkFutureCharCollision(Hero ir_char, Enemy[] ia_enemies) {
 
         for (int lv_i = 0;lv_i < ia_enemies.length; lv_i++) {
             //Check if char will collide with enemy
             if (ir_char.getTargetX() == ia_enemies[lv_i].getDrawX() && ir_char.getTargetY() == ia_enemies[lv_i].getDrawY()) {
                 ir_char.setTargetX(ir_char.getDrawX());
                 ir_char.setTargetY(ir_char.getDrawY());
+                //Skip the other checks, because then noone should move
+                break;
             }
             //Check if enemy will collide with char
             if (ia_enemies[lv_i].getTargetX() == ir_char.getDrawX() && ia_enemies[lv_i].getTargetY() == ir_char.getDrawY()) {
@@ -182,35 +175,20 @@ public class LevelBasic extends ScreenAdapter {
                     ia_enemies[lv_i].setTargetY(ia_enemies[lv_i].getDrawY());
                 }
             }
+            //Check if character will die
+            if (ir_char.getTargetX() == ia_enemies[lv_i].getTargetX() && ir_char.getTargetY() == ia_enemies[lv_i].getTargetY()) {
+                ir_char.mv_willDie = true;
+                ia_enemies[lv_i].mv_willKill = true;
+            }
+
         }
         //If character does not move, enemies should also not move
-        if (ir_char.getTargetX() == ir_char.getDrawX() && ir_char.getTargetY() == ir_char.getDrawY()) {
+        if (!ir_char.isTargetSet()) {
             for (int lv_b = 0; lv_b < ia_enemies.length; lv_b++) {
                 ia_enemies[lv_b].setTargetY(ia_enemies[lv_b].getDrawY());
                 ia_enemies[lv_b].setTargetX(ia_enemies[lv_b].getDrawX());
             }
         }
     }
-
-    //Has to be called after EVERY other check
-    public boolean willDie(Character ir_char,Enemy[] ia_enemies) {
-        for (int lv_b = 0; lv_b < ia_enemies.length; lv_b++) {
-            if (ir_char.getTargetX() == ia_enemies[lv_b].getTargetX() && ir_char.getTargetY() == ia_enemies[lv_b].getTargetY()) {
-                //Increase size of enemy until position reached (devour animation) - then shrink it
-                if (ia_enemies[lv_b].getTargetX() == ia_enemies[lv_b].getDrawX() && ia_enemies[lv_b].getTargetY() == ia_enemies[lv_b].getDrawY()) {
-                    if (ia_enemies[lv_b].getScaling()>1f) {
-                        ia_enemies[lv_b].setScaling(ia_enemies[lv_b].getScaling() - 0.10f);
-                    } else {
-                        ia_enemies[lv_b].setScaling(1f);
-                    }
-                } else {
-                    ia_enemies[lv_b].setScaling(ia_enemies[lv_b].getScaling()+0.04f);
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
 
 }

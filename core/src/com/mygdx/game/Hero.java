@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 public class Hero extends Character {
+    public boolean mv_willDie;
     public Hero(float iv_posX, float iv_posY, int iv_heightWidth) {
         super(iv_posX, iv_posY, iv_heightWidth);
+        mv_willDie = false;
     }
 
     //Just get input and set target position, no other check
@@ -21,8 +23,8 @@ public class Hero extends Character {
         }
     }
 
-    public void playAnimations (boolean iv_deathCondition, boolean iv_winCondition) {
-        if (iv_deathCondition && getTargetY() == getDrawY() && getTargetX() == getDrawX()) {
+    public void playAnimations () {
+        if (mv_willDie && getTargetY() == getDrawY() && getTargetX() == getDrawX()) {
             if (getScaling() != 3f) {
                 playDeathAnimation();
                 setScaling(3f);
@@ -38,7 +40,7 @@ public class Hero extends Character {
         if (getScaling() == 3f) {
             return;
         }
-        playAnimations();
+        super.playAnimations();
     }
 
 }

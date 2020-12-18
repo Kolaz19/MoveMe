@@ -46,8 +46,6 @@ public final class MapManager {
         AnimatedTiledMapTile lr_animatedTile = new AnimatedTiledMapTile(iv_intervalAnimation,la_staticTilesSorted);
         TiledMapTileLayer lr_tileLayer = (TiledMapTileLayer) ir_map.getLayers().get(iv_layerName);
         TiledMapTileLayer.Cell lr_cell;
-        int lv_iterX = 0;
-        int lv_iterY = 0;
         //Replace every tile on the map that meets this properties
         for (int lv_x = 0; lv_x < lr_tileLayer.getWidth(); lv_x++) {
             for (int lv_y = 0; lv_y < lr_tileLayer.getHeight(); lv_y++) {

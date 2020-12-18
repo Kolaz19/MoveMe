@@ -4,8 +4,10 @@
 [?] Block input when win condition is met (combine with death condition)
 
 //Restructure
-[?] Look for opportunities to clean up code and restructure methods
-[?] Rewrite check for dying character
+[?] Check for performance improvement when calling checkFutureCharCollision
+[?] Encapsulate methods in LevelBasic
+[X] Look for opportunities to clean up code and restructure methods
+[X] Rewrite check for dying character
 [X] Implement check in LevelBasic to allow input
 [X] Create method to check if character will move
 
