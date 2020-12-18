@@ -5,7 +5,9 @@
 
 //Restructure
 [?] Look for opportunities to clean up code and restructure methods
-[?] Create method to allow input in LevelBasic
+[?] Rewrite check for dying character
+[X] Implement check in LevelBasic to allow input
+[X] Create method to check if character will move
 
 //Continue/Reset level
 [?] Catch input after win/lose condition

@@ -9,11 +9,7 @@ public class Hero extends Character {
     }
 
     //Just get input and set target position, no other check
-    public boolean calibrateTargetPosition() {
-        //Check if char is still moving
-        if(isTargetSet()) {
-            return false;
-        }
+    public void calibrateTargetPosition() {
         if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
             setTargetY(getDrawY() + 16);
         } else if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
@@ -23,7 +19,6 @@ public class Hero extends Character {
         } else if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             setTargetX(getDrawX() + 16);
         }
-        return true;
     }
 
     public void playAnimations (boolean iv_deathCondition, boolean iv_winCondition) {
