@@ -11,7 +11,7 @@ public class Hero extends Character {
     //Just get input and set target position, no other check
     public boolean calibrateTargetPosition() {
         //Check if char is still moving
-        if(getTargetY() != getDrawY() || (getTargetX() != getDrawX())) {
+        if(isTargetSet()) {
             return false;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {

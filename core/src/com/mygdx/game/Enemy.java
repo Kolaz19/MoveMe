@@ -11,7 +11,7 @@ public class Enemy extends Character {
 
     public void calibrateTargetPosition(Character ir_char) {
         //TODO check if necessary - Check if enemy is still moving - check also if char will move (because enemy should not move if char does not move)
-        if((getTargetY() != getDrawY()) || (getTargetX() != getDrawX())) { //|| (ir_char.mv_targetX == ir_char.getDrawX() && ir_char.mv_targetY == ir_char.getDrawY())) {
+        if(isTargetSet()) {
             return;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {

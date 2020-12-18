@@ -145,7 +145,7 @@ public class Character {
 
     public void move(float iv_speed) {
         //No need to move if target and drawing coordinates are the same
-        if (getTargetX() == getDrawX() && getTargetY() == getDrawY()) {
+        if (!isTargetSet()) {
             return;
         }
         //Snap to target coordinate if near enough
@@ -192,6 +192,14 @@ public class Character {
         } else {
             playIdleAnimation();
             setRotation(0);
+        }
+    }
+
+    public boolean isTargetSet () {
+        if (getTargetX() != getDrawX() || getTargetY() != getDrawY()) {
+            return true;
+        } else {
+            return false;
         }
     }
 
