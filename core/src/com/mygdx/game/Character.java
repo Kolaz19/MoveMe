@@ -10,9 +10,8 @@ import com.badlogic.gdx.math.Rectangle;
 public class Character {
     private Animation mr_animationMove;
     private Animation mr_animationIdle;
-    private Animation mr_animationExpl;
     private Rectangle  mr_collisionBox;
-    private TextureRegion mr_currentFrame;
+    protected TextureRegion mr_currentFrame;
     private float mv_drawX;
     private float mv_drawY;
     private float mv_targetX;
@@ -89,10 +88,6 @@ public class Character {
         mr_animationIdle = new Animation(ir_pathToAtlas,iv_durationInFrames,iv_maxFrames);
     }
 
-    public void addAnimationExplode(Texture ir_pathToAtlas, int iv_durationInFrames, int iv_maxFrames) {
-        mr_animationExpl = new Animation(ir_pathToAtlas,iv_durationInFrames,iv_maxFrames);
-    }
-
     public void addAnimationMove(Texture ir_pathToAtlas,int iv_durationInFrames,int iv_maxFrames) {
         mr_animationMove = new Animation(ir_pathToAtlas,iv_durationInFrames,iv_maxFrames);
     }
@@ -107,21 +102,28 @@ public class Character {
         mr_currentFrame = mr_animationMove.getCurrentFrame();
     }
 
-    public void playDeathAnimation() {
-        mr_animationExpl.play();
-        mr_currentFrame = mr_animationExpl.getCurrentFrame();
-    }
+
 
     public boolean isMidAnimationMove() {
         return mr_animationMove.isMidAnimation();
     }
 
-    public boolean isMidAnimationDeath() {
-        return mr_animationExpl.isMidAnimation();
-    }
-
     public TextureRegion getCurrentFrame() {
         return mr_currentFrame;
+    }
+
+
+    //Get input and set target position - Negative importValue means move in reverse direction
+    public void calibrateTargetPosition(int iv_targetDisctance) {
+        if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            setTargetY(getDrawY() + iv_targetDisctance);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            setTargetY(getDrawY() - iv_targetDisctance);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            setTargetX(getDrawX() - iv_targetDisctance);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            setTargetX(getDrawX() + iv_targetDisctance);
+        }
     }
 
     //Checks if target position will hit map boundary - reset target position

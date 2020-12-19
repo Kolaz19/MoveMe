@@ -21,6 +21,7 @@ public class LevelBasic extends ScreenAdapter {
     private ShapeRenderer mr_shapeRenderer;
     private float ma_lineCoordinates[][];
     private boolean mv_acceptInputs;
+    private boolean mv_InputRegistered;
 
 
     LevelBasic(MyGdxGame ir_maingame,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName) {
@@ -55,40 +56,22 @@ public class LevelBasic extends ScreenAdapter {
         mr_shapeRenderer.setProjectionMatrix(mr_main.gr_camera.combined);
         //Update Animation of TileMap
         AnimatedTiledMapTile.updateAnimationBaseTime();
-
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Check if inputs should be allowed
-        if (mr_main.gr_char.isTargetSet() || mr_main.gr_char.mv_willDie) {
+        mv_InputRegistered = false;
+        if (mr_main.gr_char.isTargetSet() || mr_main.gr_char.mv_willDie || mr_main.gr_char.mv_willWin) {
             mv_acceptInputs = false;
         } else {
             mv_acceptInputs = true;
         }
 
-
-        //Logic char
-        mr_main.gr_char.playAnimations();
-        if (mv_acceptInputs) {
-            mr_main.gr_char.calibrateTargetPosition();
-            if (mr_main.gr_char.isTargetSet()) {
-                mr_main.gr_char.checkFutureMapCollision(mr_mapLayer);
-            }
-        }
-
-        //Logic enemies
-        for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
-            ma_enemies[lv_i].playAnimations();
-            if (mv_acceptInputs) {
-                ma_enemies[lv_i].calibrateTargetPosition();
-                if (ma_enemies[lv_i].isTargetSet()) {
-                    ma_enemies[lv_i].checkFutureMapCollision(mr_mapLayer);
-                }
-            }
-        }
+        processCharacterMovement();
+        processEnemyMovement();
 
         //Check collision between char and enemies
-        if (mv_acceptInputs) {
+        if ((mv_acceptInputs) && (mv_InputRegistered)) {
             checkFutureCharCollision(mr_main.gr_char, ma_enemies);
         }
 
@@ -105,9 +88,9 @@ public class LevelBasic extends ScreenAdapter {
 
         //Render lines/grid
         mr_shapeRenderer.begin();
-            for (int lv_i = 0; lv_i < ma_lineCoordinates.length; lv_i++) {
-                mr_shapeRenderer.line(ma_lineCoordinates[lv_i][0], ma_lineCoordinates[lv_i][1], ma_lineCoordinates[lv_i][2], ma_lineCoordinates[lv_i][3]);
-            }
+        for (int lv_i = 0; lv_i < ma_lineCoordinates.length; lv_i++) {
+            mr_shapeRenderer.line(ma_lineCoordinates[lv_i][0], ma_lineCoordinates[lv_i][1], ma_lineCoordinates[lv_i][2], ma_lineCoordinates[lv_i][3]);
+        }
         mr_shapeRenderer.end();
         //Render characters
         mr_main.gr_batch.begin();
@@ -116,6 +99,31 @@ public class LevelBasic extends ScreenAdapter {
             mr_main.gr_batch.draw(ma_enemies[lv_i].getCurrentFrame(),ma_enemies[lv_i].getDrawX(),ma_enemies[lv_i].getDrawY(),ma_enemies[lv_i].getWidth()/2,ma_enemies[lv_i].getHeight()/2,ma_enemies[lv_i].getWidth(),ma_enemies[lv_i].getHeight(),ma_enemies[lv_i].getScaling(),ma_enemies[lv_i].getScaling(),ma_enemies[lv_i].getRotation());
         }
         mr_main.gr_batch.end();
+    }
+
+    public void processCharacterMovement () {
+        //Logic char
+        mr_main.gr_char.playAnimations();
+        if (mv_acceptInputs) {
+            mr_main.gr_char.calibrateTargetPosition(16);
+            if (mr_main.gr_char.isTargetSet()) {
+                mr_main.gr_char.checkFutureMapCollision(mr_mapLayer);
+                mv_InputRegistered = true;
+            }
+        }
+    }
+
+    public void processEnemyMovement() {
+        //Logic enemies
+        for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
+            ma_enemies[lv_i].playAnimations();
+            if (mv_acceptInputs) {
+                ma_enemies[lv_i].calibrateTargetPosition(-16);
+                if (ma_enemies[lv_i].isTargetSet()) {
+                    ma_enemies[lv_i].checkFutureMapCollision(mr_mapLayer);
+                }
+            }
+        }
     }
 
     public void dispose() {
@@ -154,7 +162,6 @@ public class LevelBasic extends ScreenAdapter {
     }
 
     public static void checkFutureCharCollision(Hero ir_char, Enemy[] ia_enemies) {
-
         for (int lv_i = 0;lv_i < ia_enemies.length; lv_i++) {
             //Check if char will collide with enemy
             if (ir_char.getTargetX() == ia_enemies[lv_i].getDrawX() && ir_char.getTargetY() == ia_enemies[lv_i].getDrawY()) {
@@ -183,7 +190,9 @@ public class LevelBasic extends ScreenAdapter {
 
         }
         //If character does not move, enemies should also not move
+        //Reset winCondition in Hero, when character will not move to tile
         if (!ir_char.isTargetSet()) {
+            ir_char.mv_willWin = false;
             for (int lv_b = 0; lv_b < ia_enemies.length; lv_b++) {
                 ia_enemies[lv_b].setTargetY(ia_enemies[lv_b].getDrawY());
                 ia_enemies[lv_b].setTargetX(ia_enemies[lv_b].getDrawX());

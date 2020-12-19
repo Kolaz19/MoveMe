@@ -1,15 +1,5 @@
 //Win Condition
 [?] Create win animation
-[?] Set win condition
-[?] Block input when win condition is met (combine with death condition)
-
-//Restructure
-[?] Check for performance improvement when calling checkFutureCharCollision
-[?] Encapsulate methods in LevelBasic
-[X] Look for opportunities to clean up code and restructure methods
-[X] Rewrite check for dying character
-[X] Implement check in LevelBasic to allow input
-[X] Create method to check if character will move
 
 //Continue/Reset level
 [?] Catch input after win/lose condition
@@ -24,6 +14,17 @@
 [?] Set UI per second stage
 
 _______________________________________________________________________________
+//19.12.20
+[X] Encapsulate methods in LevelBasic
+[X] Check for performance improvement when calling checkFutureCharCollision
+[X] Block input when win condition is met (combine with death condition)
+[X] Find way to read properties of animated tile
+[X] Set win condition
+//18.12.20
+[X] Look for opportunities to clean up code and restructure methods
+[X] Rewrite check for dying character
+[X] Implement check in LevelBasic to allow input
+[X] Create method to check if character will move
 //17.12.20
 [X] Inherit hero class from character class 
 [X] Replace direct access to attributes with setter/getter methods
