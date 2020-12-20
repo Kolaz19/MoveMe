@@ -1,9 +1,7 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.utils.Array;
@@ -44,6 +42,9 @@ public final class MapManager {
         }
 
         AnimatedTiledMapTile lr_animatedTile = new AnimatedTiledMapTile(iv_intervalAnimation,la_staticTilesSorted);
+        //Set properties for animated tiles, because they will not automatically be transfered from static tiles
+        lr_animatedTile.getProperties().putAll(la_staticTilesSorted.get(0).getProperties());
+        //Choose correct layer
         TiledMapTileLayer lr_tileLayer = (TiledMapTileLayer) ir_map.getLayers().get(iv_layerName);
         TiledMapTileLayer.Cell lr_cell;
         //Replace every tile on the map that meets this properties

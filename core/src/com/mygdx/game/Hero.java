@@ -45,12 +45,14 @@ public class Hero extends Character {
             }
         } else if (mv_willWin && !isTargetSet()) {
             if (getScaling() > 0) {
-              setScaling(getScaling()-0.05f);
+              setScaling(getScaling()-0.02f);
               setRotation(getRotation()+10);
+            } else {
+                setScaling(0);
             }
         }
-        //Dont play other animations when death animation plays
-        if (getScaling() == 3f) {
+        //Don`t play other animations when death animation plays
+        if (getScaling() != 1f) {
             return;
         }
         super.playAnimations();

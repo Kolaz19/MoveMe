@@ -1,5 +1,9 @@
 //Win Condition
-[?] Create win animation
+[X] Create win animation
+
+//Win/Loose Text
+[?] Create Win Text that appears after reaching target
+[?] Create Loose Text that appears after reaching target
 
 //Continue/Reset level
 [?] Catch input after win/lose condition
