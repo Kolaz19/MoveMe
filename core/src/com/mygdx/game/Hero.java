@@ -36,25 +36,23 @@ public class Hero extends Character {
             if (getScaling() != 3f) {
                 playDeathAnimation();
                 setScaling(3f);
-                return;
             } else {
                 if (isMidAnimationDeath()) {
                     playDeathAnimation();
-                    return;
                 }
             }
+            return;
         } else if (mv_willWin && !isTargetSet()) {
             if (getScaling() > 0) {
               setScaling(getScaling()-0.02f);
               setRotation(getRotation()+10);
+              playIdleAnimation();
             } else {
                 setScaling(0);
             }
-        }
-        //Don`t play other animations when death animation plays
-        if (getScaling() != 1f) {
             return;
         }
+
         super.playAnimations();
     }
 

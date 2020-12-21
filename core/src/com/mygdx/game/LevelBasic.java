@@ -61,7 +61,7 @@ public class LevelBasic extends ScreenAdapter {
 
         //Check if inputs should be allowed
         mv_InputRegistered = false;
-        if (mr_main.gr_char.isTargetSet() || mr_main.gr_char.mv_willDie || mr_main.gr_char.mv_willWin) {
+        if (mr_main.gr_char.isTargetSet() || mr_main.gr_char.mv_willDie || mr_main.gr_char.mv_willWin || mr_main.gr_char.mv_isAppearing) {
             mv_acceptInputs = false;
         } else {
             mv_acceptInputs = true;

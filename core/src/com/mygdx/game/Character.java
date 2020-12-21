@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class Character {
     private Animation mr_animationMove;
     private Animation mr_animationIdle;
+    private Animation mr_animationAppear;
     private Rectangle  mr_collisionBox;
     protected TextureRegion mr_currentFrame;
     private float mv_drawX;
@@ -18,6 +19,7 @@ public class Character {
     private float mv_targetY;
     private float mv_rotation;
     private float mv_scaling;
+    public boolean mv_isAppearing;
 
     public Character(float iv_posX, float iv_posY, int iv_heightWidth) {
         mr_collisionBox = new Rectangle();
@@ -31,6 +33,7 @@ public class Character {
         mv_targetY = iv_posY;
         mv_rotation = 0;
         mv_scaling = 1f;
+        mv_isAppearing = true;
     }
 
     public void setScaling(float iv_scaling) {
@@ -92,6 +95,10 @@ public class Character {
         mr_animationMove = new Animation(ir_pathToAtlas,iv_durationInFrames,iv_maxFrames);
     }
 
+    public void addAnimationAppear(Texture ir_pathToAtlas,int iv_durationInFrames,int iv_maxFrames) {
+        mr_animationAppear = new Animation(ir_pathToAtlas,iv_durationInFrames,iv_maxFrames);
+    }
+
     public void playIdleAnimation() {
         mr_animationIdle.play();
         mr_currentFrame = mr_animationIdle.getCurrentFrame();
@@ -100,6 +107,11 @@ public class Character {
     public void playMoveAnimation() {
         mr_animationMove.play();
         mr_currentFrame = mr_animationMove.getCurrentFrame();
+    }
+
+    public void playAppearAnimation() {
+        mr_animationAppear.play();
+        mr_currentFrame = mr_animationAppear.getCurrentFrame();
     }
 
 
@@ -189,6 +201,16 @@ public class Character {
     }
 
     public void playAnimations() {
+        if (mv_isAppearing) {
+            playAppearAnimation();
+            if (!mr_animationAppear.isMidAnimation()) {
+                mv_isAppearing = false;
+                playIdleAnimation();
+            }
+            return;
+        }
+
+
         if (isMidAnimationMove()) {
             playMoveAnimation();
         } else {
