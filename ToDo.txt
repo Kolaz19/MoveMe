@@ -1,7 +1,3 @@
-//Appearing
-[X] Create animation for appearing character
-[X] Play animation and block input when appearing
-
 //Win/Loose Text
 [?] Create Win Text that appears after reaching target
 [?] Create Loose Text that appears after reaching target
@@ -19,6 +15,9 @@
 [?] Set UI per second stage
 
 _______________________________________________________________________________
+//21.12.20
+[X] Create animation for appearing character
+[X] Play animation and block input when appearing
 //20.12.20
 [X] Create win animation
 //19.12.20

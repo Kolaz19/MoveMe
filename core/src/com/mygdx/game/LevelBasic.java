@@ -22,9 +22,14 @@ public class LevelBasic extends ScreenAdapter {
     private float ma_lineCoordinates[][];
     private boolean mv_acceptInputs;
     private boolean mv_InputRegistered;
+    private Animation mr_winAnimation;
+    private Animation mr_looseAnimation;
+    private float mv_sizeText;
 
 
-    LevelBasic(MyGdxGame ir_maingame,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName) {
+    LevelBasic(MyGdxGame ir_maingame,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName,Animation ir_winAnimation) {
+        mr_winAnimation = ir_winAnimation;
+        mv_sizeText = 0;
         mv_acceptInputs = false;
         mr_main = ir_maingame;
         ma_enemies = ia_enemies;
