@@ -24,15 +24,19 @@ public class LevelBasic extends ScreenAdapter {
     private boolean mv_InputRegistered;
     private Animation mr_winAnimation;
     private Animation mr_looseAnimation;
+    private Animation mr_endingTextAnimation;
     private float mv_sizeText;
+    private boolean mv_levelOver;
 
 
-    LevelBasic(MyGdxGame ir_maingame,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName,Animation ir_winAnimation) {
+    LevelBasic(MyGdxGame ir_maingame,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName,Animation ir_winAnimation, Animation ir_looseAnimation) {
         mr_winAnimation = ir_winAnimation;
+        mr_looseAnimation = ir_looseAnimation;
         mv_sizeText = 0;
         mv_acceptInputs = false;
         mr_main = ir_maingame;
         ma_enemies = ia_enemies;
+        mv_levelOver = false;
         //Manage Map & animation
         mr_map = MapManager.mr_mapLoader.load(iv_pathToMap);
         MapManager.replaceTilesAnimated(mr_map,"BasicTileset","animation","target",0.5f,iv_mapLayerName,"animation","target",16);
@@ -90,6 +94,8 @@ public class LevelBasic extends ScreenAdapter {
         mr_main.gr_mapRender.getBatch().begin();
         mr_main.gr_mapRender.renderTileLayer((TiledMapTileLayer) mr_map.getLayers().get("Default"));
         mr_main.gr_mapRender.getBatch().end();
+        //Check if win/loose text can be displayed and player can process to next level
+        checkEndingCondition();
 
         //Render lines/grid
         mr_shapeRenderer.begin();
@@ -102,6 +108,9 @@ public class LevelBasic extends ScreenAdapter {
         mr_main.gr_batch.draw(mr_main.gr_char.getCurrentFrame(),mr_main.gr_char.getDrawX(),mr_main.gr_char.getDrawY(),mr_main.gr_char.getWidth()/2,mr_main.gr_char.getHeight()/2,mr_main.gr_char.getWidth(),mr_main.gr_char.getHeight(),mr_main.gr_char.getScaling(),mr_main.gr_char.getScaling(),mr_main.gr_char.getRotation());
         for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
             mr_main.gr_batch.draw(ma_enemies[lv_i].getCurrentFrame(),ma_enemies[lv_i].getDrawX(),ma_enemies[lv_i].getDrawY(),ma_enemies[lv_i].getWidth()/2,ma_enemies[lv_i].getHeight()/2,ma_enemies[lv_i].getWidth(),ma_enemies[lv_i].getHeight(),ma_enemies[lv_i].getScaling(),ma_enemies[lv_i].getScaling(),ma_enemies[lv_i].getRotation());
+        }
+        if (mv_levelOver) {
+            mr_main.gr_batch.draw(mr_endingTextAnimation.getCurrentFrame(), 2,mv_mapHeight/2f - mr_endingTextAnimation.getCurrentFrame().getRegionHeight()/2f,mr_endingTextAnimation.getCurrentFrame().getRegionWidth()/2f,mr_endingTextAnimation.getCurrentFrame().getRegionHeight()/2f,mr_endingTextAnimation.getCurrentFrame().getRegionWidth(),mr_endingTextAnimation.getCurrentFrame().getRegionHeight(),mv_sizeText,mv_sizeText,0);
         }
         mr_main.gr_batch.end();
     }
@@ -128,6 +137,24 @@ public class LevelBasic extends ScreenAdapter {
                     ma_enemies[lv_i].checkFutureMapCollision(mr_mapLayer);
                 }
             }
+        }
+    }
+
+    public void checkEndingCondition() {
+        Animation mr_animation;
+        if (mr_main.gr_char.mv_willWin) {
+            mr_endingTextAnimation = mr_winAnimation;
+        } else if (mr_main.gr_char.mv_willDie && !mr_main.gr_char.isTargetSet()) {
+            mr_endingTextAnimation = mr_looseAnimation;
+        } else {
+            return;
+        }
+        mv_levelOver = true;
+        mr_endingTextAnimation.play();
+        //5 is the width size of the text sprite, so I determine the max scaling size based on the map width
+        float mv_maxSize = mr_mapLayer.getWidth() / 5f;
+        if (mv_sizeText < mv_maxSize) {
+            mv_sizeText += 0.01;
         }
     }
 
