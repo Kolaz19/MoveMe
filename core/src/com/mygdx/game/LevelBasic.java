@@ -67,7 +67,6 @@ public class LevelBasic extends ScreenAdapter {
         AnimatedTiledMapTile.updateAnimationBaseTime();
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         //Check if inputs should be allowed
         mv_InputRegistered = false;
         if (mr_main.gr_char.isTargetSet() || mr_main.gr_char.mv_willDie || mr_main.gr_char.mv_willWin || mr_main.gr_char.mv_isAppearing) {
@@ -75,15 +74,12 @@ public class LevelBasic extends ScreenAdapter {
         } else {
             mv_acceptInputs = true;
         }
-
         processCharacterMovement();
         processEnemyMovement();
-
         //Check collision between char and enemies
         if ((mv_acceptInputs) && (mv_InputRegistered)) {
             checkFutureCharCollision(mr_main.gr_char, ma_enemies);
         }
-
         //Move char / enemies
         for (int lv_i = 0;lv_i < ma_enemies.length;lv_i++) {
             ma_enemies[lv_i].move(0.5f);
