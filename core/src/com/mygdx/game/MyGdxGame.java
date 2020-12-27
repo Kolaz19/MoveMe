@@ -14,6 +14,7 @@ public class MyGdxGame extends Game {
 	private Animation gr_winAnimation;
 	private Animation gr_looseAnimation;
 
+
 	@Override
 	public void create () {
 		gr_batch = new SpriteBatch();
@@ -25,15 +26,16 @@ public class MyGdxGame extends Game {
 
 		//Create char
 		gr_char = new Hero(3*16+0.5f,0+0.5f,15);
-		gr_char.addAnimationIdle(new Texture("charIdle.png"),60,1);
+		gr_char.addAnimationIdle(new Texture ("charIdle.png"),60,1);
 		gr_char.addAnimationMove(new Texture("charMove.png"),3,11);
-		gr_char.addAnimationExplode(new Texture("charExplode.png"),3,17);
-		gr_char.addAnimationAppear(new Texture("charAppearing.png"),1,225);
+		gr_char.addAnimationExplode(new Texture ("charExplode.png"),3,17);
+		gr_char.addAnimationAppear(new Texture ("charAppearing.png"),1,225);
 
 		chooseLevel();
 	}
 
 	public void chooseLevel() {
+		gr_char.reset(3*16+0.5f,0+0.5f);
 		//TestLevel
 		Enemy[] la_enemies = new Enemy[2];
 		Enemy lr_enemy1 = new Enemy(16+0.5f, 3*16+0.5f,15);

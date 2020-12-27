@@ -1,8 +1,7 @@
 //Continue/Reset level
-[?] Catch input after win/lose condition
-[?] Create method that does dispose elements and resets or continues screen
-[?] Let win and lose condition lead to same method
-
+[?] Check for left over textures that need disposal
+[?] Create method that does choose level correctly based on save states
+[?] Create method that writes and reads save state
 
 //Test UI possibilitys
 [?] Get informations about the implementation of UIs
@@ -11,6 +10,11 @@
 [?] Set UI per second stage
 
 _______________________________________________________________________________
+//27.12.20
+[X] Dispose all necessary elements of a level when restarting
+[X] Catch input after win/lose condition
+[X] Create method that does reset animations and Hero classes
+[X] Create second level
 //25.12.20
 [X] Let texts appear at the right time
 [X] Create Win Text that appears after reaching target

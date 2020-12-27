@@ -66,4 +66,20 @@ public class Hero extends Character {
         }
     }
 
+    public void reset(float iv_drawX,float iv_drawY) {
+        mr_animationExpl.reset();
+        mr_animationAppear.reset();
+        mr_animationIdle.reset();
+        mr_animationMove.reset();
+        setX(iv_drawX);
+        setY(iv_drawY);
+        setTargetX(iv_drawX);
+        setTargetY(iv_drawY);
+        setRotation(0);
+        setScaling(1f);
+        mv_isAppearing = true;
+        mv_willDie = false;
+        mv_willWin = false;
+    }
+
 }

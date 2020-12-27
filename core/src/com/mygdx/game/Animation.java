@@ -59,4 +59,14 @@ public class Animation {
         return mv_isMidAnimation;
     }
 
+    public void reset() {
+        mv_currentFrame = 0;
+        mv_isMidAnimation = false;
+        mv_frameCounter = 0;
+    }
+
+    public void dispose() {
+        ma_frames[0].getTexture().dispose();
+    }
+
 }

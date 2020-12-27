@@ -8,9 +8,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Character {
-    private Animation mr_animationMove;
-    private Animation mr_animationIdle;
-    private Animation mr_animationAppear;
+    protected Animation mr_animationMove;
+    protected Animation mr_animationIdle;
+    protected Animation mr_animationAppear;
     private Rectangle  mr_collisionBox;
     protected TextureRegion mr_currentFrame;
     private float mv_drawX;
@@ -42,7 +42,6 @@ public class Character {
     public float getScaling() {
         return mv_scaling;
     }
-
     public float getWidth() {
         return mr_collisionBox.getWidth();
     }

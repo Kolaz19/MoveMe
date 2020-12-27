@@ -152,6 +152,10 @@ public class LevelBasic extends ScreenAdapter {
         if (mv_sizeText < mv_maxSize) {
             mv_sizeText += 0.01;
         }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            mr_main.chooseLevel();
+        }
     }
 
     public void dispose() {
@@ -159,6 +163,8 @@ public class LevelBasic extends ScreenAdapter {
     }
 
     public void hide() {
+        dispose();
+        mr_shapeRenderer.dispose();
 
     }
 
