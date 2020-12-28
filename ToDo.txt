@@ -1,7 +1,12 @@
+//Save/Load
+[?] Create class for savegame management
+[?] Return savegame from file
+[?] Return level based on savegame
+[?] Write to savefile but do not override newer saves
+[?] Write method to check if level can be chosen or has first to be unlocked
+
 //Continue/Reset level
-[?] Check for left over textures that need disposal
 [?] Create method that does choose level correctly based on save states
-[?] Create method that writes and reads save state
 
 //Test UI possibilitys
 [?] Get informations about the implementation of UIs
@@ -10,6 +15,9 @@
 [?] Set UI per second stage
 
 _______________________________________________________________________________
+//28.12.20
+[X] Check for left over textures that need disposal
+[X] Fixed bug that happens when disposing ShapeRenderer
 //27.12.20
 [X] Dispose all necessary elements of a level when restarting
 [X] Catch input after win/lose condition

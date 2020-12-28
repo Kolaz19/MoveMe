@@ -16,9 +16,9 @@ public class LevelBasic extends ScreenAdapter {
     private TiledMap mr_map;
     private TiledMapTileLayer mr_mapLayer;
     private Enemy[] ma_enemies;
+    private int mv_levelNumber;
     private int mv_mapHeight;
     private int mv_mapWidth;
-    private ShapeRenderer mr_shapeRenderer;
     private float ma_lineCoordinates[][];
     private boolean mv_acceptInputs;
     private boolean mv_InputRegistered;
@@ -29,7 +29,8 @@ public class LevelBasic extends ScreenAdapter {
     private boolean mv_levelOver;
 
 
-    LevelBasic(MyGdxGame ir_maingame,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName,Animation ir_winAnimation, Animation ir_looseAnimation) {
+    LevelBasic(MyGdxGame ir_maingame,int iv_levelNumber,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName,Animation ir_winAnimation, Animation ir_looseAnimation) {
+        mv_levelNumber = iv_levelNumber;
         mr_winAnimation = ir_winAnimation;
         mr_looseAnimation = ir_looseAnimation;
         mv_sizeText = 0;
@@ -37,8 +38,9 @@ public class LevelBasic extends ScreenAdapter {
         mr_main = ir_maingame;
         ma_enemies = ia_enemies;
         mv_levelOver = false;
-        //Manage Map & animation
+        //Manage Map & map animation
         mr_map = MapManager.mr_mapLoader.load(iv_pathToMap);
+        mr_main.gr_mapRender = new OrthogonalTiledMapRenderer(mr_map);
         MapManager.replaceTilesAnimated(mr_map,"BasicTileset","animation","target",0.5f,iv_mapLayerName,"animation","target",16);
         //Map height&width
         mr_mapLayer = (TiledMapTileLayer) mr_map.getLayers().get(iv_mapLayerName);
@@ -46,7 +48,6 @@ public class LevelBasic extends ScreenAdapter {
         mv_mapWidth = mr_mapLayer.getWidth() * mr_mapLayer.getTileWidth();
         //Add lines to render on screen
         addLinesToRender();
-
     }
 
     public void show() {
@@ -62,7 +63,7 @@ public class LevelBasic extends ScreenAdapter {
         mr_main.gr_mapRender.setView(mr_main.gr_camera);
         mr_main.gr_camera.update();
         mr_main.gr_batch.setProjectionMatrix(mr_main.gr_camera.combined);
-        mr_shapeRenderer.setProjectionMatrix(mr_main.gr_camera.combined);
+        mr_main.gr_shapeRenderer.setProjectionMatrix(mr_main.gr_camera.combined);
         //Update Animation of TileMap
         AnimatedTiledMapTile.updateAnimationBaseTime();
         Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -94,11 +95,11 @@ public class LevelBasic extends ScreenAdapter {
         checkEndingCondition();
 
         //Render lines/grid
-        mr_shapeRenderer.begin();
+        mr_main.gr_shapeRenderer.begin();
         for (int lv_i = 0; lv_i < ma_lineCoordinates.length; lv_i++) {
-            mr_shapeRenderer.line(ma_lineCoordinates[lv_i][0], ma_lineCoordinates[lv_i][1], ma_lineCoordinates[lv_i][2], ma_lineCoordinates[lv_i][3]);
+            mr_main.gr_shapeRenderer.line(ma_lineCoordinates[lv_i][0], ma_lineCoordinates[lv_i][1], ma_lineCoordinates[lv_i][2], ma_lineCoordinates[lv_i][3]);
         }
-        mr_shapeRenderer.end();
+        mr_main.gr_shapeRenderer.end();
         //Render characters
         mr_main.gr_batch.begin();
         mr_main.gr_batch.draw(mr_main.gr_char.getCurrentFrame(),mr_main.gr_char.getDrawX(),mr_main.gr_char.getDrawY(),mr_main.gr_char.getWidth()/2,mr_main.gr_char.getHeight()/2,mr_main.gr_char.getWidth(),mr_main.gr_char.getHeight(),mr_main.gr_char.getScaling(),mr_main.gr_char.getScaling(),mr_main.gr_char.getRotation());
@@ -164,19 +165,12 @@ public class LevelBasic extends ScreenAdapter {
 
     public void hide() {
         dispose();
-        mr_shapeRenderer.dispose();
-
     }
 
     private void addLinesToRender() {
         //Amount of lines on screen/map
         int lv_horizontalLines =  mv_mapHeight / mr_mapLayer.getTileHeight() - 1;
         int lv_verticalLines =  mv_mapWidth / mr_mapLayer.getTileWidth() - 1;
-        //Shape Renderer for lines (to separate tiles)
-        mr_shapeRenderer = new ShapeRenderer();
-        mr_shapeRenderer.setAutoShapeType(true);
-        mr_shapeRenderer.setColor(Color.BLACK);
-        mr_main.gr_mapRender = new OrthogonalTiledMapRenderer(mr_map);
         //Set coordinates for the lines
         ma_lineCoordinates = new float[lv_horizontalLines+lv_verticalLines][4];
         //Set coordinates for horizontal lines

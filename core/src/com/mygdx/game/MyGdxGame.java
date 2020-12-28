@@ -1,9 +1,11 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class MyGdxGame extends Game {
@@ -13,11 +15,16 @@ public class MyGdxGame extends Game {
 	OrthogonalTiledMapRenderer gr_mapRender;
 	private Animation gr_winAnimation;
 	private Animation gr_looseAnimation;
+	public ShapeRenderer gr_shapeRenderer;
 
 
 	@Override
 	public void create () {
+		//Batches
 		gr_batch = new SpriteBatch();
+		gr_shapeRenderer = new ShapeRenderer();
+		gr_shapeRenderer.setAutoShapeType(true);
+		gr_shapeRenderer.setColor(Color.BLACK);
 		//camera
 		gr_camera = new OrthographicCamera(960,960);
 		//Win/Loose Texts
@@ -30,7 +37,6 @@ public class MyGdxGame extends Game {
 		gr_char.addAnimationMove(new Texture("charMove.png"),3,11);
 		gr_char.addAnimationExplode(new Texture ("charExplode.png"),3,17);
 		gr_char.addAnimationAppear(new Texture ("charAppearing.png"),1,225);
-
 		chooseLevel();
 	}
 
@@ -49,7 +55,7 @@ public class MyGdxGame extends Game {
 		lr_enemy2.addAnimationAppear(new Texture("enemyAppearing.png"),1,225);
 		la_enemies[1] = lr_enemy2;
 		//Level 1
-		setScreen(new LevelBasic(this,la_enemies,"Level1.tmx","Default",gr_winAnimation,gr_looseAnimation));
+		setScreen(new LevelBasic(this,1,la_enemies,"Level1.tmx","Default",gr_winAnimation,gr_looseAnimation));
 	}
 
 
