@@ -15,6 +15,9 @@
 [?] Set UI per second stage
 
 _______________________________________________________________________________
+//29.12.20
+[X] Change window size to match map size
+[X] Fix bug where win/loose text was not displayed right
 //28.12.20
 [X] Check for left over textures that need disposal
 [X] Fixed bug that happens when disposing ShapeRenderer

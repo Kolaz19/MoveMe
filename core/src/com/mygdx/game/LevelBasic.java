@@ -1,9 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -56,6 +54,12 @@ public class LevelBasic extends ScreenAdapter {
         mr_main.gr_camera.viewportWidth = mv_mapWidth;
         mr_main.gr_camera.position.x = mv_mapWidth / 2;
         mr_main.gr_camera.position.y = mv_mapHeight / 2;
+        //Set up window size to match map size
+        int lv_destinationHeight = (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        //0.8 because taskbar does take also some room
+        lv_destinationHeight = (int) (lv_destinationHeight * 0.8f);
+        int lv_destinationWidth = mv_mapWidth * lv_destinationHeight / mv_mapHeight;
+        Gdx.graphics.setWindowedMode(lv_destinationWidth,lv_destinationHeight);
     }
 
     public void render(float iv_delta) {
@@ -107,7 +111,7 @@ public class LevelBasic extends ScreenAdapter {
             mr_main.gr_batch.draw(ma_enemies[lv_i].getCurrentFrame(),ma_enemies[lv_i].getDrawX(),ma_enemies[lv_i].getDrawY(),ma_enemies[lv_i].getWidth()/2,ma_enemies[lv_i].getHeight()/2,ma_enemies[lv_i].getWidth(),ma_enemies[lv_i].getHeight(),ma_enemies[lv_i].getScaling(),ma_enemies[lv_i].getScaling(),ma_enemies[lv_i].getRotation());
         }
         if (mv_levelOver) {
-            mr_main.gr_batch.draw(mr_endingTextAnimation.getCurrentFrame(), 2,mv_mapHeight/2f - mr_endingTextAnimation.getCurrentFrame().getRegionHeight()/2f,mr_endingTextAnimation.getCurrentFrame().getRegionWidth()/2f,mr_endingTextAnimation.getCurrentFrame().getRegionHeight()/2f,mr_endingTextAnimation.getCurrentFrame().getRegionWidth(),mr_endingTextAnimation.getCurrentFrame().getRegionHeight(),mv_sizeText,mv_sizeText,0);
+            mr_main.gr_batch.draw(mr_endingTextAnimation.getCurrentFrame(), mv_mapWidth/2f - mr_endingTextAnimation.getCurrentFrame().getRegionWidth()/2f +1,mv_mapHeight/2f - mr_endingTextAnimation.getCurrentFrame().getRegionHeight()/2f,mr_endingTextAnimation.getCurrentFrame().getRegionWidth()/2f,mr_endingTextAnimation.getCurrentFrame().getRegionHeight()/2f,mr_endingTextAnimation.getCurrentFrame().getRegionWidth(),mr_endingTextAnimation.getCurrentFrame().getRegionHeight(),mv_sizeText,mv_sizeText,0);
         }
         mr_main.gr_batch.end();
     }
@@ -138,7 +142,6 @@ public class LevelBasic extends ScreenAdapter {
     }
 
     public void checkEndingCondition() {
-        Animation mr_animation;
         if (mr_main.gr_char.mv_willWin) {
             mr_endingTextAnimation = mr_winAnimation;
         } else if (mr_main.gr_char.mv_willDie && !mr_main.gr_char.isTargetSet()) {
@@ -148,14 +151,13 @@ public class LevelBasic extends ScreenAdapter {
         }
         mv_levelOver = true;
         mr_endingTextAnimation.play();
-        //5 is the width size of the text sprite, so I determine the max scaling size based on the map width
-        float mv_maxSize = mr_mapLayer.getWidth() / 5f;
-        if (mv_sizeText < mv_maxSize) {
+
+        if (mv_sizeText * mr_endingTextAnimation.getCurrentFrame().getRegionWidth() < mv_mapWidth) {
             mv_sizeText += 0.01;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-            mr_main.chooseLevel();
+            mr_main.chooseLevel(2);
         }
     }
 
