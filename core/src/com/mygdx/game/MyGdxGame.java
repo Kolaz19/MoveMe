@@ -63,8 +63,13 @@ public class MyGdxGame extends Game {
 			lr_enemy3.addAnimationIdle(new Texture("enemyIdle.png"), 60, 1);
 			lr_enemy3.addAnimationMove(new Texture("enemyMove.png"), 3, 11);
 			lr_enemy3.addAnimationAppear(new Texture("enemyAppearing.png"), 1, 225);
-			Enemy[] la_enemies2 = new Enemy[1];
+			Enemy[] la_enemies2 = new Enemy[2];
 			la_enemies2[0] = lr_enemy3;
+			Enemy lr_enemy4 = new Enemy(0 + 0.5f, 9 * 16 + 0.5f, 15);
+			lr_enemy4.addAnimationIdle(new Texture("enemyIdle.png"), 60, 1);
+			lr_enemy4.addAnimationMove(new Texture("enemyMove.png"), 3, 11);
+			lr_enemy4.addAnimationAppear(new Texture("enemyAppearing.png"), 1, 225);
+			la_enemies2[1] = lr_enemy4;
 			setScreen(new LevelBasic(this,2,la_enemies2,"Level2.tmx","Default",gr_winAnimation,gr_looseAnimation));
 			break;
 		}

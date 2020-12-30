@@ -1,12 +1,5 @@
-//Save/Load
-[?] Create class for savegame management
-[?] Return savegame from file
-[?] Return level based on savegame
-[?] Write to savefile but do not override newer saves
-[?] Write method to check if level can be chosen or has first to be unlocked
-
-//Continue/Reset level
-[?] Create method that does choose level correctly based on save states
+//Restructure code
+[?] Remove prefixes and give correct naming
 
 //Test UI possibilitys
 [?] Get informations about the implementation of UIs
@@ -15,6 +8,12 @@
 [?] Set UI per second stage
 
 _______________________________________________________________________________
+//30.12.20
+[X] Create class for savegame management
+[X] Return savegame from file
+[X] Return level based on savegame
+[X] Write to savefile but do not override newer saves
+[X] Write method to check if level can be chosen or has first to be unlocked
 //29.12.20
 [X] Change window size to match map size
 [X] Fix bug where win/loose text was not displayed right

@@ -7,6 +7,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 
+import java.io.IOException;
+
 
 public class LevelBasic extends ScreenAdapter {
 
@@ -96,7 +98,11 @@ public class LevelBasic extends ScreenAdapter {
         mr_main.gr_mapRender.renderTileLayer((TiledMapTileLayer) mr_map.getLayers().get("Default"));
         mr_main.gr_mapRender.getBatch().end();
         //Check if win/loose text can be displayed and player can process to next level
-        checkEndingCondition();
+        try {
+            checkEndingCondition();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //Render lines/grid
         mr_main.gr_shapeRenderer.begin();
@@ -141,7 +147,7 @@ public class LevelBasic extends ScreenAdapter {
         }
     }
 
-    public void checkEndingCondition() {
+    public void checkEndingCondition() throws IOException {
         if (mr_main.gr_char.mv_willWin) {
             mr_endingTextAnimation = mr_winAnimation;
         } else if (mr_main.gr_char.mv_willDie && !mr_main.gr_char.isTargetSet()) {
@@ -157,6 +163,7 @@ public class LevelBasic extends ScreenAdapter {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            Savegame.writeSavestate(mv_levelNumber);
             mr_main.chooseLevel(2);
         }
     }
