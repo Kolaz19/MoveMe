@@ -1,6 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
@@ -9,50 +8,51 @@ import java.util.Iterator;
 
 
 public final class MapManager {
-    public static TmxMapLoader mr_mapLoader;
+    public static TmxMapLoader mapLoader;
 
     static {
-        mr_mapLoader = new TmxMapLoader();
+        mapLoader = new TmxMapLoader();
     }
 
-    public static void replaceTilesAnimated(TiledMap ir_map, String iv_tileSetName,String iv_tileSetProperty,String iv_tileSetValue, float iv_intervalAnimation, String iv_layerName,String iv_propertyToChange, String iv_valueToChange, int iv_tileSize) {
-        Array<StaticTiledMapTile> la_staticTiles = new Array<StaticTiledMapTile>();
-        Array<StaticTiledMapTile> la_staticTilesSorted = new Array<StaticTiledMapTile>();
-        TiledMapTile lr_tile;
-        int lv_number = ir_map.getTileSets().getTileSet(iv_tileSetName).size();
-        Iterator<TiledMapTile> la_tiles = ir_map.getTileSets().getTileSet(iv_tileSetName).iterator();
-        //Add tiles to array that are for this animation - set max. number for sort
-        while (la_tiles.hasNext()) {
-            lr_tile = la_tiles.next();
-            if (lr_tile.getProperties().containsKey(iv_tileSetProperty) && lr_tile.getProperties().get(iv_tileSetProperty,String.class).equalsIgnoreCase(iv_tileSetValue)) {
-                la_staticTiles.add((StaticTiledMapTile) lr_tile);
-                if (lr_tile.getId() < lv_number) {
-                    lv_number = lr_tile.getId();
+    public static void replaceTilesAnimated(TiledMap map, String tileSetName,String tileSetProperty,String tileSetValue, float animationInterval, String layerName,String propertyToChange, String valueToChange) {
+        Array<StaticTiledMapTile> targetTiles = new Array<StaticTiledMapTile>();
+        Array<StaticTiledMapTile> sortedTargetTiles = new Array<StaticTiledMapTile>();
+        TiledMapTile currentTile;
+        int tileSetSortId = map.getTileSets().getTileSet(tileSetName).size();
+        Iterator<TiledMapTile> tiles = map.getTileSets().getTileSet(tileSetName).iterator();
+        //Add tiles to array that are for this animation
+        while (tiles.hasNext()) {
+            currentTile = tiles.next();
+            if (currentTile.getProperties().containsKey(tileSetProperty) && currentTile.getProperties().get(tileSetProperty,String.class).equalsIgnoreCase(tileSetValue)) {
+                targetTiles.add((StaticTiledMapTile) currentTile);
+                //Set min. ID number for performant sort
+                if (currentTile.getId() < tileSetSortId) {
+                    tileSetSortId = currentTile.getId();
                 }
             }
         }
         //Sort tiles by ID to get correct animation
-        while (la_staticTilesSorted.size < la_staticTiles.size) {
-            for (StaticTiledMapTile lr_staticTile : la_staticTiles) {
-                if (lr_staticTile.getId() == lv_number) {
-                    la_staticTilesSorted.add(lr_staticTile);
+        while (sortedTargetTiles.size < targetTiles.size) {
+            for (StaticTiledMapTile tileToSort : targetTiles) {
+                if (tileToSort.getId() == tileSetSortId) {
+                    sortedTargetTiles.add(tileToSort);
                 }
             }
-            lv_number++;
+            tileSetSortId++;
         }
 
-        AnimatedTiledMapTile lr_animatedTile = new AnimatedTiledMapTile(iv_intervalAnimation,la_staticTilesSorted);
-        //Set properties for animated tiles, because they will not automatically be transfered from static tiles
-        lr_animatedTile.getProperties().putAll(la_staticTilesSorted.get(0).getProperties());
+        AnimatedTiledMapTile animatedTile = new AnimatedTiledMapTile(animationInterval,sortedTargetTiles);
+        //Set properties for animated tiles, because they will not automatically be transferred from static tiles
+        animatedTile.getProperties().putAll(sortedTargetTiles.get(0).getProperties());
         //Choose correct layer
-        TiledMapTileLayer lr_tileLayer = (TiledMapTileLayer) ir_map.getLayers().get(iv_layerName);
-        TiledMapTileLayer.Cell lr_cell;
+        TiledMapTileLayer currentLayer = (TiledMapTileLayer) map.getLayers().get(layerName);
+        TiledMapTileLayer.Cell currentCell;
         //Replace every tile on the map that meets this properties
-        for (int lv_x = 0; lv_x < lr_tileLayer.getWidth(); lv_x++) {
-            for (int lv_y = 0; lv_y < lr_tileLayer.getHeight(); lv_y++) {
-                lr_cell = lr_tileLayer.getCell(lv_x,lv_y);
-                if(lr_cell.getTile().getProperties().containsKey(iv_propertyToChange) && lr_cell.getTile().getProperties().get(iv_propertyToChange,String.class).equalsIgnoreCase(iv_valueToChange)) {
-                    lr_cell.setTile(lr_animatedTile);
+        for (int k = 0; k < currentLayer.getWidth(); k++) {
+            for (int b = 0; b < currentLayer.getHeight(); b++) {
+                currentCell = currentLayer.getCell(k,b);
+                if(currentCell.getTile().getProperties().containsKey(propertyToChange) && currentCell.getTile().getProperties().get(propertyToChange,String.class).equalsIgnoreCase(valueToChange)) {
+                    currentCell.setTile(animatedTile);
                 }
             }
         }

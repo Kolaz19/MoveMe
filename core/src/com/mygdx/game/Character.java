@@ -219,11 +219,7 @@ public class Character {
     }
 
     public boolean isTargetSet () {
-        if (getTargetX() != getDrawX() || getTargetY() != getDrawY()) {
-            return true;
-        } else {
-            return false;
-        }
+        return getTargetX() != getDrawX() || getTargetY() != getDrawY();
     }
 
 }

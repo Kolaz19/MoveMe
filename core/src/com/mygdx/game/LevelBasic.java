@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class LevelBasic extends ScreenAdapter {
 
-    MyGdxGame mainGame;
+    private MyGdxGame mainGame;
     private TiledMap map;
     private TiledMapTileLayer mapLayer;
     private Enemy[] enemies;
@@ -38,27 +38,27 @@ public class LevelBasic extends ScreenAdapter {
     private OrthographicCamera orthographicCamera;
 
 
-    LevelBasic(MyGdxGame mainGame,int iv_levelNumber,Hero hero,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName,Animation ir_winAnimation, Animation ir_looseAnimation) {
+    LevelBasic(MyGdxGame mainGame,int levelNumber,Hero hero,Enemy[] enemies,String fileNameMap,String mapLayerName,Animation winAnimation, Animation looseAnimation) {
         this.mainGame = mainGame;
         spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setAutoShapeType(true);
         shapeRenderer.setColor(Color.BLACK);
         orthographicCamera = new OrthographicCamera();
-        currentLevel = iv_levelNumber;
-        winAnimation = ir_winAnimation;
-        looseAnimation = ir_looseAnimation;
+        currentLevel = levelNumber;
+        this.winAnimation = winAnimation;
+        this.looseAnimation = looseAnimation;
         textSizeMultiplier = 0;
         acceptInputs = false;
-        enemies = ia_enemies;
+        this.enemies = enemies;
         this.hero = hero;
         isLevelOver = false;
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map);
         //Manage Map & map animation
-        map = MapManager.mr_mapLoader.load(iv_pathToMap);
-        MapManager.replaceTilesAnimated(map,"BasicTileset","animation","target",0.5f,iv_mapLayerName,"animation","target",16);
+        map = MapManager.mapLoader.load(fileNameMap);
+        MapManager.replaceTilesAnimated(map,"BasicTileset","animation","target",0.5f,mapLayerName,"animation","target");
         //Map height&width
-        mapLayer = (TiledMapTileLayer) map.getLayers().get(iv_mapLayerName);
+        mapLayer = (TiledMapTileLayer) map.getLayers().get(mapLayerName);
         mapHeight = mapLayer.getHeight() * mapLayer.getTileHeight();
         mapWidth = mapLayer.getWidth() * mapLayer.getTileWidth();
         //Add lines to render on screen
@@ -72,27 +72,27 @@ public class LevelBasic extends ScreenAdapter {
         orthographicCamera.position.x = mapWidth / 2;
         orthographicCamera.position.y = mapHeight / 2;
         //Set up window size to match map size
-        int lv_destinationHeight = (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        int windowTargetHeight = (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         //0.8 because taskbar does take also some room
-        lv_destinationHeight = (int) (lv_destinationHeight * 0.8f);
-        int lv_destinationWidth = mapWidth * lv_destinationHeight / mapHeight;
-        Gdx.graphics.setWindowedMode(lv_destinationWidth,lv_destinationHeight);
+        windowTargetHeight = (int) (windowTargetHeight * 0.8f);
+        int windowTargetWidth = mapWidth * windowTargetHeight / mapHeight;
+        Gdx.graphics.setWindowedMode(windowTargetWidth,windowTargetHeight);
     }
 
     public void render(float iv_delta) {
         //Camera
         tiledMapRenderer.setView(orthographicCamera);
-
+        orthographicCamera.update();
         spriteBatch.setProjectionMatrix(orthographicCamera.combined);
         shapeRenderer.setProjectionMatrix(orthographicCamera.combined);
-        orthographicCamera.update();
+
         //Update Animation of TileMap
         AnimatedTiledMapTile.updateAnimationBaseTime();
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //Check if inputs should be allowed
         inputRegistered = false;
-        if (hero.isTargetSet() || hero.mv_willDie || hero.mv_willWin || hero.isAppearing) {
+        if (hero.isTargetSet() || hero.willDie || hero.willWin || hero.isAppearing) {
             acceptInputs = false;
         } else {
             acceptInputs = true;
@@ -101,7 +101,7 @@ public class LevelBasic extends ScreenAdapter {
         processEnemyMovement();
         //Check collision between char and enemies
         if ((acceptInputs) && (inputRegistered)) {
-            checkFutureCharCollision(hero, enemies);
+            checkFutureCharCollision();
         }
         //Move char / enemies
         for (int lv_i = 0; lv_i < enemies.length; lv_i++) {
@@ -113,7 +113,6 @@ public class LevelBasic extends ScreenAdapter {
         tiledMapRenderer.getBatch().begin();
         tiledMapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(mapLayer.getName()));
         tiledMapRenderer.getBatch().end();
-
 
         //Render lines/grid
         shapeRenderer.begin();
@@ -166,9 +165,9 @@ public class LevelBasic extends ScreenAdapter {
     }
 
     public void checkEndingCondition() throws IOException {
-        if (hero.mv_willWin) {
+        if (hero.willWin) {
             endingTextAnimation = winAnimation;
-        } else if (hero.mv_willDie && !hero.isTargetSet()) {
+        } else if (hero.willDie && !hero.isTargetSet()) {
             endingTextAnimation = looseAnimation;
         } else {
             return;
@@ -199,61 +198,61 @@ public class LevelBasic extends ScreenAdapter {
 
     private void addLinesToRender() {
         //Amount of lines on screen/map
-        int lv_horizontalLines =  mapHeight / mapLayer.getTileHeight() - 1;
-        int lv_verticalLines =  mapWidth / mapLayer.getTileWidth() - 1;
+        int amountHorizontalLines =  mapHeight / mapLayer.getTileHeight() - 1;
+        int amountVerticalLines =  mapWidth / mapLayer.getTileWidth() - 1;
         //Set coordinates for the lines
-        lineCoordinates = new float[lv_horizontalLines+lv_verticalLines][4];
+        lineCoordinates = new float[amountHorizontalLines+amountVerticalLines][4];
         //Set coordinates for horizontal lines
-        for(int lv_i = 0; lv_i < lv_horizontalLines;lv_i++) {
-            lineCoordinates[lv_i][0] = 0;
-            lineCoordinates[lv_i][1] = (lv_i + 1) * mapLayer.getTileHeight();
-            lineCoordinates[lv_i][2] = mapLayer.getWidth() * mapLayer.getTileWidth();
-            lineCoordinates[lv_i][3] = (lv_i + 1) * mapLayer.getTileHeight();
+        for(int k = 0; k < amountHorizontalLines;k++) {
+            lineCoordinates[k][0] = 0;
+            lineCoordinates[k][1] = (k + 1) * mapLayer.getTileHeight();
+            lineCoordinates[k][2] = mapLayer.getWidth() * mapLayer.getTileWidth();
+            lineCoordinates[k][3] = (k + 1) * mapLayer.getTileHeight();
         }
         //Set coordinates for vertical lines
-        for(int lv_i = lv_horizontalLines; lv_i < lv_horizontalLines + lv_verticalLines; lv_i++) {
-            lineCoordinates[lv_i][0] = (lv_i + 1 - lv_horizontalLines) * mapLayer.getTileWidth();
-            lineCoordinates[lv_i][1] = 0;
-            lineCoordinates[lv_i][2] = (lv_i + 1 - lv_horizontalLines) * mapLayer.getTileWidth();
-            lineCoordinates[lv_i][3] = mapLayer.getHeight() * mapLayer.getTileHeight();
+        for(int k = amountHorizontalLines; k < amountHorizontalLines + amountVerticalLines; k++) {
+            lineCoordinates[k][0] = (k + 1 - amountHorizontalLines) * mapLayer.getTileWidth();
+            lineCoordinates[k][1] = 0;
+            lineCoordinates[k][2] = (k + 1 - amountHorizontalLines) * mapLayer.getTileWidth();
+            lineCoordinates[k][3] = mapLayer.getHeight() * mapLayer.getTileHeight();
         }
     }
 
-    public static void checkFutureCharCollision(Hero ir_char, Enemy[] ia_enemies) {
-        for (int lv_i = 0;lv_i < ia_enemies.length; lv_i++) {
+    public void checkFutureCharCollision() {
+        for (int k = 0;k < enemies.length; k++) {
             //Check if char will collide with enemy
-            if (ir_char.getTargetX() == ia_enemies[lv_i].getDrawX() && ir_char.getTargetY() == ia_enemies[lv_i].getDrawY()) {
-                ir_char.setTargetX(ir_char.getDrawX());
-                ir_char.setTargetY(ir_char.getDrawY());
+            if (hero.getTargetX() == enemies[k].getDrawX() && hero.getTargetY() == enemies[k].getDrawY()) {
+                hero.setTargetX(hero.getDrawX());
+                hero.setTargetY(hero.getDrawY());
                 //Skip the other checks, because then noone should move
                 break;
             }
             //Check if enemy will collide with char
-            if (ia_enemies[lv_i].getTargetX() == ir_char.getDrawX() && ia_enemies[lv_i].getTargetY() == ir_char.getDrawY()) {
-                ia_enemies[lv_i].setTargetX(ia_enemies[lv_i].getDrawX());
-                ia_enemies[lv_i].setTargetY(ia_enemies[lv_i].getDrawY());
+            if (enemies[k].getTargetX() == hero.getDrawX() && enemies[k].getTargetY() == hero.getDrawY()) {
+                enemies[k].setTargetX(enemies[k].getDrawX());
+                enemies[k].setTargetY(enemies[k].getDrawY());
             }
             //Check if enemy will collide with another enemy
-            for (int lv_a = 0; lv_a < ia_enemies.length; lv_a++) {
-                if (lv_i != lv_a && (ia_enemies[lv_i].getTargetX() == ia_enemies[lv_a].getTargetX() && ia_enemies[lv_i].getTargetY() == ia_enemies[lv_a].getTargetY())) {
-                    ia_enemies[lv_i].setTargetX(ia_enemies[lv_i].getDrawX());
-                    ia_enemies[lv_i].setTargetY(ia_enemies[lv_i].getDrawY());
+            for (int a = 0; a < enemies.length; a++) {
+                if (k != a && (enemies[k].getTargetX() == enemies[a].getTargetX() && enemies[k].getTargetY() == enemies[a].getTargetY())) {
+                    enemies[k].setTargetX(enemies[k].getDrawX());
+                    enemies[k].setTargetY(enemies[k].getDrawY());
                 }
             }
             //Check if character will die
-            if (ir_char.getTargetX() == ia_enemies[lv_i].getTargetX() && ir_char.getTargetY() == ia_enemies[lv_i].getTargetY()) {
-                ir_char.mv_willDie = true;
-                ia_enemies[lv_i].mv_willKill = true;
+            if (hero.getTargetX() == enemies[k].getTargetX() && hero.getTargetY() == enemies[k].getTargetY()) {
+                hero.willDie = true;
+                enemies[k].willKill = true;
             }
 
         }
         //If character does not move, enemies should also not move
         //Reset winCondition in Hero, when character will not move to tile
-        if (!ir_char.isTargetSet()) {
-            ir_char.mv_willWin = false;
-            for (int lv_b = 0; lv_b < ia_enemies.length; lv_b++) {
-                ia_enemies[lv_b].setTargetY(ia_enemies[lv_b].getDrawY());
-                ia_enemies[lv_b].setTargetX(ia_enemies[lv_b].getDrawX());
+        if (!hero.isTargetSet()) {
+            hero.willWin = false;
+            for (int k = 0; k < enemies.length; k++) {
+                enemies[k].setTargetY(enemies[k].getDrawY());
+                enemies[k].setTargetX(enemies[k].getDrawX());
             }
         }
     }

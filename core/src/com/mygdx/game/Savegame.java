@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Savegame {
-    private static final long[] saveStateNumbers = new long[2];
+    private static final long[] saveCodes = new long[2];
 
     static {
-        saveStateNumbers[0] = 565452221546648L;
-        saveStateNumbers[1] = 856235777895645L;
+        saveCodes[0] = 565452221546648L;
+        saveCodes[1] = 856235777895645L;
     }
 
     public static void writeSavestate(int levelToSave) throws IOException {
@@ -21,13 +21,13 @@ public class Savegame {
         }
         //Save to file
         FileWriter fileWriter = new FileWriter("save.txt");
-        fileWriter.write(String.valueOf(saveStateNumbers[levelToSave-1]));
+        fileWriter.write(String.valueOf(saveCodes[levelToSave-1]));
         fileWriter.close();
     }
 
     private static int getCorrespondingLevel(long saveStateToTranslate) {
         int levelCounter = 1;
-        for (long saveState : saveStateNumbers) {
+        for (long saveState : saveCodes) {
             if (saveState == saveStateToTranslate) {
                 break;
             }

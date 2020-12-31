@@ -1,7 +1,3 @@
-//Restructure code
-[?] Remove prefixes and give correct naming
-[?] Dispose textures of characters
-
 //Test UI possibilitys
 [?] Get informations about the implementation of UIs
 [?] Set UI per second batch.draw() method
@@ -9,6 +5,9 @@
 [?] Set UI per second stage
 
 _______________________________________________________________________________
+//31.12.20
+[X] Dispose textures of characters
+[X] Remove prefixes and give correct naming
 //30.12.20
 [X] Create class for savegame management
 [X] Return savegame from file

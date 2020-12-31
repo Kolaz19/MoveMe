@@ -5,68 +5,68 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 
 public class Animation {
-    private TextureRegion[] ma_frames;
-    private final int mv_maxFrames;
-    private int mv_currentFrame;
-    private int mv_durationInFrames;
-    private int mv_frameCounter;
-    private boolean mv_isMidAnimation;
+    private TextureRegion[] frames;
+    private final int amountOfFrames;
+    private int currentKeyFrame;
+    private int durationInFrames;
+    private int frameCounter;
+    private boolean isMidAnimation;
 
 
-    Animation(Texture ir_atlasPath,int iv_durationInFrames,int iv_maxFrames) {
-        mv_isMidAnimation = false;
-        mv_currentFrame = 0;
-        mv_maxFrames = iv_maxFrames;
-        ma_frames = new TextureRegion[mv_maxFrames];
-        int lv_frameWidth = ir_atlasPath.getWidth()/mv_maxFrames;
-        mv_durationInFrames = iv_durationInFrames;
-        for (int i = 0; i < mv_maxFrames;i++) {
-            ma_frames[i]=new TextureRegion(ir_atlasPath,i*lv_frameWidth,0,lv_frameWidth, ir_atlasPath.getHeight());
+    Animation(Texture textureAtlas,int durationInFrames,int amountKeyFrames) {
+        isMidAnimation = false;
+        currentKeyFrame = 0;
+        this.amountOfFrames = amountKeyFrames;
+        frames = new TextureRegion[this.amountOfFrames];
+        int lv_frameWidth = textureAtlas.getWidth()/ this.amountOfFrames;
+        this.durationInFrames = durationInFrames;
+        for (int k = 0; k < this.amountOfFrames; k++) {
+            frames[k]=new TextureRegion(textureAtlas,k*lv_frameWidth,0,lv_frameWidth, textureAtlas.getHeight());
         }
     }
 
     public void play() {
-        mv_isMidAnimation = true;
-        mv_frameCounter++;
-        if(mv_frameCounter % mv_durationInFrames == 0) {
-            mv_currentFrame++;
-            if (mv_currentFrame == mv_maxFrames) {
-                mv_currentFrame = 0;
-                mv_isMidAnimation = false;
+        isMidAnimation = true;
+        frameCounter++;
+        if(frameCounter % durationInFrames == 0) {
+            currentKeyFrame++;
+            if (currentKeyFrame == amountOfFrames) {
+                currentKeyFrame = 0;
+                isMidAnimation = false;
             }
         }
     }
 
-    public void setDurationInFrames(int iv_durationInFrames) {
-        mv_durationInFrames = iv_durationInFrames;
-        mv_frameCounter = 0;
+    public void setDuration(int frames) {
+        durationInFrames = frames;
+        frameCounter = 0;
     }
 
     public TextureRegion getCurrentFrame() {
-        return ma_frames[mv_currentFrame];
+        return frames[currentKeyFrame];
     }
 
-    public TextureRegion getSpecificFrame(int iv_frame) {
-        if ((iv_frame < mv_maxFrames) || (iv_frame > -1)) {
-            return ma_frames[iv_frame];
+    public TextureRegion getSpecificFrame(int frameNumber) {
+        if ((frameNumber < amountOfFrames) || (frameNumber > -1)) {
+            return frames[frameNumber];
         } else {
-            return ma_frames[0]; //return first frame if index is out of bounds
+            return frames[0]; //return first frame if index is out of bounds
         }
     }
 
     //has to be checked before drawing for accurate result
     public boolean isMidAnimation () {
-        return mv_isMidAnimation;
+        return isMidAnimation;
     }
 
     public void reset() {
-        mv_currentFrame = 0;
-        mv_isMidAnimation = false;
-        mv_frameCounter = 0;
+        currentKeyFrame = 0;
+        isMidAnimation = false;
+        frameCounter = 0;
     }
 
     public void dispose() {
-        ma_frames[0].getTexture().dispose();
+        frames[0].getTexture().dispose();
     }
 
 }
