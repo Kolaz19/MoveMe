@@ -1,7 +1,11 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -12,10 +16,11 @@ import java.io.IOException;
 
 public class LevelBasic extends ScreenAdapter {
 
-    private MyGdxGame mr_main;
+    MyGdxGame mainGame;
     private TiledMap map;
     private TiledMapTileLayer mapLayer;
     private Enemy[] enemies;
+    private Hero hero;
     private int currentLevel;
     private int mapHeight;
     private int mapWidth;
@@ -27,20 +32,30 @@ public class LevelBasic extends ScreenAdapter {
     private Animation endingTextAnimation;
     private float textSizeMultiplier;
     private boolean isLevelOver;
+    private SpriteBatch spriteBatch;
+    private ShapeRenderer shapeRenderer;
+    private OrthogonalTiledMapRenderer tiledMapRenderer;
+    private OrthographicCamera orthographicCamera;
 
 
-    LevelBasic(MyGdxGame ir_maingame,int iv_levelNumber,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName,Animation ir_winAnimation, Animation ir_looseAnimation) {
+    LevelBasic(MyGdxGame mainGame,int iv_levelNumber,Hero hero,Enemy[] ia_enemies,String iv_pathToMap,String iv_mapLayerName,Animation ir_winAnimation, Animation ir_looseAnimation) {
+        this.mainGame = mainGame;
+        spriteBatch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setAutoShapeType(true);
+        shapeRenderer.setColor(Color.BLACK);
+        orthographicCamera = new OrthographicCamera();
         currentLevel = iv_levelNumber;
         winAnimation = ir_winAnimation;
         looseAnimation = ir_looseAnimation;
         textSizeMultiplier = 0;
         acceptInputs = false;
-        mr_main = ir_maingame;
         enemies = ia_enemies;
+        this.hero = hero;
         isLevelOver = false;
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(map);
         //Manage Map & map animation
         map = MapManager.mr_mapLoader.load(iv_pathToMap);
-        mr_main.tiledMapRenderer = new OrthogonalTiledMapRenderer(map);
         MapManager.replaceTilesAnimated(map,"BasicTileset","animation","target",0.5f,iv_mapLayerName,"animation","target",16);
         //Map height&width
         mapLayer = (TiledMapTileLayer) map.getLayers().get(iv_mapLayerName);
@@ -52,10 +67,10 @@ public class LevelBasic extends ScreenAdapter {
 
     public void show() {
         //Set up Camera
-        mr_main.orthographicCamera.viewportHeight = mapHeight;
-        mr_main.orthographicCamera.viewportWidth = mapWidth;
-        mr_main.orthographicCamera.position.x = mapWidth / 2;
-        mr_main.orthographicCamera.position.y = mapHeight / 2;
+        orthographicCamera.viewportHeight = mapHeight;
+        orthographicCamera.viewportWidth = mapWidth;
+        orthographicCamera.position.x = mapWidth / 2;
+        orthographicCamera.position.y = mapHeight / 2;
         //Set up window size to match map size
         int lv_destinationHeight = (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         //0.8 because taskbar does take also some room
@@ -66,17 +81,18 @@ public class LevelBasic extends ScreenAdapter {
 
     public void render(float iv_delta) {
         //Camera
-        mr_main.tiledMapRenderer.setView(mr_main.orthographicCamera);
-        mr_main.orthographicCamera.update();
-        mr_main.spriteBatch.setProjectionMatrix(mr_main.orthographicCamera.combined);
-        mr_main.shapeRenderer.setProjectionMatrix(mr_main.orthographicCamera.combined);
+        tiledMapRenderer.setView(orthographicCamera);
+
+        spriteBatch.setProjectionMatrix(orthographicCamera.combined);
+        shapeRenderer.setProjectionMatrix(orthographicCamera.combined);
+        orthographicCamera.update();
         //Update Animation of TileMap
         AnimatedTiledMapTile.updateAnimationBaseTime();
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //Check if inputs should be allowed
         inputRegistered = false;
-        if (mr_main.hero.isTargetSet() || mr_main.hero.mv_willDie || mr_main.hero.mv_willWin || mr_main.hero.isAppearing) {
+        if (hero.isTargetSet() || hero.mv_willDie || hero.mv_willWin || hero.isAppearing) {
             acceptInputs = false;
         } else {
             acceptInputs = true;
@@ -85,18 +101,36 @@ public class LevelBasic extends ScreenAdapter {
         processEnemyMovement();
         //Check collision between char and enemies
         if ((acceptInputs) && (inputRegistered)) {
-            checkFutureCharCollision(mr_main.hero, enemies);
+            checkFutureCharCollision(hero, enemies);
         }
         //Move char / enemies
         for (int lv_i = 0; lv_i < enemies.length; lv_i++) {
             enemies[lv_i].move(0.5f);
         }
-        mr_main.hero.move(0.5f);
+        hero.move(0.5f);
 
         //Render map
-        mr_main.tiledMapRenderer.getBatch().begin();
-        mr_main.tiledMapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get("Default"));
-        mr_main.tiledMapRenderer.getBatch().end();
+        tiledMapRenderer.getBatch().begin();
+        tiledMapRenderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(mapLayer.getName()));
+        tiledMapRenderer.getBatch().end();
+
+
+        //Render lines/grid
+        shapeRenderer.begin();
+        for (int lv_i = 0; lv_i < lineCoordinates.length; lv_i++) {
+            shapeRenderer.line(lineCoordinates[lv_i][0], lineCoordinates[lv_i][1], lineCoordinates[lv_i][2], lineCoordinates[lv_i][3]);
+        }
+        shapeRenderer.end();
+        //Render characters
+        spriteBatch.begin();
+        spriteBatch.draw(hero.getCurrentFrame(),hero.getDrawX(),hero.getDrawY(),hero.getWidth()/2,hero.getHeight()/2,hero.getWidth(),hero.getHeight(),hero.getScaling(),hero.getScaling(),hero.getRotation());
+        for (int lv_i = 0; lv_i < enemies.length; lv_i++) {
+            spriteBatch.draw(enemies[lv_i].getCurrentFrame(), enemies[lv_i].getDrawX(), enemies[lv_i].getDrawY(), enemies[lv_i].getWidth()/2, enemies[lv_i].getHeight()/2, enemies[lv_i].getWidth(), enemies[lv_i].getHeight(), enemies[lv_i].getScaling(), enemies[lv_i].getScaling(), enemies[lv_i].getRotation());
+        }
+        if (isLevelOver) {
+            spriteBatch.draw(endingTextAnimation.getCurrentFrame(), mapWidth /2f - endingTextAnimation.getCurrentFrame().getRegionWidth()/2f +1, mapHeight /2f - endingTextAnimation.getCurrentFrame().getRegionHeight()/2f, endingTextAnimation.getCurrentFrame().getRegionWidth()/2f, endingTextAnimation.getCurrentFrame().getRegionHeight()/2f, endingTextAnimation.getCurrentFrame().getRegionWidth(), endingTextAnimation.getCurrentFrame().getRegionHeight(), textSizeMultiplier, textSizeMultiplier,0);
+        }
+        spriteBatch.end();
         //Check if win/loose text can be displayed and player can process to next level
         try {
             checkEndingCondition();
@@ -104,31 +138,15 @@ public class LevelBasic extends ScreenAdapter {
             e.printStackTrace();
         }
 
-        //Render lines/grid
-        mr_main.shapeRenderer.begin();
-        for (int lv_i = 0; lv_i < lineCoordinates.length; lv_i++) {
-            mr_main.shapeRenderer.line(lineCoordinates[lv_i][0], lineCoordinates[lv_i][1], lineCoordinates[lv_i][2], lineCoordinates[lv_i][3]);
-        }
-        mr_main.shapeRenderer.end();
-        //Render characters
-        mr_main.spriteBatch.begin();
-        mr_main.spriteBatch.draw(mr_main.hero.getCurrentFrame(),mr_main.hero.getDrawX(),mr_main.hero.getDrawY(),mr_main.hero.getWidth()/2,mr_main.hero.getHeight()/2,mr_main.hero.getWidth(),mr_main.hero.getHeight(),mr_main.hero.getScaling(),mr_main.hero.getScaling(),mr_main.hero.getRotation());
-        for (int lv_i = 0; lv_i < enemies.length; lv_i++) {
-            mr_main.spriteBatch.draw(enemies[lv_i].getCurrentFrame(), enemies[lv_i].getDrawX(), enemies[lv_i].getDrawY(), enemies[lv_i].getWidth()/2, enemies[lv_i].getHeight()/2, enemies[lv_i].getWidth(), enemies[lv_i].getHeight(), enemies[lv_i].getScaling(), enemies[lv_i].getScaling(), enemies[lv_i].getRotation());
-        }
-        if (isLevelOver) {
-            mr_main.spriteBatch.draw(endingTextAnimation.getCurrentFrame(), mapWidth /2f - endingTextAnimation.getCurrentFrame().getRegionWidth()/2f +1, mapHeight /2f - endingTextAnimation.getCurrentFrame().getRegionHeight()/2f, endingTextAnimation.getCurrentFrame().getRegionWidth()/2f, endingTextAnimation.getCurrentFrame().getRegionHeight()/2f, endingTextAnimation.getCurrentFrame().getRegionWidth(), endingTextAnimation.getCurrentFrame().getRegionHeight(), textSizeMultiplier, textSizeMultiplier,0);
-        }
-        mr_main.spriteBatch.end();
     }
 
     public void processCharacterMovement () {
         //Logic char
-        mr_main.hero.playAnimations();
+        hero.playAnimations();
         if (acceptInputs) {
-            mr_main.hero.calibrateTargetPosition(16);
-            if (mr_main.hero.isTargetSet()) {
-                mr_main.hero.checkFutureMapCollision(mapLayer);
+            hero.calibrateTargetPosition(16);
+            if (hero.isTargetSet()) {
+                hero.checkFutureMapCollision(mapLayer);
                 inputRegistered = true;
             }
         }
@@ -148,9 +166,9 @@ public class LevelBasic extends ScreenAdapter {
     }
 
     public void checkEndingCondition() throws IOException {
-        if (mr_main.hero.mv_willWin) {
+        if (hero.mv_willWin) {
             endingTextAnimation = winAnimation;
-        } else if (mr_main.hero.mv_willDie && !mr_main.hero.isTargetSet()) {
+        } else if (hero.mv_willDie && !hero.isTargetSet()) {
             endingTextAnimation = looseAnimation;
         } else {
             return;
@@ -164,12 +182,15 @@ public class LevelBasic extends ScreenAdapter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             Savegame.writeSavestate(currentLevel);
-            mr_main.chooseLevel(2);
+            mainGame.chooseLevel(2);
         }
     }
 
     public void dispose() {
         map.dispose();
+        spriteBatch.dispose();
+        shapeRenderer.dispose();
+        tiledMapRenderer.dispose();
     }
 
     public void hide() {
