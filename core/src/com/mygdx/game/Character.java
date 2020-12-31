@@ -8,190 +8,190 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Character {
-    protected Animation mr_animationMove;
-    protected Animation mr_animationIdle;
-    protected Animation mr_animationAppear;
-    private Rectangle  mr_collisionBox;
-    protected TextureRegion mr_currentFrame;
-    private float mv_drawX;
-    private float mv_drawY;
-    private float mv_targetX;
-    private float mv_targetY;
-    private float mv_rotation;
-    private float mv_scaling;
-    public boolean mv_isAppearing;
+    protected Animation animationMove;
+    protected Animation animationIdle;
+    protected Animation animationAppear;
+    private Rectangle collisionBox;
+    protected TextureRegion currentFrame;
+    private float drawX;
+    private float drawY;
+    private float targetX;
+    private float targetY;
+    private float rotationDegree;
+    private float drawScaling;
+    public boolean isAppearing;
 
-    public Character(float iv_posX, float iv_posY, int iv_heightWidth) {
-        mr_collisionBox = new Rectangle();
-        mr_collisionBox.setHeight(iv_heightWidth);
-        mr_collisionBox.setWidth(iv_heightWidth);
-        mr_collisionBox.setX(iv_posX);
-        mr_collisionBox.setY(iv_posY);
-        mv_drawX = iv_posX;
-        mv_drawY = iv_posY;
-        mv_targetX = iv_posX;
-        mv_targetY = iv_posY;
-        mv_rotation = 0;
-        mv_scaling = 1f;
-        mv_isAppearing = true;
+    public Character(float startPosX, float startPosY, int heightWidth) {
+        collisionBox = new Rectangle();
+        collisionBox.setHeight(heightWidth);
+        collisionBox.setWidth(heightWidth);
+        collisionBox.setX(startPosX);
+        collisionBox.setY(startPosY);
+        drawX = startPosX;
+        drawY = startPosY;
+        targetX = startPosX;
+        targetY = startPosY;
+        rotationDegree = 0;
+        drawScaling = 1f;
+        isAppearing = true;
     }
 
-    public void setScaling(float iv_scaling) {
-        mv_scaling = iv_scaling;
+    public void setScaling(float scaling) {
+        drawScaling = scaling;
     }
     public float getScaling() {
-        return mv_scaling;
+        return drawScaling;
     }
     public float getWidth() {
-        return mr_collisionBox.getWidth();
+        return collisionBox.getWidth();
     }
     public float getHeight() {
-        return mr_collisionBox.getHeight();
+        return collisionBox.getHeight();
     }
-    public void setX(float iv_x) {
-        mr_collisionBox.setX(iv_x);
-        mv_drawX = iv_x;
+    public void setX(float posX) {
+        collisionBox.setX(posX);
+        drawX = posX;
     }
     public float getDrawX() {
-        return mv_drawX;
+        return drawX;
     }
-    public void setY(float iv_y) {
-        mr_collisionBox.setY(iv_y);
-        mv_drawY = iv_y;
+    public void setY(float posY) {
+        collisionBox.setY(posY);
+        drawY = posY;
     }
     public float getDrawY() {
-        return mv_drawY;
+        return drawY;
     }
 
-    public void setTargetX(float iv_targetX) {
-        mv_targetX = iv_targetX;
+    public void setTargetX(float targetX) {
+        this.targetX = targetX;
     }
 
     public float getTargetX() {
-        return mv_targetX;
+        return targetX;
     }
 
-    public void setTargetY(float iv_targetY) {
-        mv_targetY = iv_targetY;
+    public void setTargetY(float targetY) {
+        this.targetY = targetY;
     }
 
     public float getTargetY() {
-        return mv_targetY;
+        return targetY;
     }
 
     public float getRotation() {
-        return mv_rotation;
+        return rotationDegree;
     }
-    public void setRotation(float iv_rotation) {
-        mv_rotation = iv_rotation;
-    }
-
-    public void addAnimationIdle(Texture ir_pathToAtlas, int iv_durationInFrames, int iv_maxFrames) {
-        mr_animationIdle = new Animation(ir_pathToAtlas,iv_durationInFrames,iv_maxFrames);
+    public void setRotation(float rotationInDegrees) {
+        rotationDegree = rotationInDegrees;
     }
 
-    public void addAnimationMove(Texture ir_pathToAtlas,int iv_durationInFrames,int iv_maxFrames) {
-        mr_animationMove = new Animation(ir_pathToAtlas,iv_durationInFrames,iv_maxFrames);
+    public void addAnimationIdle(Texture textureAtlas, int durationInFrames, int amountOfFrames) {
+        animationIdle = new Animation(textureAtlas,durationInFrames,amountOfFrames);
     }
 
-    public void addAnimationAppear(Texture ir_pathToAtlas,int iv_durationInFrames,int iv_maxFrames) {
-        mr_animationAppear = new Animation(ir_pathToAtlas,iv_durationInFrames,iv_maxFrames);
+    public void addAnimationMove(Texture textureAtlas,int durationInFrames,int amountOfFrames) {
+        animationMove = new Animation(textureAtlas,durationInFrames,amountOfFrames);
+    }
+
+    public void addAnimationAppear(Texture textureAtlas,int durationInFrames,int amountOfFrames) {
+        animationAppear = new Animation(textureAtlas,durationInFrames,amountOfFrames);
     }
 
     public void playIdleAnimation() {
-        mr_animationIdle.play();
-        mr_currentFrame = mr_animationIdle.getCurrentFrame();
+        animationIdle.play();
+        currentFrame = animationIdle.getCurrentFrame();
     }
 
     public void playMoveAnimation() {
-        mr_animationMove.play();
-        mr_currentFrame = mr_animationMove.getCurrentFrame();
+        animationMove.play();
+        currentFrame = animationMove.getCurrentFrame();
     }
 
     public void playAppearAnimation() {
-        mr_animationAppear.play();
-        mr_currentFrame = mr_animationAppear.getCurrentFrame();
+        animationAppear.play();
+        currentFrame = animationAppear.getCurrentFrame();
     }
 
 
 
     public boolean isMidAnimationMove() {
-        return mr_animationMove.isMidAnimation();
+        return animationMove.isMidAnimation();
     }
 
     public TextureRegion getCurrentFrame() {
-        return mr_currentFrame;
+        return currentFrame;
     }
 
 
     //Get input and set target position - Negative importValue means move in reverse direction
-    public void calibrateTargetPosition(int iv_targetDisctance) {
+    public void calibrateTargetPosition(int pixelsToMove) {
         if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            setTargetY(getDrawY() + iv_targetDisctance);
+            setTargetY(getDrawY() + pixelsToMove);
         } else if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            setTargetY(getDrawY() - iv_targetDisctance);
+            setTargetY(getDrawY() - pixelsToMove);
         } else if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            setTargetX(getDrawX() - iv_targetDisctance);
+            setTargetX(getDrawX() - pixelsToMove);
         } else if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            setTargetX(getDrawX() + iv_targetDisctance);
+            setTargetX(getDrawX() + pixelsToMove);
         }
     }
 
     //Checks if target position will hit map boundary - reset target position
-    public void checkFutureMapCollision(TiledMapTileLayer ir_mapLayer) {
+    public void checkFutureMapCollision(TiledMapTileLayer mapLayer) {
         //first check if target is out of map
-        if (getTargetX() < 0 || getTargetX() > ir_mapLayer.getTileWidth() * ir_mapLayer.getWidth() || getTargetY() < 0 || getTargetY() > ir_mapLayer.getTileHeight() * ir_mapLayer.getHeight()) {
+        if (getTargetX() < 0 || getTargetX() > mapLayer.getTileWidth() * mapLayer.getWidth() || getTargetY() < 0 || getTargetY() > mapLayer.getTileHeight() * mapLayer.getHeight()) {
             setTargetX(getDrawX());
             setTargetY(getDrawY());
             return;
         }
         //then check if target would hit blocked tile
-        int lv_cellX =(int) getTargetX() / ir_mapLayer.getTileWidth();
-        int lv_cellY = (int) getTargetY() / ir_mapLayer.getTileHeight();
-        TiledMapTileLayer.Cell lr_cellToHit = ir_mapLayer.getCell(lv_cellX,lv_cellY);
-        if (lr_cellToHit.getTile().getProperties().containsKey("blocked") && lr_cellToHit.getTile().getProperties().get("blocked",Boolean.class).equals(true)) {
+        int cellX =(int) getTargetX() / mapLayer.getTileWidth();
+        int cellY = (int) getTargetY() / mapLayer.getTileHeight();
+        TiledMapTileLayer.Cell cellToHit = mapLayer.getCell(cellX,cellY);
+        if (cellToHit.getTile().getProperties().containsKey("blocked") && cellToHit.getTile().getProperties().get("blocked",Boolean.class).equals(true)) {
             setTargetX(getDrawX());
             setTargetY(getDrawY());
         }
     }
 
 
-    public void move(float iv_speed) {
+    public void move(float pixelsPerFrame) {
         //No need to move if target and drawing coordinates are the same
         if (!isTargetSet()) {
             return;
         }
         //Snap to target coordinate if near enough
-        if (getTargetX() > getDrawX() && getTargetX() - getDrawX() < iv_speed) {
+        if (getTargetX() > getDrawX() && getTargetX() - getDrawX() < pixelsPerFrame) {
             setX(getTargetX());
-        } else if (getTargetX() < getDrawX() && getDrawX() - getTargetX() < iv_speed) {
+        } else if (getTargetX() < getDrawX() && getDrawX() - getTargetX() < pixelsPerFrame) {
             setX(getTargetX());
-        } else if (getTargetY() > getDrawY() && getTargetY() - getDrawY() < iv_speed) {
+        } else if (getTargetY() > getDrawY() && getTargetY() - getDrawY() < pixelsPerFrame) {
             setY(getTargetY());
-        } else if (getTargetY() < getDrawY() && getDrawY() - getTargetY() < iv_speed) {
+        } else if (getTargetY() < getDrawY() && getDrawY() - getTargetY() < pixelsPerFrame) {
             setY(getTargetY());
         }
         //Move with consistent speed
         if (getDrawX() < getTargetX()) {
-            setX(getDrawX() + iv_speed);
+            setX(getDrawX() + pixelsPerFrame);
             if (!isMidAnimationMove()) {
                 playMoveAnimation();
             }
             setRotation(270);
         } else if (getDrawX() > getTargetX()) {
-            setX(getDrawX() - iv_speed);
+            setX(getDrawX() - pixelsPerFrame);
             if (!isMidAnimationMove()) {
                 playMoveAnimation();
             }
             setRotation(90);
         } else if (getDrawY() < getTargetY()) {
-            setY(getDrawY() + iv_speed);
+            setY(getDrawY() + pixelsPerFrame);
             if (!isMidAnimationMove()) {
                 playMoveAnimation();
             }
             setRotation(0);
         } else if (getDrawY() > getTargetY()) {
-            setY(getDrawY() - iv_speed);
+            setY(getDrawY() - pixelsPerFrame);
             if (!isMidAnimationMove()) {
                 playMoveAnimation();
             }
@@ -200,10 +200,10 @@ public class Character {
     }
 
     public void playAnimations() {
-        if (mv_isAppearing) {
+        if (isAppearing) {
             playAppearAnimation();
-            if (!mr_animationAppear.isMidAnimation()) {
-                mv_isAppearing = false;
+            if (!animationAppear.isMidAnimation()) {
+                isAppearing = false;
                 playIdleAnimation();
             }
             return;

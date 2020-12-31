@@ -1,10 +1,7 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 
 public class Hero extends Character {
     public boolean mv_willDie;
@@ -23,7 +20,7 @@ public class Hero extends Character {
 
     public void playDeathAnimation() {
         mr_animationExpl.play();
-        mr_currentFrame = mr_animationExpl.getCurrentFrame();
+        currentFrame = mr_animationExpl.getCurrentFrame();
     }
 
     public boolean isMidAnimationDeath() {
@@ -55,12 +52,12 @@ public class Hero extends Character {
         super.playAnimations();
     }
 
-    public void checkFutureMapCollision(TiledMapTileLayer ir_mapLayer) {
+    public void checkFutureMapCollision(TiledMapTileLayer mapLayer) {
         //Check if player will hit tile with target property
-        super.checkFutureMapCollision(ir_mapLayer);
-        int lv_cellX =(int) getTargetX() / ir_mapLayer.getTileWidth();
-        int lv_cellY = (int) getTargetY() / ir_mapLayer.getTileHeight();
-        TiledMapTileLayer.Cell lr_cellToHit = ir_mapLayer.getCell(lv_cellX,lv_cellY);
+        super.checkFutureMapCollision(mapLayer);
+        int lv_cellX =(int) getTargetX() / mapLayer.getTileWidth();
+        int lv_cellY = (int) getTargetY() / mapLayer.getTileHeight();
+        TiledMapTileLayer.Cell lr_cellToHit = mapLayer.getCell(lv_cellX,lv_cellY);
         if (lr_cellToHit.getTile().getProperties().containsKey("target") && lr_cellToHit.getTile().getProperties().get("target",Boolean.class).equals(true)) {
             mv_willWin = true;
         }
@@ -68,16 +65,16 @@ public class Hero extends Character {
 
     public void reset(float iv_drawX,float iv_drawY) {
         mr_animationExpl.reset();
-        mr_animationAppear.reset();
-        mr_animationIdle.reset();
-        mr_animationMove.reset();
+        animationAppear.reset();
+        animationIdle.reset();
+        animationMove.reset();
         setX(iv_drawX);
         setY(iv_drawY);
         setTargetX(iv_drawX);
         setTargetY(iv_drawY);
         setRotation(0);
         setScaling(1f);
-        mv_isAppearing = true;
+        isAppearing = true;
         mv_willDie = false;
         mv_willWin = false;
     }

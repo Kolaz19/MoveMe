@@ -7,48 +7,48 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Savegame {
-    private static final long[] ma_saveLevels = new long[2];
+    private static final long[] saveStateNumbers = new long[2];
 
     static {
-        ma_saveLevels[0] = 565452221546648L;
-        ma_saveLevels[1] = 856235777895645L;
+        saveStateNumbers[0] = 565452221546648L;
+        saveStateNumbers[1] = 856235777895645L;
     }
 
-    public static void writeSavestate(int iv_level) throws IOException {
+    public static void writeSavestate(int levelToSave) throws IOException {
         //Check if level to save is under already saved level
-        if (!isLevelUnlocked(iv_level)) {
+        if (!isLevelUnlocked(levelToSave)) {
             return;
         }
         //Save to file
-        FileWriter lr_fileWriter = new FileWriter("save.txt");
-        lr_fileWriter.write(String.valueOf(ma_saveLevels[iv_level-1]));
-        lr_fileWriter.close();
+        FileWriter fileWriter = new FileWriter("save.txt");
+        fileWriter.write(String.valueOf(saveStateNumbers[levelToSave-1]));
+        fileWriter.close();
     }
 
-    private static int getCorrespondingLevel(long iv_savestate) {
-        int lv_levelCounter = 1;
-        for (long ma_saveLevel : ma_saveLevels) {
-            if (ma_saveLevel == iv_savestate) {
+    private static int getCorrespondingLevel(long saveStateToTranslate) {
+        int levelCounter = 1;
+        for (long saveState : saveStateNumbers) {
+            if (saveState == saveStateToTranslate) {
                 break;
             }
-            lv_levelCounter++;
+            levelCounter++;
         }
-        return lv_levelCounter;
+        return levelCounter;
     }
 
     private static long getCurrentSaveState () throws FileNotFoundException {
-        Scanner lr_scanner = new Scanner(new File("save.txt"));
-        long lv_savestate = Long.parseLong(lr_scanner.nextLine());
-        lr_scanner.close();
-        return lv_savestate;
+        Scanner fileScanner = new Scanner(new File("save.txt"));
+        long currentSaveState = Long.parseLong(fileScanner.nextLine());
+        fileScanner.close();
+        return currentSaveState;
     }
 
     public static int getSavedLevel() throws FileNotFoundException {
         return getCorrespondingLevel(getCurrentSaveState());
     }
 
-    public static boolean isLevelUnlocked(int iv_level) throws FileNotFoundException {
-        return getSavedLevel() <= iv_level;
+    public static boolean isLevelUnlocked(int level) throws FileNotFoundException {
+        return getSavedLevel() <= level;
     }
 
 }

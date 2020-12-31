@@ -9,68 +9,68 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class MyGdxGame extends Game {
-	public SpriteBatch gr_batch;
-	public OrthographicCamera gr_camera;
-	public Hero gr_char;
-	OrthogonalTiledMapRenderer gr_mapRender;
-	private Animation gr_winAnimation;
-	private Animation gr_looseAnimation;
-	public ShapeRenderer gr_shapeRenderer;
+	public SpriteBatch spriteBatch;
+	public OrthographicCamera orthographicCamera;
+	public Hero hero;
+	OrthogonalTiledMapRenderer tiledMapRenderer;
+	private Animation winAnimation;
+	private Animation looseAnimation;
+	public ShapeRenderer shapeRenderer;
 
 
 	@Override
 	public void create () {
 		//Batches
-		gr_batch = new SpriteBatch();
-		gr_shapeRenderer = new ShapeRenderer();
-		gr_shapeRenderer.setAutoShapeType(true);
-		gr_shapeRenderer.setColor(Color.BLACK);
+		spriteBatch = new SpriteBatch();
+		shapeRenderer = new ShapeRenderer();
+		shapeRenderer.setAutoShapeType(true);
+		shapeRenderer.setColor(Color.BLACK);
 		//camera
-		gr_camera = new OrthographicCamera(960,960);
+		orthographicCamera = new OrthographicCamera(960,960);
 		//Win/Loose Texts
-		gr_winAnimation = new Animation(new Texture("winText.png"),50,2);
-		gr_looseAnimation = new Animation(new Texture("looseText.png"),50,2);
+		winAnimation = new Animation(new Texture("winText.png"),50,2);
+		looseAnimation = new Animation(new Texture("looseText.png"),50,2);
 		//Create char
-		gr_char = new Hero(3*16+0.5f,0+0.5f,15);
-		gr_char.addAnimationIdle(new Texture ("charIdle.png"),60,1);
-		gr_char.addAnimationMove(new Texture("charMove.png"),3,11);
-		gr_char.addAnimationExplode(new Texture ("charExplode.png"),3,17);
-		gr_char.addAnimationAppear(new Texture ("charAppearing.png"),1,225);
+		hero = new Hero(3*16+0.5f,0+0.5f,15);
+		hero.addAnimationIdle(new Texture ("charIdle.png"),60,1);
+		hero.addAnimationMove(new Texture("charMove.png"),3,11);
+		hero.addAnimationExplode(new Texture ("charExplode.png"),3,17);
+		hero.addAnimationAppear(new Texture ("charAppearing.png"),1,225);
 		chooseLevel(1);
 	}
 
-	public void chooseLevel(int iv_level) {
-		gr_char.reset(3*16+0.5f,0+0.5f);
+	public void chooseLevel(int levelToPlay) {
+		hero.reset(3*16+0.5f,0+0.5f);
 		//TestLevel
-		switch (iv_level) {
+		switch (levelToPlay) {
 			case 1:
-			Enemy[] la_enemies = new Enemy[2];
-			Enemy lr_enemy1 = new Enemy(16 + 0.5f, 3 * 16 + 0.5f, 15);
-			lr_enemy1.addAnimationIdle(new Texture("enemyIdle.png"), 60, 1);
-			lr_enemy1.addAnimationMove(new Texture("enemyMove.png"), 3, 11);
-			lr_enemy1.addAnimationAppear(new Texture("enemyAppearing.png"), 1, 225);
-			la_enemies[0] = lr_enemy1;
-			Enemy lr_enemy2 = new Enemy(0.5f, 3 * 16 + 0.5f, 15);
-			lr_enemy2.addAnimationIdle(new Texture("enemyIdle.png"), 60, 1);
-			lr_enemy2.addAnimationMove(new Texture("enemyMove.png"), 3, 11);
-			lr_enemy2.addAnimationAppear(new Texture("enemyAppearing.png"), 1, 225);
-			la_enemies[1] = lr_enemy2;
+			Enemy[] enemiesLevel1 = new Enemy[2];
+			Enemy enemy1Level1 = new Enemy(16 + 0.5f, 3 * 16 + 0.5f, 15);
+			enemy1Level1.addAnimationIdle(new Texture("enemyIdle.png"), 60, 1);
+			enemy1Level1.addAnimationMove(new Texture("enemyMove.png"), 3, 11);
+			enemy1Level1.addAnimationAppear(new Texture("enemyAppearing.png"), 1, 225);
+			enemiesLevel1[0] = enemy1Level1;
+			Enemy enemy2Level1 = new Enemy(0.5f, 3 * 16 + 0.5f, 15);
+			enemy2Level1.addAnimationIdle(new Texture("enemyIdle.png"), 60, 1);
+			enemy2Level1.addAnimationMove(new Texture("enemyMove.png"), 3, 11);
+			enemy2Level1.addAnimationAppear(new Texture("enemyAppearing.png"), 1, 225);
+			enemiesLevel1[1] = enemy2Level1;
 			//Level 1
-			setScreen(new LevelBasic(this, 1, la_enemies, "Level1.tmx", "Default", gr_winAnimation, gr_looseAnimation));
+			setScreen(new LevelBasic(this, 1, enemiesLevel1, "Level1.tmx", "Default", winAnimation, looseAnimation));
 			break;
 			case 2:
-			Enemy lr_enemy3 = new Enemy(16 + 0.5f, 9 * 16 + 0.5f, 15);
-			lr_enemy3.addAnimationIdle(new Texture("enemyIdle.png"), 60, 1);
-			lr_enemy3.addAnimationMove(new Texture("enemyMove.png"), 3, 11);
-			lr_enemy3.addAnimationAppear(new Texture("enemyAppearing.png"), 1, 225);
-			Enemy[] la_enemies2 = new Enemy[2];
-			la_enemies2[0] = lr_enemy3;
-			Enemy lr_enemy4 = new Enemy(0 + 0.5f, 9 * 16 + 0.5f, 15);
-			lr_enemy4.addAnimationIdle(new Texture("enemyIdle.png"), 60, 1);
-			lr_enemy4.addAnimationMove(new Texture("enemyMove.png"), 3, 11);
-			lr_enemy4.addAnimationAppear(new Texture("enemyAppearing.png"), 1, 225);
-			la_enemies2[1] = lr_enemy4;
-			setScreen(new LevelBasic(this,2,la_enemies2,"Level2.tmx","Default",gr_winAnimation,gr_looseAnimation));
+			Enemy enemy1Level2 = new Enemy(16 + 0.5f, 9 * 16 + 0.5f, 15);
+			enemy1Level2.addAnimationIdle(new Texture("enemyIdle.png"), 60, 1);
+			enemy1Level2.addAnimationMove(new Texture("enemyMove.png"), 3, 11);
+			enemy1Level2.addAnimationAppear(new Texture("enemyAppearing.png"), 1, 225);
+			Enemy[] enemiesLevel2 = new Enemy[2];
+			enemiesLevel2[0] = enemy1Level2;
+			Enemy enemy2Level2 = new Enemy(0 + 0.5f, 9 * 16 + 0.5f, 15);
+			enemy2Level2.addAnimationIdle(new Texture("enemyIdle.png"), 60, 1);
+			enemy2Level2.addAnimationMove(new Texture("enemyMove.png"), 3, 11);
+			enemy2Level2.addAnimationAppear(new Texture("enemyAppearing.png"), 1, 225);
+			enemiesLevel2[1] = enemy2Level2;
+			setScreen(new LevelBasic(this,2,enemiesLevel2,"Level2.tmx","Default", winAnimation, looseAnimation));
 			break;
 		}
 
@@ -80,6 +80,6 @@ public class MyGdxGame extends Game {
 
 	@Override
 	public void dispose () {
-		gr_batch.dispose();
+		spriteBatch.dispose();
 	}
 }
