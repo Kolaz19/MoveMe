@@ -60,6 +60,10 @@ _______________________________________________________________________________
 
 
 
+Tile properties
+blocked - tickbox/true/false
+animation - target
+
 
 
 

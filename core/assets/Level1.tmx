@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="5" height="5" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="6" height="6" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
  <tileset firstgid="1" source="BasicTileset.tsx"/>
- <layer id="1" name="Default" width="5" height="5">
+ <layer id="1" name="Default" width="6" height="6">
   <data encoding="csv">
-3,2,2,2,2,
-2,2,2,2,2,
-1,1,1,2,2,
-2,2,2,2,2,
-2,2,2,2,2
+1,4,16,16,4,4,
+4,4,16,16,4,4,
+4,4,16,16,4,4,
+4,4,16,16,4,4,
+4,4,16,16,4,4,
+4,4,4,4,4,4
 </data>
  </layer>
 </map>
