@@ -58,7 +58,7 @@ public class LevelBasic extends ScreenAdapter {
         map = MapManager.mapLoader.load(fileNameMap);
         MapManager.replaceTilesAnimated(map,"BasicTileset","animation","target",0.5f,mapLayerName,"animation","target");
         MapManager.replaceTilesAnimated(map,"BasicTileset","animation","wall",0.5f,mapLayerName,"animation","wall");
-        MapManager.replaceTilesAnimated(map,"BasicTileset","animation","floor",0.05f,mapLayerName,"animation","floor");
+        //MapManager.replaceTilesAnimated(map,"BasicTileset","animation","floor",0.30f,mapLayerName,"animation","floor");
         //Map height&width
         mapLayer = (TiledMapTileLayer) map.getLayers().get(mapLayerName);
         mapHeight = mapLayer.getHeight() * mapLayer.getTileHeight();
@@ -82,16 +82,15 @@ public class LevelBasic extends ScreenAdapter {
     }
 
     public void render(float iv_delta) {
+        //Update Animation of TileMap
+        AnimatedTiledMapTile.updateAnimationBaseTime();
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //Camera
         tiledMapRenderer.setView(orthographicCamera);
         orthographicCamera.update();
         spriteBatch.setProjectionMatrix(orthographicCamera.combined);
         shapeRenderer.setProjectionMatrix(orthographicCamera.combined);
-
-        //Update Animation of TileMap
-        AnimatedTiledMapTile.updateAnimationBaseTime();
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //Check if inputs should be allowed
         inputRegistered = false;
         if (hero.isTargetSet() || hero.willDie || hero.willWin || hero.isAppearing) {

@@ -3,11 +3,11 @@
  <tileset firstgid="1" source="BasicTileset.tsx"/>
  <layer id="1" name="Default" width="6" height="6">
   <data encoding="csv">
-1,4,16,16,4,4,
-4,4,16,16,4,4,
-4,4,16,16,4,4,
-4,4,16,16,4,4,
-4,4,16,16,4,4,
+1,4,5,5,4,4,
+4,4,5,5,4,4,
+4,4,5,5,4,4,
+4,4,5,5,4,4,
+4,4,5,5,4,4,
 4,4,4,4,4,4
 </data>
  </layer>

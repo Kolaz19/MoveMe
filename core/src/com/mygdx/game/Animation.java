@@ -47,11 +47,7 @@ public class Animation {
     }
 
     public TextureRegion getSpecificFrame(int frameNumber) {
-        if ((frameNumber < amountOfFrames) || (frameNumber > -1)) {
-            return frames[frameNumber];
-        } else {
-            return frames[0]; //return first frame if index is out of bounds
-        }
+            return frames[frameNumber-1];
     }
 
     //has to be checked before drawing for accurate result
