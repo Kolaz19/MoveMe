@@ -14,8 +14,8 @@ public class Hero extends Character {
         willWin = false;
     }
 
-    public void addAnimationExplode(Texture textureAtlas, int durationInFrames, int amountOfFrames) {
-        animationExplode = new Animation(textureAtlas,durationInFrames,amountOfFrames);
+    public void addAnimationExplode(Texture textureAtlas, int durationInFrames, int frameWidthHeight) {
+        animationExplode = new Animation(textureAtlas,durationInFrames,frameWidthHeight);
     }
 
     public void playDeathAnimation() {

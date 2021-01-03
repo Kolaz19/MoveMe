@@ -4,6 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -71,8 +72,8 @@ public class LevelBasic extends ScreenAdapter {
         //Set up Camera
         orthographicCamera.viewportHeight = mapHeight;
         orthographicCamera.viewportWidth = mapWidth;
-        orthographicCamera.position.x = mapWidth / 2;
-        orthographicCamera.position.y = mapHeight / 2;
+        orthographicCamera.position.x = (int) (mapWidth / 2);
+        orthographicCamera.position.y = (int) (mapHeight / 2);
         //Set up window size to match map size
         int windowTargetHeight = (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         //0.8 because taskbar does take also some room

@@ -86,16 +86,16 @@ public class Character {
         rotationDegree = rotationInDegrees;
     }
 
-    public void addAnimationIdle(Texture textureAtlas, int durationInFrames, int amountOfFrames) {
-        animationIdle = new Animation(textureAtlas,durationInFrames,amountOfFrames);
+    public void addAnimationIdle(Texture textureAtlas, int durationInFrames, int frameWidthHeight) {
+        animationIdle = new Animation(textureAtlas,durationInFrames,frameWidthHeight);
     }
 
-    public void addAnimationMove(Texture textureAtlas,int durationInFrames,int amountOfFrames) {
-        animationMove = new Animation(textureAtlas,durationInFrames,amountOfFrames);
+    public void addAnimationMove(Texture textureAtlas,int durationInFrames,int frameWidthHeight) {
+        animationMove = new Animation(textureAtlas,durationInFrames,frameWidthHeight);
     }
 
-    public void addAnimationAppear(Texture textureAtlas,int durationInFrames,int amountOfFrames) {
-        animationAppear = new Animation(textureAtlas,durationInFrames,amountOfFrames);
+    public void addAnimationAppear(Texture textureAtlas,int durationInFrames,int frameWidthHeight) {
+        animationAppear = new Animation(textureAtlas,durationInFrames,frameWidthHeight);
     }
 
     public void playIdleAnimation() {

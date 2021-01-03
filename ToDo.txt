@@ -1,5 +1,5 @@
-//Bugfixing
-[?] Fix rounding errors when splitting texture into regions
+//Fixing
+[?] Changed seperation of spritesheets into textureregions to receive all kind of packed sheets
 
 //Test UI possibilitys
 [?] Get informations about the implementation of UIs
@@ -8,6 +8,9 @@
 [?] Set UI per second stage
 
 _______________________________________________________________________________
+//03.01.21
+[X] Fix rounding errors when splitting texture into regions
+[X] Fix bug where sprites were jittering when rendered with floating position
 //02.01.21
 [X] Changed basic tileset to be more pleasing to the eyes
 //31.12.20

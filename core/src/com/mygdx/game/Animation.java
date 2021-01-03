@@ -3,6 +3,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.Arrays;
+
 
 public class Animation {
     private TextureRegion[] frames;
@@ -13,15 +15,26 @@ public class Animation {
     private boolean isMidAnimation;
 
 
-    Animation(Texture textureAtlas,int durationInFrames,int amountKeyFrames) {
+    Animation(Texture textureAtlas,int durationInFrames,int frameWidthHeight) {
         isMidAnimation = false;
         currentKeyFrame = 0;
-        this.amountOfFrames = amountKeyFrames;
-        frames = new TextureRegion[this.amountOfFrames];
-        int lv_frameWidth = textureAtlas.getWidth()/ this.amountOfFrames;
         this.durationInFrames = durationInFrames;
-        for (int k = 0; k < this.amountOfFrames; k++) {
-            frames[k]=new TextureRegion(textureAtlas,k*lv_frameWidth,0,lv_frameWidth, textureAtlas.getHeight());
+        TextureRegion[][] frames2d = TextureRegion.split(textureAtlas,frameWidthHeight,frameWidthHeight);
+        if (frames2d.length == 0) {
+            frames = new TextureRegion[1];
+            frames[0] = new TextureRegion(textureAtlas);
+            amountOfFrames = 1;
+            return;
+        }
+        //TODO get precise amount of frames -> possibly that not every row is the same length
+        amountOfFrames = frames2d.length * frames2d[0].length;
+        frames = new TextureRegion[amountOfFrames];
+        int counter = 0;
+        for (int k = 0; k < frames2d.length; k++) {
+            for (int p = 0; p < frames2d[k].length; p++) {
+                frames[counter] = frames2d[k][p];
+                counter++;
+            }
         }
     }
 

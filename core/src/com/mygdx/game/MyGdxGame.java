@@ -31,44 +31,44 @@ public class MyGdxGame extends Game {
 		winAnimation = new Animation(new Texture("winText.png"),50,2);
 		looseAnimation = new Animation(new Texture("looseText.png"),50,2);
 		//Create char
-		hero = new Hero(3*16+0.5f,0+0.5f,15);
-		hero.addAnimationIdle(heroIdleTexture,60,1);
-		hero.addAnimationMove(heroMoveTexture,3,11);
-		hero.addAnimationExplode(heroExplodeTexture,3,17);
-		hero.addAnimationAppear(heroAppearTexture,1,225);
+		hero = new Hero(3*16+0.5f,0+0.5f,14);
+		hero.addAnimationIdle(heroIdleTexture,60,14);
+		hero.addAnimationMove(heroMoveTexture,3,14);
+		hero.addAnimationExplode(heroExplodeTexture,3,45);
+		hero.addAnimationAppear(heroAppearTexture,10,14);
 		chooseLevel(1);
 	}
 
 	public void chooseLevel(int levelToPlay) {
-		hero.reset(3*16+0.5f,0+0.5f);
+		hero.reset(3*16+1f,0+1f);
 		//TestLevel
 		switch (levelToPlay) {
 			case 1:
 			Enemy[] enemiesLevel1 = new Enemy[2];
-			Enemy enemy1Level1 = new Enemy(16 + 0.5f, 3 * 16 + 0.5f, 15);
-			enemy1Level1.addAnimationIdle(enemyIdleTexture, 60, 1);
-			enemy1Level1.addAnimationMove(enemyMoveTexture, 3, 11);
-			enemy1Level1.addAnimationAppear(enemyAppearTexture, 1, 225);
+			Enemy enemy1Level1 = new Enemy(16 + 1f, 3 * 16 + 1f, 14);
+			enemy1Level1.addAnimationIdle(enemyIdleTexture, 60, 14);
+			enemy1Level1.addAnimationMove(enemyMoveTexture, 3, 14);
+			enemy1Level1.addAnimationAppear(enemyAppearTexture, 10, 14);
 			enemiesLevel1[0] = enemy1Level1;
-			Enemy enemy2Level1 = new Enemy(0.5f, 3 * 16 + 0.5f, 15);
-			enemy2Level1.addAnimationIdle(enemyIdleTexture, 60, 1);
-			enemy2Level1.addAnimationMove(enemyMoveTexture, 3, 11);
-			enemy2Level1.addAnimationAppear(enemyAppearTexture, 1, 225);
+			Enemy enemy2Level1 = new Enemy(1f, 3 * 16 + 1f, 14);
+			enemy2Level1.addAnimationIdle(enemyIdleTexture, 60, 14);
+			enemy2Level1.addAnimationMove(enemyMoveTexture, 3, 14);
+			enemy2Level1.addAnimationAppear(enemyAppearTexture, 10, 14);
 			enemiesLevel1[1] = enemy2Level1;
 			//Level 1
 			setScreen(new LevelBasic(this,1,hero, enemiesLevel1, "Level1.tmx", "Default", winAnimation, looseAnimation));
 			break;
 			case 2:
-			Enemy enemy1Level2 = new Enemy(16 + 0.5f, 9 * 16 + 0.5f, 15);
-			enemy1Level2.addAnimationIdle(enemyIdleTexture, 60, 1);
-			enemy1Level2.addAnimationMove(enemyMoveTexture, 3, 11);
-			enemy1Level2.addAnimationAppear(enemyAppearTexture, 1, 225);
+			Enemy enemy1Level2 = new Enemy(16 + 0.5f, 9 * 16 + 0.5f, 14);
+			enemy1Level2.addAnimationIdle(enemyIdleTexture, 60, 14);
+			enemy1Level2.addAnimationMove(enemyMoveTexture, 3, 14);
+			enemy1Level2.addAnimationAppear(enemyAppearTexture, 10, 14);
 			Enemy[] enemiesLevel2 = new Enemy[2];
 			enemiesLevel2[0] = enemy1Level2;
-			Enemy enemy2Level2 = new Enemy(0 + 0.5f, 9 * 16 + 0.5f, 15);
-			enemy2Level2.addAnimationIdle(enemyIdleTexture, 60, 1);
-			enemy2Level2.addAnimationMove(enemyMoveTexture, 3, 11);
-			enemy2Level2.addAnimationAppear(enemyAppearTexture, 1, 225);
+			Enemy enemy2Level2 = new Enemy(0 + 0.5f, 9 * 16 + 0.5f, 14);
+			enemy2Level2.addAnimationIdle(enemyIdleTexture, 60, 14);
+			enemy2Level2.addAnimationMove(enemyMoveTexture, 3, 14);
+			enemy2Level2.addAnimationAppear(enemyAppearTexture, 10, 14);
 			enemiesLevel2[1] = enemy2Level2;
 			setScreen(new LevelBasic(this,2,hero,enemiesLevel2,"Level2.tmx","Default", winAnimation, looseAnimation));
 			break;
