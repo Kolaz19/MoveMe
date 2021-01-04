@@ -21,16 +21,18 @@ public class Character {
     private float drawScaling;
     public boolean isAppearing;
 
-    public Character(float startPosX, float startPosY, int heightWidth) {
+    public Character(int startingCellX, int startingCellY, int heightWidth) {
+        int positionCellX = (startingCellX-1) * 16 + 1;
+        int positionCellY = (startingCellY-1) * 16 + 1;
         collisionBox = new Rectangle();
         collisionBox.setHeight(heightWidth);
         collisionBox.setWidth(heightWidth);
-        collisionBox.setX(startPosX);
-        collisionBox.setY(startPosY);
-        drawX = startPosX;
-        drawY = startPosY;
-        targetX = startPosX;
-        targetY = startPosY;
+        collisionBox.setX(positionCellX);
+        collisionBox.setY(positionCellY);
+        drawX = positionCellX;
+        drawY = positionCellY;
+        targetX = positionCellX;
+        targetY = positionCellY;
         rotationDegree = 0;
         drawScaling = 1f;
         isAppearing = true;
@@ -86,16 +88,16 @@ public class Character {
         rotationDegree = rotationInDegrees;
     }
 
-    public void addAnimationIdle(Texture textureAtlas, int durationInFrames, int frameWidthHeight) {
-        animationIdle = new Animation(textureAtlas,durationInFrames,frameWidthHeight);
+    public void addAnimationIdle(Texture textureAtlas, int durationInFrames, int frameWidth, int frameHeight) {
+        animationIdle = new Animation(textureAtlas,durationInFrames,frameWidth,frameHeight);
     }
 
-    public void addAnimationMove(Texture textureAtlas,int durationInFrames,int frameWidthHeight) {
-        animationMove = new Animation(textureAtlas,durationInFrames,frameWidthHeight);
+    public void addAnimationMove(Texture textureAtlas, int durationInFrames, int frameWidth, int frameHeight) {
+        animationMove = new Animation(textureAtlas,durationInFrames,frameWidth,frameHeight);
     }
 
-    public void addAnimationAppear(Texture textureAtlas,int durationInFrames,int frameWidthHeight) {
-        animationAppear = new Animation(textureAtlas,durationInFrames,frameWidthHeight);
+    public void addAnimationAppear(Texture textureAtlas, int durationInFrames, int frameWidth, int frameHeight) {
+        animationAppear = new Animation(textureAtlas,durationInFrames,frameWidth,frameHeight);
     }
 
     public void playIdleAnimation() {

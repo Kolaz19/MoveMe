@@ -8,14 +8,14 @@ public class Hero extends Character {
     public boolean willWin;
     private Animation animationExplode;
 
-    public Hero(float startPosX, float startPosY, int heightWidth) {
-        super(startPosX, startPosY, heightWidth);
+    public Hero(int startingCellX, int startingCellY, int heightWidth) {
+        super(startingCellX, startingCellY, heightWidth);
         willDie = false;
         willWin = false;
     }
 
-    public void addAnimationExplode(Texture textureAtlas, int durationInFrames, int frameWidthHeight) {
-        animationExplode = new Animation(textureAtlas,durationInFrames,frameWidthHeight);
+    public void addAnimationExplode(Texture textureAtlas, int durationInFrames, int frameWidth, int frameHeight) {
+        animationExplode = new Animation(textureAtlas,durationInFrames,frameWidth,frameHeight);
     }
 
     public void playDeathAnimation() {
@@ -63,15 +63,17 @@ public class Hero extends Character {
         }
     }
 
-    public void reset(float startPosX,float startPosY) {
+    public void reset(int startingCellX,int startingCellY) {
+        int positionCellX = (startingCellX-1) * 16 + 1;
+        int positionCellY = (startingCellY-1) * 16 + 1;
         animationExplode.reset();
         animationAppear.reset();
         animationIdle.reset();
         animationMove.reset();
-        setX(startPosX);
-        setY(startPosY);
-        setTargetX(startPosX);
-        setTargetY(startPosY);
+        setX(positionCellX);
+        setY(positionCellY);
+        setTargetX(positionCellX);
+        setTargetY(positionCellY);
         setRotation(0);
         setScaling(1f);
         isAppearing = true;

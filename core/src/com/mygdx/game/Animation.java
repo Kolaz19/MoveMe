@@ -8,18 +8,19 @@ import java.util.Arrays;
 
 public class Animation {
     private TextureRegion[] frames;
-    private final int amountOfFrames;
+    private int amountOfFrames;
     private int currentKeyFrame;
     private int durationInFrames;
     private int frameCounter;
     private boolean isMidAnimation;
 
 
-    Animation(Texture textureAtlas,int durationInFrames,int frameWidthHeight) {
+    Animation(Texture textureAtlas,int durationInFrames,int frameWidth, int frameHeight) {
         isMidAnimation = false;
         currentKeyFrame = 0;
         this.durationInFrames = durationInFrames;
-        TextureRegion[][] frames2d = TextureRegion.split(textureAtlas,frameWidthHeight,frameWidthHeight);
+        TextureRegion[][] frames2d = TextureRegion.split(textureAtlas,frameWidth,frameHeight);
+        //Check if only one frame
         if (frames2d.length == 0) {
             frames = new TextureRegion[1];
             frames[0] = new TextureRegion(textureAtlas);
@@ -27,7 +28,10 @@ public class Animation {
             return;
         }
         //TODO get precise amount of frames -> possibly that not every row is the same length
-        amountOfFrames = frames2d.length * frames2d[0].length;
+        for (int k = 0; k < frames2d.length; k++) {
+            amountOfFrames+= frames2d[k].length;
+        }
+
         frames = new TextureRegion[amountOfFrames];
         int counter = 0;
         for (int k = 0; k < frames2d.length; k++) {

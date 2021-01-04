@@ -19,11 +19,6 @@
    <property name="target" type="bool" value="true"/>
   </properties>
  </tile>
- <tile id="3">
-  <properties>
-   <property name="animation" value="floor"/>
-  </properties>
- </tile>
  <tile id="4">
   <properties>
    <property name="animation" value="wall"/>

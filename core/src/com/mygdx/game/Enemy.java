@@ -3,8 +3,8 @@ package com.mygdx.game;
 public class Enemy extends Character {
     public boolean willKill;
 
-    public Enemy(float startPosX, float startPosY, int heightWidth) {
-        super(startPosX, startPosY, heightWidth);
+    public Enemy(int startingCellX, int startingCellY, int heightWidth) {
+        super(startingCellX, startingCellY, heightWidth);
         willKill = false;
     }
     

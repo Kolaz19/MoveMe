@@ -59,7 +59,6 @@ public class LevelBasic extends ScreenAdapter {
         map = MapManager.mapLoader.load(fileNameMap);
         MapManager.replaceTilesAnimated(map,"BasicTileset","animation","target",0.5f,mapLayerName,"animation","target");
         MapManager.replaceTilesAnimated(map,"BasicTileset","animation","wall",0.5f,mapLayerName,"animation","wall");
-        //MapManager.replaceTilesAnimated(map,"BasicTileset","animation","floor",0.30f,mapLayerName,"animation","floor");
         //Map height&width
         mapLayer = (TiledMapTileLayer) map.getLayers().get(mapLayerName);
         mapHeight = mapLayer.getHeight() * mapLayer.getTileHeight();
