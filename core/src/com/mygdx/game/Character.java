@@ -10,8 +10,10 @@ import com.badlogic.gdx.math.Rectangle;
 public class Character {
     protected Animation animationMove;
     protected Animation animationIdle;
+    protected  Animation animationFaceIdle;
     private Rectangle collisionBox;
     protected TextureRegion currentFrame;
+    protected  TextureRegion currentFace;
     private float drawX;
     private float drawY;
     private float targetX;
@@ -95,22 +97,11 @@ public class Character {
         animationMove = new Animation(textureAtlas,durationInFrames,frameWidth,frameHeight);
     }
 
-    public void playIdleAnimation() {
-        animationIdle.play();
-        currentFrame = animationIdle.getCurrentFrame();
-    }
-
-    public void playMoveAnimation() {
-        animationMove.play();
-        currentFrame = animationMove.getCurrentFrame();
-    }
-
-    public boolean isMidAnimationMove() {
-        return animationMove.isMidAnimation();
-    }
-
     public TextureRegion getCurrentFrame() {
         return currentFrame;
+    }
+    public TextureRegion getCurrentFace() {
+        return currentFace;
     }
 
 
@@ -164,32 +155,40 @@ public class Character {
         //Move with consistent speed
         if (getDrawX() < getTargetX()) {
             setX(getDrawX() + pixelsPerFrame);
-            if (!isMidAnimationMove()) {
-                playMoveAnimation();
+            if (!animationMove.isMidAnimation()) {
+                animationMove.play();
+                currentFrame = animationMove.getCurrentFrame();
             }
             setRotation(270);
         } else if (getDrawX() > getTargetX()) {
             setX(getDrawX() - pixelsPerFrame);
-            if (!isMidAnimationMove()) {
-                playMoveAnimation();
+            if (!animationMove.isMidAnimation()) {
+                animationMove.play();
+                currentFrame = animationMove.getCurrentFrame();
             }
             setRotation(90);
         } else if (getDrawY() < getTargetY()) {
             setY(getDrawY() + pixelsPerFrame);
-            if (!isMidAnimationMove()) {
-                playMoveAnimation();
+            if (!animationMove.isMidAnimation()) {
+                animationMove.play();
+                currentFrame = animationMove.getCurrentFrame();
             }
             setRotation(0);
         } else if (getDrawY() > getTargetY()) {
             setY(getDrawY() - pixelsPerFrame);
-            if (!isMidAnimationMove()) {
-                playMoveAnimation();
+            if (!animationMove.isMidAnimation()) {
+                animationMove.play();
+                currentFrame = animationMove.getCurrentFrame();
             }
             setRotation(180);
         }
     }
 
-    public void playAnimations() {
+    public void playFaceAnimation() {
+        currentFace = animationFaceIdle.getCurrentFrame();
+    }
+
+    public void playAnimation() {
         if (isAppearing) {
             if (getScaling() > 1f) {
                 setScaling(getScaling() - 0.05f);
@@ -199,10 +198,12 @@ public class Character {
             }
         }
 
-        if (isMidAnimationMove()) {
-            playMoveAnimation();
+        if (animationMove.isMidAnimation()) {
+            animationMove.play();
+            currentFrame = animationMove.getCurrentFrame();
         } else {
-            playIdleAnimation();
+            animationIdle.play();
+            currentFrame = animationIdle.getCurrentFrame();
             setRotation(0);
         }
     }

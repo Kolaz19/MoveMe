@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 public class Hero extends Character {
     public boolean willDie;
     public boolean willWin;
-    private Animation animationExplode;
+    protected Animation animationExplode;
 
     public Hero(int startingCellX, int startingCellY, int heightWidth) {
         super(startingCellX, startingCellY, heightWidth);
@@ -18,24 +18,17 @@ public class Hero extends Character {
         animationExplode = new Animation(textureAtlas,durationInFrames,frameWidth,frameHeight);
     }
 
-    public void playDeathAnimation() {
-        animationExplode.play();
-        currentFrame = animationExplode.getCurrentFrame();
-    }
 
-    public boolean isMidAnimationDeath() {
-        return animationExplode.isMidAnimation();
-    }
-
-
-    public void playAnimations () {
+    public void playAnimation() {
         if (willDie && !isTargetSet()) {
             if (getScaling() != 3f) {
-                playDeathAnimation();
+                animationExplode.play();
+                currentFrame = animationExplode.getCurrentFrame();
                 setScaling(3f);
             } else {
-                if (isMidAnimationDeath()) {
-                    playDeathAnimation();
+                if (animationExplode.isMidAnimation()) {
+                    animationExplode.play();
+                    currentFrame = animationExplode.getCurrentFrame();
                 }
             }
             return;
@@ -43,13 +36,14 @@ public class Hero extends Character {
             if (getScaling() > 0) {
               setScaling(getScaling()-0.02f);
               setRotation(getRotation()+10);
-              playIdleAnimation();
+                animationIdle.play();
+                currentFrame = animationIdle.getCurrentFrame();
             } else {
                 setScaling(0);
             }
             return;
         }
-        super.playAnimations();
+        super.playAnimation();
     }
 
     public void checkFutureMapCollision(TiledMapTileLayer mapLayer) {

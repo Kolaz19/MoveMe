@@ -4,7 +4,6 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -141,7 +140,7 @@ public class LevelBasic extends ScreenAdapter {
 
     public void processCharacterMovement () {
         //Logic char
-        hero.playAnimations();
+        hero.playAnimation();
         if (acceptInputs) {
             hero.calibrateTargetPosition(16);
             if (hero.isTargetSet()) {
@@ -154,7 +153,7 @@ public class LevelBasic extends ScreenAdapter {
     public void processEnemyMovement() {
         //Logic enemies
         for (int lv_i = 0; lv_i < enemies.length; lv_i++) {
-            enemies[lv_i].playAnimations();
+            enemies[lv_i].playAnimation();
             if (acceptInputs) {
                 enemies[lv_i].calibrateTargetPosition(-16);
                 if (enemies[lv_i].isTargetSet()) {

@@ -8,7 +8,7 @@ public class Enemy extends Character {
         willKill = false;
     }
     
-    public void playAnimations() {
+    public void playAnimation() {
         if (willKill) {
             if (getTargetX() == getDrawX() && getTargetY() == getDrawY()) {
                 if (getScaling() > 1f) {
@@ -20,6 +20,6 @@ public class Enemy extends Character {
                 setScaling(getScaling() + 0.04f);
             }
         }
-        super.playAnimations();
+        super.playAnimation();
     }
 }
