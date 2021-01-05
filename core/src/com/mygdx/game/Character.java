@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Rectangle;
 public class Character {
     protected Animation animationMove;
     protected Animation animationIdle;
-    protected Animation animationAppear;
     private Rectangle collisionBox;
     protected TextureRegion currentFrame;
     private float drawX;
@@ -34,7 +33,7 @@ public class Character {
         targetX = positionCellX;
         targetY = positionCellY;
         rotationDegree = 0;
-        drawScaling = 1f;
+        drawScaling = 6f;
         isAppearing = true;
     }
 
@@ -96,10 +95,6 @@ public class Character {
         animationMove = new Animation(textureAtlas,durationInFrames,frameWidth,frameHeight);
     }
 
-    public void addAnimationAppear(Texture textureAtlas, int durationInFrames, int frameWidth, int frameHeight) {
-        animationAppear = new Animation(textureAtlas,durationInFrames,frameWidth,frameHeight);
-    }
-
     public void playIdleAnimation() {
         animationIdle.play();
         currentFrame = animationIdle.getCurrentFrame();
@@ -109,13 +104,6 @@ public class Character {
         animationMove.play();
         currentFrame = animationMove.getCurrentFrame();
     }
-
-    public void playAppearAnimation() {
-        animationAppear.play();
-        currentFrame = animationAppear.getCurrentFrame();
-    }
-
-
 
     public boolean isMidAnimationMove() {
         return animationMove.isMidAnimation();
@@ -203,14 +191,13 @@ public class Character {
 
     public void playAnimations() {
         if (isAppearing) {
-            playAppearAnimation();
-            if (!animationAppear.isMidAnimation()) {
+            if (getScaling() > 1f) {
+                setScaling(getScaling() - 0.05f);
+            } else {
+                setScaling(1f);
                 isAppearing = false;
-                playIdleAnimation();
             }
-            return;
         }
-
 
         if (isMidAnimationMove()) {
             playMoveAnimation();

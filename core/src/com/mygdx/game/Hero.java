@@ -67,7 +67,6 @@ public class Hero extends Character {
         int positionCellX = (startingCellX-1) * 16 + 1;
         int positionCellY = (startingCellY-1) * 16 + 1;
         animationExplode.reset();
-        animationAppear.reset();
         animationIdle.reset();
         animationMove.reset();
         setX(positionCellX);
@@ -75,7 +74,7 @@ public class Hero extends Character {
         setTargetX(positionCellX);
         setTargetY(positionCellY);
         setRotation(0);
-        setScaling(1f);
+        setScaling(6f);
         isAppearing = true;
         willDie = false;
         willWin = false;
