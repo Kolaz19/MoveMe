@@ -7,15 +7,26 @@ public class Hero extends Character {
     public boolean willDie;
     public boolean willWin;
     protected Animation animationExplode;
+    private static Texture heroIdleTexture;
+    private static Texture heroMoveTexture;
+    private static Texture heroExplodeTexture;
+    private static Texture heroIdleFaceTexture;
+
+    static {
+        heroIdleTexture = new Texture("charIdle.png");
+        heroMoveTexture = new Texture ("charMove.png");
+        heroExplodeTexture = new Texture("charExplode.png");
+        heroIdleFaceTexture = new Texture("CDefaultFace.png");
+    }
 
     public Hero(int startingCellX, int startingCellY, int heightWidth) {
         super(startingCellX, startingCellY, heightWidth);
         willDie = false;
         willWin = false;
-    }
-
-    public void addAnimationExplode(Texture textureAtlas, int durationInFrames, int frameWidth, int frameHeight) {
-        animationExplode = new Animation(textureAtlas,durationInFrames,frameWidth,frameHeight);
+        animationIdle = new Animation(heroIdleTexture,60,14,14);
+        animationMove = new Animation(heroMoveTexture,3,14,14);
+        animationExplode = new Animation(heroExplodeTexture,3,45,45);
+        animationsFaceIdle.add(new Animation(heroIdleFaceTexture,100,15,15));
     }
 
 

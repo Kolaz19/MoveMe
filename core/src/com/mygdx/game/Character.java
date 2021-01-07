@@ -2,15 +2,16 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.util.ArrayList;
+
 public class Character {
     protected Animation animationMove;
     protected Animation animationIdle;
-    protected  Animation animationFaceIdle;
+    protected ArrayList<Animation> animationsFaceIdle;
     private Rectangle collisionBox;
     protected TextureRegion currentFrame;
     protected  TextureRegion currentFace;
@@ -21,6 +22,7 @@ public class Character {
     private float rotationDegree;
     private float drawScaling;
     public boolean isAppearing;
+
 
     public Character(int startingCellX, int startingCellY, int heightWidth) {
         int positionCellX = (startingCellX-1) * 16 + 1;
@@ -37,6 +39,7 @@ public class Character {
         rotationDegree = 0;
         drawScaling = 6f;
         isAppearing = true;
+        animationsFaceIdle = new ArrayList<>();
     }
 
     public void setScaling(float scaling) {
@@ -87,14 +90,6 @@ public class Character {
     }
     public void setRotation(float rotationInDegrees) {
         rotationDegree = rotationInDegrees;
-    }
-
-    public void addAnimationIdle(Texture textureAtlas, int durationInFrames, int frameWidth, int frameHeight) {
-        animationIdle = new Animation(textureAtlas,durationInFrames,frameWidth,frameHeight);
-    }
-
-    public void addAnimationMove(Texture textureAtlas, int durationInFrames, int frameWidth, int frameHeight) {
-        animationMove = new Animation(textureAtlas,durationInFrames,frameWidth,frameHeight);
     }
 
     public TextureRegion getCurrentFrame() {
@@ -185,7 +180,8 @@ public class Character {
     }
 
     public void playFaceAnimation() {
-        currentFace = animationFaceIdle.getCurrentFrame();
+        animationsFaceIdle.get(0).play();
+        currentFace = animationsFaceIdle.get(0).getCurrentFrame();
     }
 
     public void playAnimation() {

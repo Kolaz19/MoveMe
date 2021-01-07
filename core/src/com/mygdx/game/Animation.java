@@ -3,9 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import java.util.Arrays;
-
-
 public class Animation {
     private TextureRegion[] frames;
     private int amountOfFrames;

@@ -1,3 +1,6 @@
+//Textures
+[?] Textures now loading in hero and enemy classes
+
 //Test UI possibilitys
 [?] Get informations about the implementation of UIs
 [?] Set UI per second batch.draw() method
@@ -5,6 +8,8 @@
 [?] Set UI per second stage
 
 _______________________________________________________________________________
+//06.01.21
+[X] First face animation added
 //04.01.21
 [X] Change seperation of spritesheets into textureregions to receive all kind of packed sheets -> not possible yet
 [X] Change starting position to cells instead of coordinates

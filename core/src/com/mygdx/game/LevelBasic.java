@@ -4,6 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -36,9 +37,15 @@ public class LevelBasic extends ScreenAdapter {
     private ShapeRenderer shapeRenderer;
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     private OrthographicCamera orthographicCamera;
+    private static Texture winTexture;
+    private static Texture looseTexture;
 
+    static {
+        winTexture = new Texture("winText.png");
+        looseTexture = new Texture("looseText.png");
+    }
 
-    LevelBasic(MyGdxGame mainGame,int levelNumber,Hero hero,Enemy[] enemies,String fileNameMap,String mapLayerName,Animation winAnimation, Animation looseAnimation) {
+    LevelBasic(MyGdxGame mainGame,int levelNumber,Hero hero,Enemy[] enemies,String fileNameMap,String mapLayerName) {
         this.mainGame = mainGame;
         spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
@@ -46,8 +53,8 @@ public class LevelBasic extends ScreenAdapter {
         shapeRenderer.setColor(Color.BLACK);
         orthographicCamera = new OrthographicCamera();
         currentLevel = levelNumber;
-        this.winAnimation = winAnimation;
-        this.looseAnimation = looseAnimation;
+        this.winAnimation = new Animation(winTexture,50,80,32);
+        this.looseAnimation = new Animation(looseTexture,50,80,32);
         textSizeMultiplier = 0;
         acceptInputs = false;
         this.enemies = enemies;
@@ -104,8 +111,8 @@ public class LevelBasic extends ScreenAdapter {
             checkFutureCharCollision();
         }
         //Move char / enemies
-        for (int lv_i = 0; lv_i < enemies.length; lv_i++) {
-            enemies[lv_i].move(0.5f);
+        for (int k = 0; k < enemies.length; k++) {
+            enemies[k].move(0.5f);
         }
         hero.move(0.5f);
 
@@ -116,15 +123,16 @@ public class LevelBasic extends ScreenAdapter {
 
         //Render lines/grid
         shapeRenderer.begin();
-        for (int lv_i = 0; lv_i < lineCoordinates.length; lv_i++) {
-            shapeRenderer.line(lineCoordinates[lv_i][0], lineCoordinates[lv_i][1], lineCoordinates[lv_i][2], lineCoordinates[lv_i][3]);
+        for (int k = 0; k < lineCoordinates.length; k++) {
+            shapeRenderer.line(lineCoordinates[k][0], lineCoordinates[k][1], lineCoordinates[k][2], lineCoordinates[k][3]);
         }
         shapeRenderer.end();
         //Render characters
         spriteBatch.begin();
         spriteBatch.draw(hero.getCurrentFrame(),hero.getDrawX(),hero.getDrawY(),hero.getWidth()/2,hero.getHeight()/2,hero.getWidth(),hero.getHeight(),hero.getScaling(),hero.getScaling(),hero.getRotation());
-        for (int lv_i = 0; lv_i < enemies.length; lv_i++) {
-            spriteBatch.draw(enemies[lv_i].getCurrentFrame(), enemies[lv_i].getDrawX(), enemies[lv_i].getDrawY(), enemies[lv_i].getWidth()/2, enemies[lv_i].getHeight()/2, enemies[lv_i].getWidth(), enemies[lv_i].getHeight(), enemies[lv_i].getScaling(), enemies[lv_i].getScaling(), enemies[lv_i].getRotation());
+        spriteBatch.draw(hero.getCurrentFace(),hero.getDrawX(),hero.getDrawY(),hero.getWidth()/2,hero.getHeight()/2,hero.getWidth(),hero.getHeight(),hero.getScaling(),hero.getScaling(),hero.getRotation());
+        for (int k = 0; k < enemies.length; k++) {
+            spriteBatch.draw(enemies[k].getCurrentFrame(), enemies[k].getDrawX(), enemies[k].getDrawY(), enemies[k].getWidth()/2, enemies[k].getHeight()/2, enemies[k].getWidth(), enemies[k].getHeight(), enemies[k].getScaling(), enemies[k].getScaling(), enemies[k].getRotation());
         }
         if (isLevelOver) {
             spriteBatch.draw(endingTextAnimation.getCurrentFrame(), mapWidth /2f - endingTextAnimation.getCurrentFrame().getRegionWidth()/2f +1, mapHeight /2f - endingTextAnimation.getCurrentFrame().getRegionHeight()/2f, endingTextAnimation.getCurrentFrame().getRegionWidth()/2f, endingTextAnimation.getCurrentFrame().getRegionHeight()/2f, endingTextAnimation.getCurrentFrame().getRegionWidth(), endingTextAnimation.getCurrentFrame().getRegionHeight(), textSizeMultiplier, textSizeMultiplier,0);
@@ -141,6 +149,7 @@ public class LevelBasic extends ScreenAdapter {
     public void processCharacterMovement () {
         //Logic char
         hero.playAnimation();
+        hero.playFaceAnimation();
         if (acceptInputs) {
             hero.calibrateTargetPosition(16);
             if (hero.isTargetSet()) {
@@ -152,12 +161,12 @@ public class LevelBasic extends ScreenAdapter {
 
     public void processEnemyMovement() {
         //Logic enemies
-        for (int lv_i = 0; lv_i < enemies.length; lv_i++) {
-            enemies[lv_i].playAnimation();
+        for (int k = 0; k < enemies.length; k++) {
+            enemies[k].playAnimation();
             if (acceptInputs) {
-                enemies[lv_i].calibrateTargetPosition(-16);
-                if (enemies[lv_i].isTargetSet()) {
-                    enemies[lv_i].checkFutureMapCollision(mapLayer);
+                enemies[k].calibrateTargetPosition(-16);
+                if (enemies[k].isTargetSet()) {
+                    enemies[k].checkFutureMapCollision(mapLayer);
                 }
             }
         }
