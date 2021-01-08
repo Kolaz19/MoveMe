@@ -33,11 +33,11 @@ public class Hero extends Character {
         super(startingCellX, startingCellY, heightWidth);
         willDie = false;
         willWin = false;
-        animationIdle = new Animation(heroIdleTexture,60,14,14);
+        animationIdle = new Animation(heroIdleTexture,60,15,15);
         animationMove = new Animation(heroMoveTexture,3,14,14);
         animationExplode = new Animation(heroExplodeTexture,3,45,45);
         for (int k = 0; k < heroIdleFaceTextures.size(); k++) {
-            animationsFaceIdle.add(new Animation(heroIdleFaceTextures.get(k),100,14,14));
+            animationsFaceIdle.add(new Animation(heroIdleFaceTextures.get(k),100,15,15));
         }
     }
 

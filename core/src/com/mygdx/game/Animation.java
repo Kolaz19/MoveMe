@@ -24,7 +24,7 @@ public class Animation {
             amountOfFrames = 1;
             return;
         }
-        //TODO get precise amount of frames -> possibly that not every row is the same length
+
         for (int k = 0; k < frames2d.length; k++) {
             amountOfFrames+= frames2d[k].length;
         }

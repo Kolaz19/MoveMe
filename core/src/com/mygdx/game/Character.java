@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -181,6 +180,9 @@ public class Character {
     }
 
     public void playFaceAnimation() {
+        if (isTargetSet()) {
+            return;
+        }
         //Check if one animation is still running -> play it till end
         for (int k = 1; k < animationsFaceIdle.size(); k++) {
             if (animationsFaceIdle.get(k).isMidAnimation()) {
@@ -191,8 +193,16 @@ public class Character {
         }
 
         Random randomGenerator = new Random();
-        int randomNumber = randomGenerator.nextInt(100 + 1);
-
+        //Play other face animation with 1/300 chance per frame (framerate 60)
+        if (randomGenerator.nextInt(300 + 1) == 300) {
+            //Choose one of the other face animations with random number
+            int randomFaceNumber = randomGenerator.nextInt(animationsFaceIdle.size());
+            animationsFaceIdle.get(randomFaceNumber).play();
+            currentFace = animationsFaceIdle.get(randomFaceNumber).getCurrentFrame();
+        } else {
+            animationsFaceIdle.get(0).play();
+            currentFace = animationsFaceIdle.get(0).getCurrentFrame();
+        }
     }
 
     public void playAnimation() {

@@ -1,5 +1,6 @@
 //Textures
-[?] Textures now loading in hero and enemy classes
+[?] Create moving face textures
+[?] Fix texture ratios to 14x14
 
 //Test UI possibilitys
 [?] Get informations about the implementation of UIs
@@ -8,6 +9,10 @@
 [?] Set UI per second stage
 
 _______________________________________________________________________________
+//08.01.21
+[X] Play face animations randomly when standing still
+//07.01.21
+[X] Textures now loading in hero and enemy classes
 //06.01.21
 [X] First face animation added
 //04.01.21

@@ -130,7 +130,7 @@ public class LevelBasic extends ScreenAdapter {
         //Render characters
         spriteBatch.begin();
         spriteBatch.draw(hero.getCurrentFrame(),hero.getDrawX(),hero.getDrawY(),hero.getWidth()/2,hero.getHeight()/2,hero.getWidth(),hero.getHeight(),hero.getScaling(),hero.getScaling(),hero.getRotation());
-        spriteBatch.draw(hero.getCurrentFace(),hero.getDrawX(),hero.getDrawY(),hero.getWidth()/2,hero.getHeight()/2,hero.getWidth(),hero.getHeight(),hero.getScaling(),hero.getScaling(),hero.getRotation());
+        spriteBatch.draw(hero.getCurrentFace(),hero.getDrawX(),hero.getDrawY(),hero.getWidth()/2,hero.getHeight()/2,hero.getWidth(),hero.getHeight(),hero.getScaling(),hero.getScaling(),0);
         for (int k = 0; k < enemies.length; k++) {
             spriteBatch.draw(enemies[k].getCurrentFrame(), enemies[k].getDrawX(), enemies[k].getDrawY(), enemies[k].getWidth()/2, enemies[k].getHeight()/2, enemies[k].getWidth(), enemies[k].getHeight(), enemies[k].getScaling(), enemies[k].getScaling(), enemies[k].getRotation());
         }
