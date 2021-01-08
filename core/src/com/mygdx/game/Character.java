@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Character {
     protected Animation animationMove;
@@ -180,8 +181,18 @@ public class Character {
     }
 
     public void playFaceAnimation() {
-        animationsFaceIdle.get(0).play();
-        currentFace = animationsFaceIdle.get(0).getCurrentFrame();
+        //Check if one animation is still running -> play it till end
+        for (int k = 1; k < animationsFaceIdle.size(); k++) {
+            if (animationsFaceIdle.get(k).isMidAnimation()) {
+                animationsFaceIdle.get(k).play();
+                currentFace = animationsFaceIdle.get(k).getCurrentFrame();
+                return;
+            }
+        }
+
+        Random randomGenerator = new Random();
+        int randomNumber = randomGenerator.nextInt(100 + 1);
+
     }
 
     public void playAnimation() {

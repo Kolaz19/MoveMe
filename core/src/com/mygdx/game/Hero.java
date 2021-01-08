@@ -3,6 +3,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+import java.util.ArrayList;
+
 public class Hero extends Character {
     public boolean willDie;
     public boolean willWin;
@@ -10,13 +12,21 @@ public class Hero extends Character {
     private static Texture heroIdleTexture;
     private static Texture heroMoveTexture;
     private static Texture heroExplodeTexture;
-    private static Texture heroIdleFaceTexture;
+    private static ArrayList<Texture> heroIdleFaceTextures;
 
     static {
         heroIdleTexture = new Texture("charIdle.png");
         heroMoveTexture = new Texture ("charMove.png");
         heroExplodeTexture = new Texture("charExplode.png");
-        heroIdleFaceTexture = new Texture("CDefaultFace.png");
+        heroIdleFaceTextures = new ArrayList<>();
+        heroIdleFaceTextures.add(new Texture("CDefaultFace1.png"));
+        heroIdleFaceTextures.add(new Texture("CDefaultFace2.png"));
+        heroIdleFaceTextures.add(new Texture("CDefaultFace3.png"));
+        heroIdleFaceTextures.add(new Texture("CDefaultFace4.png"));
+        heroIdleFaceTextures.add(new Texture("CDefaultFace5.png"));
+        heroIdleFaceTextures.add(new Texture("CDefaultFace6.png"));
+        heroIdleFaceTextures.add(new Texture("CDefaultFace7.png"));
+        heroIdleFaceTextures.add(new Texture("CDefaultFace8.png"));
     }
 
     public Hero(int startingCellX, int startingCellY, int heightWidth) {
@@ -26,7 +36,9 @@ public class Hero extends Character {
         animationIdle = new Animation(heroIdleTexture,60,14,14);
         animationMove = new Animation(heroMoveTexture,3,14,14);
         animationExplode = new Animation(heroExplodeTexture,3,45,45);
-        animationsFaceIdle.add(new Animation(heroIdleFaceTexture,100,15,15));
+        for (int k = 0; k < heroIdleFaceTextures.size(); k++) {
+            animationsFaceIdle.add(new Animation(heroIdleFaceTextures.get(k),100,14,14));
+        }
     }
 
 
