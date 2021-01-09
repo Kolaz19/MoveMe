@@ -9,36 +9,46 @@ public class Hero extends Character {
     public boolean willDie;
     public boolean willWin;
     protected Animation animationExplode;
-    private static Texture heroIdleTexture;
-    private static Texture heroMoveTexture;
-    private static Texture heroExplodeTexture;
-    private static ArrayList<Texture> heroIdleFaceTextures;
+    private static Texture idleTexture;
+    private static Texture moveTexture;
+    private static Texture explodeTexture;
+    private static ArrayList<Texture> idleFaceTextures;
+    private static Texture moveFaceTextureUp;
+    private static Texture moveFaceTextureDown;
+    private static Texture moveFaceTextureLeftRight;
+
 
     static {
-        heroIdleTexture = new Texture("charIdle.png");
-        heroMoveTexture = new Texture ("charMove.png");
-        heroExplodeTexture = new Texture("charExplode.png");
-        heroIdleFaceTextures = new ArrayList<>();
-        heroIdleFaceTextures.add(new Texture("CDefaultFace1.png"));
-        heroIdleFaceTextures.add(new Texture("CDefaultFace2.png"));
-        heroIdleFaceTextures.add(new Texture("CDefaultFace3.png"));
-        heroIdleFaceTextures.add(new Texture("CDefaultFace4.png"));
-        heroIdleFaceTextures.add(new Texture("CDefaultFace5.png"));
-        heroIdleFaceTextures.add(new Texture("CDefaultFace6.png"));
-        heroIdleFaceTextures.add(new Texture("CDefaultFace7.png"));
-        heroIdleFaceTextures.add(new Texture("CDefaultFace8.png"));
+        idleTexture = new Texture("charIdle.png");
+        moveTexture = new Texture ("charMove.png");
+        explodeTexture = new Texture("charExplode.png");
+        idleFaceTextures = new ArrayList<>();
+        idleFaceTextures.add(new Texture("CDefaultFace1.png"));
+        idleFaceTextures.add(new Texture("CDefaultFace2.png"));
+        idleFaceTextures.add(new Texture("CDefaultFace3.png"));
+        idleFaceTextures.add(new Texture("CDefaultFace4.png"));
+        idleFaceTextures.add(new Texture("CDefaultFace5.png"));
+        idleFaceTextures.add(new Texture("CDefaultFace6.png"));
+        idleFaceTextures.add(new Texture("CDefaultFace7.png"));
+        idleFaceTextures.add(new Texture("CDefaultFace8.png"));
+        moveFaceTextureUp = new Texture("CFaceMoveUp.png");
+        moveFaceTextureDown = new Texture("CFaceMoveDown.png");
+        moveFaceTextureLeftRight = new Texture("CFaceMoveRightLeft.png");
     }
 
     public Hero(int startingCellX, int startingCellY, int heightWidth) {
         super(startingCellX, startingCellY, heightWidth);
         willDie = false;
         willWin = false;
-        animationIdle = new Animation(heroIdleTexture,60,15,15);
-        animationMove = new Animation(heroMoveTexture,3,14,14);
-        animationExplode = new Animation(heroExplodeTexture,3,45,45);
-        for (int k = 0; k < heroIdleFaceTextures.size(); k++) {
-            animationsFaceIdle.add(new Animation(heroIdleFaceTextures.get(k),100,15,15));
+        animationIdle = new Animation(idleTexture,60,14,14);
+        animationMove = new Animation(moveTexture,3,14,14);
+        animationExplode = new Animation(explodeTexture,3,45,45);
+        for (int k = 0; k < idleFaceTextures.size(); k++) {
+            animationsFaceIdle.add(new Animation(idleFaceTextures.get(k),100,14,14));
         }
+        animationFaceMoveUp = new Animation(moveFaceTextureUp,3,14,14);
+        animationFaceMoveDown = new Animation(moveFaceTextureDown,3,14,14);
+        animationFaceMoveLeftRight = new Animation(moveFaceTextureLeftRight,3,14,14);
     }
 
 

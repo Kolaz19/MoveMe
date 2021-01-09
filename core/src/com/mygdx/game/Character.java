@@ -12,6 +12,9 @@ public class Character {
     protected Animation animationMove;
     protected Animation animationIdle;
     protected ArrayList<Animation> animationsFaceIdle;
+    protected Animation animationFaceMoveUp;
+    protected Animation animationFaceMoveDown;
+    protected Animation animationFaceMoveLeftRight;
     private Rectangle collisionBox;
     protected TextureRegion currentFrame;
     protected  TextureRegion currentFace;
@@ -181,6 +184,7 @@ public class Character {
 
     public void playFaceAnimation() {
         if (isTargetSet()) {
+
             return;
         }
         //Check if one animation is still running -> play it till end

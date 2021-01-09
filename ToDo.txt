@@ -1,7 +1,3 @@
-//Textures
-[?] Create moving face textures
-[?] Fix texture ratios to 14x14
-
 //Test UI possibilitys
 [?] Get informations about the implementation of UIs
 [?] Set UI per second batch.draw() method
@@ -9,6 +5,9 @@
 [?] Set UI per second stage
 
 _______________________________________________________________________________
+//09.01.21
+[X] Create moving face textures
+[X] Fix texture ratios to 14x14
 //08.01.21
 [X] Play face animations randomly when standing still
 //07.01.21

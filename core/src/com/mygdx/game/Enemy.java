@@ -4,19 +4,19 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Enemy extends Character {
     public boolean willKill;
-    private static Texture enemyIdleTexture;
-    private static Texture enemyMoveTexture;
+    private static Texture idleTexture;
+    private static Texture moveTexture;
 
     static {
-        enemyIdleTexture = new Texture("enemyIdle.png");
-        enemyMoveTexture = new Texture ("enemyMove.png");
+        idleTexture = new Texture("enemyIdle.png");
+        moveTexture = new Texture ("enemyMove.png");
     }
 
     public Enemy(int startingCellX, int startingCellY, int heightWidth) {
         super(startingCellX, startingCellY, heightWidth);
         willKill = false;
-        animationIdle = new Animation(enemyIdleTexture, 60, 14,14);
-        animationMove = new Animation(enemyMoveTexture, 3, 14,14);
+        animationIdle = new Animation(idleTexture, 60, 14,14);
+        animationMove = new Animation(moveTexture, 3, 14,14);
     }
     
     public void playAnimation() {
