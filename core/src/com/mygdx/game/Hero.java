@@ -52,6 +52,7 @@ public class Hero extends Character {
     }
 
 
+
     public void playAnimation() {
         if (willDie && !isTargetSet()) {
             if (getScaling() != 3f) {
@@ -68,6 +69,7 @@ public class Hero extends Character {
         } else if (willWin && !isTargetSet()) {
             if (getScaling() > 0) {
               setScaling(getScaling()-0.02f);
+              setFaceScaling(getFaceScaling()-0.02f);
               setRotation(getRotation()+10);
                 animationIdle.play();
                 currentFrame = animationIdle.getCurrentFrame();
@@ -102,6 +104,7 @@ public class Hero extends Character {
         setTargetY(positionCellY);
         setRotation(0);
         setScaling(6f);
+        setFaceScaling(6f);
         isAppearing = true;
         willDie = false;
         willWin = false;

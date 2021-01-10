@@ -24,6 +24,7 @@ public class Character {
     private float targetY;
     private float rotationDegree;
     private float drawScaling;
+    private float faceScaling;
     public boolean isAppearing;
 
 
@@ -43,6 +44,7 @@ public class Character {
         drawScaling = 6f;
         isAppearing = true;
         animationsFaceIdle = new ArrayList<>();
+        faceScaling = 6f;
     }
 
     public void setScaling(float scaling) {
@@ -50,6 +52,12 @@ public class Character {
     }
     public float getScaling() {
         return drawScaling;
+    }
+    public void setFaceScaling(float scaling) {
+        faceScaling = scaling;
+    }
+    public float getFaceScaling () {
+        return faceScaling;
     }
     public float getWidth() {
         return collisionBox.getWidth();
@@ -184,7 +192,21 @@ public class Character {
 
     public void playFaceAnimation() {
         if (isTargetSet()) {
-
+            //reset Idle animations
+            for (int k = 1; k < animationsFaceIdle.size(); k++) {
+                animationsFaceIdle.get(k).reset();
+            }
+            //Play move animations based on moving direction
+            if (getTargetY() > getDrawY()) {
+                animationFaceMoveUp.play();
+                currentFace = animationFaceMoveUp.getCurrentFrame();
+            } else if (getDrawY() > getTargetY()) {
+                animationFaceMoveDown.play();
+                currentFace = animationFaceMoveDown.getCurrentFrame();
+            } else {
+                animationFaceMoveLeftRight.play();
+                currentFace = animationFaceMoveLeftRight.getCurrentFrame();
+            }
             return;
         }
         //Check if one animation is still running -> play it till end
@@ -207,14 +229,19 @@ public class Character {
             animationsFaceIdle.get(0).play();
             currentFace = animationsFaceIdle.get(0).getCurrentFrame();
         }
+        animationFaceMoveUp.reset();
+        animationFaceMoveDown.reset();
+        animationFaceMoveLeftRight.reset();
     }
 
     public void playAnimation() {
         if (isAppearing) {
             if (getScaling() > 1f) {
                 setScaling(getScaling() - 0.05f);
+                setFaceScaling(getFaceScaling()-0.05f);
             } else {
                 setScaling(1f);
+                setFaceScaling(1f);
                 isAppearing = false;
             }
         }

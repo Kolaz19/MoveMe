@@ -1,3 +1,7 @@
+//Textures
+[?] Create enemy idle face textures
+[?] Create enemy move face textures
+
 //Test UI possibilitys
 [?] Get informations about the implementation of UIs
 [?] Set UI per second batch.draw() method
@@ -5,6 +9,8 @@
 [?] Set UI per second stage
 
 _______________________________________________________________________________
+//10.01.21
+[X] Play move face animations based on the direction
 //09.01.21
 [X] Create moving face textures
 [X] Fix texture ratios to 14x14
