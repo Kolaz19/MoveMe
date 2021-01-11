@@ -133,6 +133,7 @@ public class LevelBasic extends ScreenAdapter {
         spriteBatch.draw(hero.getCurrentFace(),hero.getDrawX(),hero.getDrawY(),hero.getWidth()/2,hero.getHeight()/2,hero.getWidth(),hero.getHeight(),hero.getFaceScaling(),hero.getFaceScaling(),0);
         for (int k = 0; k < enemies.length; k++) {
             spriteBatch.draw(enemies[k].getCurrentFrame(), enemies[k].getDrawX(), enemies[k].getDrawY(), enemies[k].getWidth()/2, enemies[k].getHeight()/2, enemies[k].getWidth(), enemies[k].getHeight(), enemies[k].getScaling(), enemies[k].getScaling(), enemies[k].getRotation());
+            spriteBatch.draw(enemies[k].getCurrentFace(), enemies[k].getDrawX(), enemies[k].getDrawY(), enemies[k].getWidth()/2, enemies[k].getHeight()/2, enemies[k].getWidth(), enemies[k].getHeight(), enemies[k].getScaling(), enemies[k].getFaceScaling(), 0);
         }
         if (isLevelOver) {
             spriteBatch.draw(endingTextAnimation.getCurrentFrame(), mapWidth /2f - endingTextAnimation.getCurrentFrame().getRegionWidth()/2f +1, mapHeight /2f - endingTextAnimation.getCurrentFrame().getRegionHeight()/2f, endingTextAnimation.getCurrentFrame().getRegionWidth()/2f, endingTextAnimation.getCurrentFrame().getRegionHeight()/2f, endingTextAnimation.getCurrentFrame().getRegionWidth(), endingTextAnimation.getCurrentFrame().getRegionHeight(), textSizeMultiplier, textSizeMultiplier,0);
@@ -163,6 +164,7 @@ public class LevelBasic extends ScreenAdapter {
         //Logic enemies
         for (int k = 0; k < enemies.length; k++) {
             enemies[k].playAnimation();
+            enemies[k].playFaceAnimation();
             if (acceptInputs) {
                 enemies[k].calibrateTargetPosition(-16);
                 if (enemies[k].isTargetSet()) {
