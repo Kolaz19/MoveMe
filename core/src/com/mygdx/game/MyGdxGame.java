@@ -30,10 +30,10 @@ public class MyGdxGame extends Game {
 			setScreen(new LevelBasic(this,1,hero, enemiesLevel1, "Level1.tmx", "Default"));
 			break;
 			case 2:
-			Enemy enemy1Level2 = new Enemy(2, 10, 14);
+			Enemy enemy1Level2 = new Enemy(2, 3, 14);
 			Enemy[] enemiesLevel2 = new Enemy[2];
 			enemiesLevel2[0] = enemy1Level2;
-			Enemy enemy2Level2 = new Enemy(1, 10, 14);
+			Enemy enemy2Level2 = new Enemy(2, 4, 14);
 			enemiesLevel2[1] = enemy2Level2;
 			setScreen(new LevelBasic(this,2,hero,enemiesLevel2,"Level2.tmx","Default"));
 			break;

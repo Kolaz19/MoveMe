@@ -76,16 +76,17 @@ public class LevelBasic extends ScreenAdapter {
     }
 
     public void show() {
+        int borderSpacing = 23;
         //Set up Camera
-        orthographicCamera.viewportHeight = mapHeight -23;
-        orthographicCamera.viewportWidth = mapWidth-23;
+        orthographicCamera.viewportHeight = mapHeight -borderSpacing;
+        orthographicCamera.viewportWidth = mapWidth-borderSpacing;
         orthographicCamera.position.x = (int) (mapWidth / 2);
         orthographicCamera.position.y = (int) (mapHeight / 2);
         //Set up window size to match map size
         int windowTargetHeight = (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         //0.8 because taskbar does take also some room
         windowTargetHeight = (int) (windowTargetHeight * 0.8f);
-        int windowTargetWidth = mapWidth * windowTargetHeight / mapHeight;
+        int windowTargetWidth = (mapWidth-borderSpacing) * windowTargetHeight / (mapHeight-borderSpacing);
         Gdx.graphics.setWindowedMode(windowTargetWidth,windowTargetHeight);
     }
 
@@ -187,7 +188,7 @@ public class LevelBasic extends ScreenAdapter {
         isLevelOver = true;
         endingTextAnimation.play();
 
-        if (textSizeMultiplier * endingTextAnimation.getCurrentFrame().getRegionWidth() < mapWidth) {
+        if (textSizeMultiplier * endingTextAnimation.getCurrentFrame().getRegionWidth() < mapWidth-32) {
             textSizeMultiplier += 0.01;
         }
 
@@ -216,17 +217,17 @@ public class LevelBasic extends ScreenAdapter {
         lineCoordinates = new float[amountHorizontalLines+amountVerticalLines][4];
         //Set coordinates for horizontal lines
         for(int k = 0; k < amountHorizontalLines;k++) {
-            lineCoordinates[k][0] = 0;                                              //x
-            lineCoordinates[k][1] = (k + 1) * mapLayer.getTileHeight();             //y
-            lineCoordinates[k][2] = mapLayer.getWidth() * mapLayer.getTileWidth();  //x2
-            lineCoordinates[k][3] = (k + 1) * mapLayer.getTileHeight();             //y2
+            lineCoordinates[k][0] = mapLayer.getTileHeight();                                                   //x
+            lineCoordinates[k][1] = (k + 1) * mapLayer.getTileHeight();                                         //y
+            lineCoordinates[k][2] = mapLayer.getWidth() * mapLayer.getTileWidth() - mapLayer.getTileHeight();   //x2
+            lineCoordinates[k][3] = (k + 1) * mapLayer.getTileHeight();                                         //y2
         }
         //Set coordinates for vertical lines
         for(int k = amountHorizontalLines; k < amountHorizontalLines + amountVerticalLines; k++) {
             lineCoordinates[k][0] = (k + 1 - amountHorizontalLines) * mapLayer.getTileWidth();
-            lineCoordinates[k][1] = 0;
+            lineCoordinates[k][1] = mapLayer.getTileHeight();
             lineCoordinates[k][2] = (k + 1 - amountHorizontalLines) * mapLayer.getTileWidth();
-            lineCoordinates[k][3] = mapLayer.getHeight() * mapLayer.getTileHeight();
+            lineCoordinates[k][3] = mapLayer.getHeight() * mapLayer.getTileHeight() - mapLayer.getTileHeight();
         }
     }
 

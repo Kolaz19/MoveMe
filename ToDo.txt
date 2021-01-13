@@ -1,10 +1,13 @@
-[?] Create borders
-[?] Fix camera to display map with borders
-[?] Remove code that checks for out of bounds
 
 _______________________________________________________________________________
 //13.01.21
 [X] Fix bug where enemies in a row would slip into another
+[X] Create borders
+[X] Fix camera to display map with borders
+[X] Resize ending text
+[X] Make lines not go out of screen
+[X] Remove code that checks for out of bounds
+[X] Fix viewport to see ideal propotion
 //11.01.21
 [X] Create enemy idle face textures
 [X] Create enemy move face textures

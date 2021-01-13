@@ -126,12 +126,6 @@ public class Character {
 
     //Checks if target position will hit map boundary - reset target position
     public void checkFutureMapCollision(TiledMapTileLayer mapLayer) {
-        //first check if target is out of map
-        if (getTargetX() < 0 || getTargetX() > mapLayer.getTileWidth() * mapLayer.getWidth() || getTargetY() < 0 || getTargetY() > mapLayer.getTileHeight() * mapLayer.getHeight()) {
-            setTargetX(getDrawX());
-            setTargetY(getDrawY());
-            return;
-        }
         //then check if target would hit blocked tile
         int cellX =(int) getTargetX() / mapLayer.getTileWidth();
         int cellY = (int) getTargetY() / mapLayer.getTileHeight();
