@@ -17,13 +17,15 @@ public class MyGdxGame extends Game {
 		//TestLevel
 		switch (levelToPlay) {
 			case 1:
-			Enemy[] enemiesLevel1 = new Enemy[3];
+			Enemy[] enemiesLevel1 = new Enemy[4];
 			Enemy enemy1Level1 = new Enemy(2, 4, 14);
 			enemiesLevel1[0] = enemy1Level1;
 			Enemy enemy2Level1 = new Enemy(1, 4, 14);
 			enemiesLevel1[1] = enemy2Level1;
 			Enemy enemy3Level1 = new Enemy(1, 3, 14);
 			enemiesLevel1[2] = enemy3Level1;
+			Enemy enemy4Level1 = new Enemy(1, 5, 14);
+			enemiesLevel1[3] = enemy4Level1;
 			//Level 1
 			setScreen(new LevelBasic(this,1,hero, enemiesLevel1, "Level1.tmx", "Default"));
 			break;

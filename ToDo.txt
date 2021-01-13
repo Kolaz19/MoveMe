@@ -1,14 +1,13 @@
-//Textures
-[?] Create enemy idle face textures
-[?] Create enemy move face textures
-
-//Test UI possibilitys
-[?] Get informations about the implementation of UIs
-[?] Set UI per second batch.draw() method
-[?] Create stage for UI
-[?] Set UI per second stage
+[?] Create borders
+[?] Fix camera to display map with borders
+[?] Remove code that checks for out of bounds
 
 _______________________________________________________________________________
+//13.01.21
+[X] Fix bug where enemies in a row would slip into another
+//11.01.21
+[X] Create enemy idle face textures
+[X] Create enemy move face textures
 //10.01.21
 [X] Play move face animations based on the direction
 //09.01.21

@@ -29,8 +29,8 @@ public class Character {
 
 
     public Character(int startingCellX, int startingCellY, int heightWidth) {
-        int positionCellX = (startingCellX-1) * 16 + 1;
-        int positionCellY = (startingCellY-1) * 16 + 1;
+        int positionCellX = (startingCellX-1) * 16 + 16 + 1;
+        int positionCellY = (startingCellY-1) * 16 + 16 + 1;
         collisionBox = new Rectangle();
         collisionBox.setHeight(heightWidth);
         collisionBox.setWidth(heightWidth);

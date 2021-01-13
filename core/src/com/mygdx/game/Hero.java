@@ -93,8 +93,8 @@ public class Hero extends Character {
     }
 
     public void reset(int startingCellX,int startingCellY) {
-        int positionCellX = (startingCellX-1) * 16 + 1;
-        int positionCellY = (startingCellY-1) * 16 + 1;
+        int positionCellX = (startingCellX-1) * 16 + 16  + 1;
+        int positionCellY = (startingCellY-1) * 16 + 16 + 1;
         animationExplode.reset();
         animationIdle.reset();
         animationMove.reset();

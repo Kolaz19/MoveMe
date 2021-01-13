@@ -13,6 +13,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class LevelBasic extends ScreenAdapter {
@@ -75,8 +77,8 @@ public class LevelBasic extends ScreenAdapter {
 
     public void show() {
         //Set up Camera
-        orthographicCamera.viewportHeight = mapHeight;
-        orthographicCamera.viewportWidth = mapWidth;
+        orthographicCamera.viewportHeight = mapHeight -23;
+        orthographicCamera.viewportWidth = mapWidth-23;
         orthographicCamera.position.x = (int) (mapWidth / 2);
         orthographicCamera.position.y = (int) (mapHeight / 2);
         //Set up window size to match map size
@@ -214,10 +216,10 @@ public class LevelBasic extends ScreenAdapter {
         lineCoordinates = new float[amountHorizontalLines+amountVerticalLines][4];
         //Set coordinates for horizontal lines
         for(int k = 0; k < amountHorizontalLines;k++) {
-            lineCoordinates[k][0] = 0;
-            lineCoordinates[k][1] = (k + 1) * mapLayer.getTileHeight();
-            lineCoordinates[k][2] = mapLayer.getWidth() * mapLayer.getTileWidth();
-            lineCoordinates[k][3] = (k + 1) * mapLayer.getTileHeight();
+            lineCoordinates[k][0] = 0;                                              //x
+            lineCoordinates[k][1] = (k + 1) * mapLayer.getTileHeight();             //y
+            lineCoordinates[k][2] = mapLayer.getWidth() * mapLayer.getTileWidth();  //x2
+            lineCoordinates[k][3] = (k + 1) * mapLayer.getTileHeight();             //y2
         }
         //Set coordinates for vertical lines
         for(int k = amountHorizontalLines; k < amountHorizontalLines + amountVerticalLines; k++) {
@@ -228,7 +230,9 @@ public class LevelBasic extends ScreenAdapter {
         }
     }
 
+
     public void checkFutureCharCollision() {
+        ArrayList<Enemy> enemiesToCheckAgain = new ArrayList<>();
         for (int k = 0;k < enemies.length; k++) {
             //Check if char will collide with enemy
             if (hero.getTargetX() == enemies[k].getDrawX() && hero.getTargetY() == enemies[k].getDrawY()) {
@@ -242,20 +246,44 @@ public class LevelBasic extends ScreenAdapter {
                 enemies[k].setTargetX(enemies[k].getDrawX());
                 enemies[k].setTargetY(enemies[k].getDrawY());
             }
-            //Check if enemy will collide with another enemy
+            //Check if enemy will collide with another enemy that hasn`t target set
             for (int a = 0; a < enemies.length; a++) {
                 if (k != a && (enemies[k].getTargetX() == enemies[a].getTargetX() && enemies[k].getTargetY() == enemies[a].getTargetY())) {
                     enemies[k].setTargetX(enemies[k].getDrawX());
                     enemies[k].setTargetY(enemies[k].getDrawY());
+                    break;
                 }
+            }
+            if (enemies[k].isTargetSet()) {
+                enemiesToCheckAgain.add(enemies[k]);
             }
             //Check if character will die
             if (hero.getTargetX() == enemies[k].getTargetX() && hero.getTargetY() == enemies[k].getTargetY()) {
                 hero.willDie = true;
                 enemies[k].willKill = true;
             }
-
         }
+        /*Enemies could be in a row -> Check again if target was set and needs correction
+        After every loop and every correction the next enemy could also need correction*/
+        int amountOfChecks = enemiesToCheckAgain.size();
+        Iterator<Enemy> enemiesToCheckIter =  enemiesToCheckAgain.iterator();
+        while (amountOfChecks != 0) {
+            while (enemiesToCheckIter.hasNext()) {
+                Enemy enemyToCheck = enemiesToCheckIter.next();
+                for (Enemy enemyToCheckAgainst : enemies) {
+                    if (enemyToCheck != enemyToCheckAgainst && (enemyToCheck.getTargetX() == enemyToCheckAgainst.getTargetX() && enemyToCheck.getTargetY() == enemyToCheckAgainst.getTargetY())) {
+                        enemyToCheck.setTargetX(enemyToCheck.getDrawX());
+                        enemyToCheck.setTargetY(enemyToCheck.getDrawY());
+                        enemiesToCheckIter.remove();
+                        break;
+                    }
+                }
+            }
+            amountOfChecks--;
+        }
+
+
+
         //If character does not move, enemies should also not move
         //Reset winCondition in Hero, when character will not move to tile
         if (!hero.isTargetSet()) {
