@@ -9,7 +9,7 @@ public class Hero extends Character {
     public boolean willDie;
     public boolean willWin;
     protected Animation animationExplode;
-    private static Texture idleTexture;
+    public static Texture idleTexture;
     private static Texture moveTexture;
     private static Texture explodeTexture;
     private static ArrayList<Texture> idleFaceTextures;

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Enemy extends Character {
     public boolean willKill;
-    private static Texture idleTexture;
+    public static Texture idleTexture;
     private static Texture moveTexture;
     private static ArrayList<Texture> idleFaceTextures;
     private static Texture moveFaceTextureUp;

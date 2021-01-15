@@ -25,8 +25,8 @@ public class LevelBasic extends ScreenAdapter {
     private Enemy[] enemies;
     private Hero hero;
     private int currentLevel;
-    private int mapHeight;
-    private int mapWidth;
+    private final int mapHeight;
+    private final int mapWidth;
     private float lineCoordinates[][];
     private boolean acceptInputs;
     private boolean inputRegistered;
@@ -90,7 +90,7 @@ public class LevelBasic extends ScreenAdapter {
         Gdx.graphics.setWindowedMode(windowTargetWidth,windowTargetHeight);
     }
 
-    public void render(float iv_delta) {
+    public void render(float delta) {
         //Update Animation of TileMap
         AnimatedTiledMapTile.updateAnimationBaseTime();
         Gdx.gl.glClearColor(1, 1, 1, 1);
