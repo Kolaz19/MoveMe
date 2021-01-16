@@ -1,5 +1,10 @@
-[?] Logic for moving characters around menu screen
+
 _______________________________________________________________________________
+//16.01.21
+[X] Logic for moving characters around menu screen
+[X] Created start button
+[X] Created exit button
+[X] Created stage button
 //15.01.21
 [X] Created background for main menu
 [X] Created rendering for main menu
