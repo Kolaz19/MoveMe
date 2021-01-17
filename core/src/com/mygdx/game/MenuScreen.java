@@ -6,19 +6,41 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class MenuScreen extends ScreenAdapter {
     static Texture backgroundTexture;
+    static Texture playButtonTexture;
+    static Texture stageButtonTexture;
+    static Texture exitButtonTexture;
     private OrthographicCamera orthographicCamera;
     private final int backgroundHeight;
     private final int backgroundWidth;
     private SpriteBatch spriteBatch;
-    private Coordinate cordsHero, cordsEnemy;
+    private Coordinate cordsHero, cordsEnemy, cordsExit, cordsPlay, cordsStage;
     private final int borderThickness;
     private final int sizeOfCharTexture;
+    private Animation playButton;
+    private Animation stageButton;
+    private Animation exitButton;
+    private BUTTON buttonCurrentlySelected;
+    private BUTTON buttonCurrentlyClicked;
+    private Vector3 mouseCoordinates;
+
+    private enum BUTTON {
+        EXIT,
+        PLAY,
+        STAGE,
+        NOSELECT
+    }
+
 
     static {
         backgroundTexture = new Texture("backgroundMenu.png");
+        playButtonTexture = new Texture("playButton.png");
+        stageButtonTexture = new Texture("stageButton.png");
+        exitButtonTexture = new Texture("exitButton.png");
     }
 
     public MenuScreen() {
@@ -29,8 +51,19 @@ public class MenuScreen extends ScreenAdapter {
 
         borderThickness = 32;
         sizeOfCharTexture = 55;
+
         cordsHero = new Coordinate(borderThickness,borderThickness);
         cordsEnemy = new Coordinate(backgroundWidth - borderThickness - sizeOfCharTexture,backgroundHeight - borderThickness - sizeOfCharTexture);
+        cordsPlay = new Coordinate((backgroundWidth / 2) - (playButton.getSpecificFrame(1).getRegionWidth() / 2),400);
+        cordsStage = new Coordinate((backgroundWidth / 2) - (stageButton.getSpecificFrame(1).getRegionWidth() / 2),200);
+        cordsExit = new Coordinate(500,500);
+
+        playButton = new Animation(playButtonTexture,1,300,100);
+        stageButton = new Animation(stageButtonTexture,1,300,100);
+        exitButton = new Animation(exitButtonTexture,1,50,50);
+
+        mouseCoordinates = new Vector3(0,0,0);
+        mouseCoordinates.z = 0;
     }
 
     @Override
@@ -40,6 +73,9 @@ public class MenuScreen extends ScreenAdapter {
         orthographicCamera.position.x = (int) (backgroundWidth / 2);
         orthographicCamera.position.y = (int) (backgroundHeight / 2);
         Gdx.graphics.setWindowedMode(backgroundWidth,backgroundHeight);
+
+        buttonCurrentlySelected = BUTTON.NOSELECT;
+        buttonCurrentlyClicked = BUTTON.NOSELECT;
     }
 
     @Override
@@ -58,6 +94,20 @@ public class MenuScreen extends ScreenAdapter {
         spriteBatch.draw(Hero.idleTexture, cordsHero.x, cordsHero.y,sizeOfCharTexture,sizeOfCharTexture);
         spriteBatch.draw(Enemy.idleTexture, cordsEnemy.x, cordsEnemy.y,sizeOfCharTexture,sizeOfCharTexture);
         spriteBatch.end();
+    }
+
+    private void chooseSelectedButton () {
+
+    }
+
+    private boolean isPlayButtonSelected () {
+        if(mouseCoordinates.x > )
+    }
+
+    private void setMouseCoordinates () {
+        mouseCoordinates.x = Gdx.input.getX();
+        mouseCoordinates.y = Gdx.input.getY();
+        orthographicCamera.unproject(mouseCoordinates);
     }
 
     @Override
