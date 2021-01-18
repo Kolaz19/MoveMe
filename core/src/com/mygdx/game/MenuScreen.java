@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -88,6 +89,8 @@ public class MenuScreen extends ScreenAdapter {
 
         moveCharInBackground(3,cordsHero);
         moveCharInBackground(3,cordsEnemy);
+        assignButtonVariables();
+
 
         spriteBatch.begin();
         spriteBatch.draw(backgroundTexture,0,0);
@@ -96,12 +99,63 @@ public class MenuScreen extends ScreenAdapter {
         spriteBatch.end();
     }
 
-    private void chooseSelectedButton () {
+    private void assignButtonVariables() {
+        setMouseCoordinates();
+        chooseSelectedButton();
+        //chooseClickedButton depends on chooseSelectedButton above
+        chooseClickedButton();
+    }
 
+    private void chooseClickedButton() {
+        if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            return;
+        }
+        switch (buttonCurrentlySelected) {
+            case NOSELECT: buttonCurrentlyClicked = BUTTON.NOSELECT;
+            break;
+            case PLAY: buttonCurrentlyClicked = BUTTON.PLAY;
+            break;
+            case STAGE: buttonCurrentlyClicked = BUTTON.STAGE;
+            break;
+            case EXIT: buttonCurrentlyClicked = BUTTON.EXIT;
+            break;
+        }
+    }
+
+    private void chooseSelectedButton () {
+        if (isPlayButtonSelected()) {
+            buttonCurrentlySelected = BUTTON.PLAY;
+        } else if (isStageButtonSelected()) {
+            buttonCurrentlySelected = BUTTON.STAGE;
+        } else if (isExitButtonSelected()) {
+            buttonCurrentlySelected = BUTTON.EXIT;
+        } else {
+            buttonCurrentlySelected = BUTTON.NOSELECT;
+        }
     }
 
     private boolean isPlayButtonSelected () {
-        if(mouseCoordinates.x > )
+        if(mouseCoordinates.x >= cordsPlay.x && mouseCoordinates.x <= cordsPlay.x + playButton.getSpecificFrame(1).getRegionWidth()
+        && mouseCoordinates.y >= cordsPlay.y && mouseCoordinates.y <= cordsPlay.y + playButton.getSpecificFrame(1).getRegionHeight()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isStageButtonSelected() {
+        if(mouseCoordinates.x >= cordsStage.x && mouseCoordinates.x <= cordsStage.x + stageButton.getSpecificFrame(1).getRegionWidth()
+        && mouseCoordinates.y >= cordsStage.y && mouseCoordinates.y <= cordsStage.y + stageButton.getSpecificFrame(1).getRegionHeight()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isExitButtonSelected() {
+        if(mouseCoordinates.x >= cordsExit.x && mouseCoordinates.x <= cordsExit.x + exitButton.getSpecificFrame(1).getRegionWidth()
+        && mouseCoordinates.y >= cordsExit.y && mouseCoordinates.y <= cordsExit.y + exitButton.getSpecificFrame(1).getRegionHeight()) {
+            return true;
+        }
+        return false;
     }
 
     private void setMouseCoordinates () {
