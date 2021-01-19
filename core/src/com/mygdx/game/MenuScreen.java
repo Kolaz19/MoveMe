@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class MenuScreen extends ScreenAdapter {
@@ -25,7 +24,7 @@ public class MenuScreen extends ScreenAdapter {
     private Animation playButton;
     private Animation stageButton;
     private Animation exitButton;
-    private BUTTON buttonCurrentlySelected;
+    private boolean isPlayButtonSelected, isStageButtonSelected, isExitButtonSelected;
     private BUTTON buttonCurrentlyClicked;
     private Vector3 mouseCoordinates;
 
@@ -53,15 +52,15 @@ public class MenuScreen extends ScreenAdapter {
         borderThickness = 32;
         sizeOfCharTexture = 55;
 
-        cordsHero = new Coordinate(borderThickness,borderThickness);
-        cordsEnemy = new Coordinate(backgroundWidth - borderThickness - sizeOfCharTexture,backgroundHeight - borderThickness - sizeOfCharTexture);
-        cordsPlay = new Coordinate((backgroundWidth / 2) - (playButton.getSpecificFrame(1).getRegionWidth() / 2),400);
-        cordsStage = new Coordinate((backgroundWidth / 2) - (stageButton.getSpecificFrame(1).getRegionWidth() / 2),200);
-        cordsExit = new Coordinate(500,500);
-
         playButton = new Animation(playButtonTexture,1,300,100);
         stageButton = new Animation(stageButtonTexture,1,300,100);
         exitButton = new Animation(exitButtonTexture,1,50,50);
+
+        cordsHero = new Coordinate(borderThickness,borderThickness);
+        cordsEnemy = new Coordinate(backgroundWidth - borderThickness - sizeOfCharTexture,backgroundHeight - borderThickness - sizeOfCharTexture);
+        cordsPlay = new Coordinate((backgroundWidth / 2) - (playButton.getSpecificFrame(1).getRegionWidth() / 2),270);
+        cordsStage = new Coordinate((backgroundWidth / 2) - (stageButton.getSpecificFrame(1).getRegionWidth() / 2),120);
+        cordsExit = new Coordinate(367,431);
 
         mouseCoordinates = new Vector3(0,0,0);
         mouseCoordinates.z = 0;
@@ -75,7 +74,6 @@ public class MenuScreen extends ScreenAdapter {
         orthographicCamera.position.y = (int) (backgroundHeight / 2);
         Gdx.graphics.setWindowedMode(backgroundWidth,backgroundHeight);
 
-        buttonCurrentlySelected = BUTTON.NOSELECT;
         buttonCurrentlyClicked = BUTTON.NOSELECT;
     }
 
@@ -91,12 +89,22 @@ public class MenuScreen extends ScreenAdapter {
         moveCharInBackground(3,cordsEnemy);
         assignButtonVariables();
 
-
         spriteBatch.begin();
         spriteBatch.draw(backgroundTexture,0,0);
         spriteBatch.draw(Hero.idleTexture, cordsHero.x, cordsHero.y,sizeOfCharTexture,sizeOfCharTexture);
         spriteBatch.draw(Enemy.idleTexture, cordsEnemy.x, cordsEnemy.y,sizeOfCharTexture,sizeOfCharTexture);
+        spriteBatch.draw(playButton.getSpecificFrame(getAnimationNumber(isPlayButtonSelected)),cordsPlay.x, cordsPlay.y);
+        spriteBatch.draw(stageButton.getSpecificFrame(getAnimationNumber(isStageButtonSelected)),cordsStage.x, cordsStage.y);
+        spriteBatch.draw(exitButton.getSpecificFrame(getAnimationNumber(isExitButtonSelected)),cordsExit.x, cordsExit.y);
         spriteBatch.end();
+    }
+
+    private int getAnimationNumber(boolean isButtonSelected) {
+        if (isButtonSelected) {
+            return 2;
+        } else {
+            return 1;
+        }
     }
 
     private void assignButtonVariables() {
@@ -107,30 +115,29 @@ public class MenuScreen extends ScreenAdapter {
     }
 
     private void chooseClickedButton() {
+        buttonCurrentlyClicked = BUTTON.NOSELECT;
         if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             return;
         }
-        switch (buttonCurrentlySelected) {
-            case NOSELECT: buttonCurrentlyClicked = BUTTON.NOSELECT;
-            break;
-            case PLAY: buttonCurrentlyClicked = BUTTON.PLAY;
-            break;
-            case STAGE: buttonCurrentlyClicked = BUTTON.STAGE;
-            break;
-            case EXIT: buttonCurrentlyClicked = BUTTON.EXIT;
-            break;
+        if (isPlayButtonSelected)  {
+            buttonCurrentlyClicked = BUTTON.PLAY;
+        } else if (isStageButtonSelected) {
+            buttonCurrentlyClicked = BUTTON.STAGE;
+        } else if (isExitButtonSelected) {
+            buttonCurrentlyClicked = BUTTON.EXIT;
         }
     }
 
     private void chooseSelectedButton () {
+        isPlayButtonSelected = false;
+        isStageButtonSelected = false;
+        isExitButtonSelected = false;
         if (isPlayButtonSelected()) {
-            buttonCurrentlySelected = BUTTON.PLAY;
+            isPlayButtonSelected = true;
         } else if (isStageButtonSelected()) {
-            buttonCurrentlySelected = BUTTON.STAGE;
+            isStageButtonSelected = true;
         } else if (isExitButtonSelected()) {
-            buttonCurrentlySelected = BUTTON.EXIT;
-        } else {
-            buttonCurrentlySelected = BUTTON.NOSELECT;
+            isExitButtonSelected = true;
         }
     }
 
