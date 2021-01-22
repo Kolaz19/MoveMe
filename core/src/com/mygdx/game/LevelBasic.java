@@ -194,7 +194,7 @@ public class LevelBasic extends ScreenAdapter {
 
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             Savegame.writeSavestate(currentLevel);
-            mainGame.chooseLevel(2);
+            mainGame.chooseLevel(this.currentLevel + 1);
         }
     }
 

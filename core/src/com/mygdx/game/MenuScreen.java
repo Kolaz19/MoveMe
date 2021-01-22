@@ -27,6 +27,7 @@ public class MenuScreen extends ScreenAdapter {
     private boolean isPlayButtonSelected, isStageButtonSelected, isExitButtonSelected;
     private BUTTON buttonCurrentlyClicked;
     private Vector3 mouseCoordinates;
+    private MyGdxGame mainGame;
 
     private enum BUTTON {
         EXIT,
@@ -43,7 +44,8 @@ public class MenuScreen extends ScreenAdapter {
         exitButtonTexture = new Texture("exitButton.png");
     }
 
-    public MenuScreen() {
+    public MenuScreen(MyGdxGame maingame) {
+        this.mainGame = maingame;
         backgroundHeight = backgroundTexture.getHeight();
         backgroundWidth = backgroundTexture.getWidth();
         orthographicCamera = new OrthographicCamera();
@@ -89,6 +91,8 @@ public class MenuScreen extends ScreenAdapter {
         moveCharInBackground(3,cordsEnemy);
         assignButtonVariables();
 
+        processButtonLogic();
+
         spriteBatch.begin();
         spriteBatch.draw(backgroundTexture,0,0);
         spriteBatch.draw(Hero.idleTexture, cordsHero.x, cordsHero.y,sizeOfCharTexture,sizeOfCharTexture);
@@ -97,6 +101,13 @@ public class MenuScreen extends ScreenAdapter {
         spriteBatch.draw(stageButton.getSpecificFrame(getAnimationNumber(isStageButtonSelected)),cordsStage.x, cordsStage.y);
         spriteBatch.draw(exitButton.getSpecificFrame(getAnimationNumber(isExitButtonSelected)),cordsExit.x, cordsExit.y);
         spriteBatch.end();
+    }
+
+    private void processButtonLogic() {
+        switch (buttonCurrentlyClicked) {
+            case PLAY: mainGame.chooseLevel(Savegame.getNextLevel());
+                break;
+        }
     }
 
     private int getAnimationNumber(boolean isButtonSelected) {
