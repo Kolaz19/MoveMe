@@ -36,7 +36,6 @@ public class MenuScreen extends ScreenAdapter {
         NOSELECT
     }
 
-
     static {
         backgroundTexture = new Texture("backgroundMenu.png");
         playButtonTexture = new Texture("playButton.png");
@@ -103,9 +102,13 @@ public class MenuScreen extends ScreenAdapter {
         spriteBatch.end();
     }
 
-    private void processButtonLogic() {
+    void processButtonLogic() {
         switch (buttonCurrentlyClicked) {
-            case PLAY: mainGame.chooseLevel(Savegame.getNextLevel());
+            case PLAY: mainGame.chooseLevel(Savegame.getCurrentLevel());
+                break;
+            case STAGE:
+                break;
+            case EXIT:
                 break;
         }
     }
@@ -118,7 +121,7 @@ public class MenuScreen extends ScreenAdapter {
         }
     }
 
-    private void assignButtonVariables() {
+    void assignButtonVariables() {
         setMouseCoordinates();
         chooseSelectedButton();
         //chooseClickedButton depends on chooseSelectedButton above
@@ -207,7 +210,7 @@ public class MenuScreen extends ScreenAdapter {
         super.dispose();
     }
 
-    private void moveCharInBackground(int pixelsPerFrames,Coordinate cords) {
+    void moveCharInBackground(int pixelsPerFrames, Coordinate cords) {
         correctOutOfBounds(pixelsPerFrames,cords);
         moveTextureInBoundary(pixelsPerFrames,cords);
     }

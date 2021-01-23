@@ -57,7 +57,7 @@ public class Savegame {
         return getCorrespondingLevel(getCurrentSaveState());
     }
 
-    public static int getNextLevel() {
+    public static int getCurrentLevel() {
         return getSavedLevel() + 1;
     }
 

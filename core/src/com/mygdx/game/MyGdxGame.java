@@ -16,6 +16,7 @@ public class MyGdxGame extends Game {
 		hero.reset(2,1);
 		//TestLevel
 		switch (levelToPlay) {
+			//Level 1
 			case 1:
 			Enemy[] enemiesLevel1 = new Enemy[4];
 			Enemy enemy1Level1 = new Enemy(2, 4, 14);
@@ -26,9 +27,9 @@ public class MyGdxGame extends Game {
 			enemiesLevel1[2] = enemy3Level1;
 			Enemy enemy4Level1 = new Enemy(1, 5, 14);
 			enemiesLevel1[3] = enemy4Level1;
-			//Level 1
 			setScreen(new LevelBasic(this,1,hero, enemiesLevel1, "Level1.tmx", "Default"));
 			break;
+			//Level 2
 			case 2:
 			Enemy enemy1Level2 = new Enemy(2, 3, 14);
 			Enemy[] enemiesLevel2 = new Enemy[2];
