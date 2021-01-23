@@ -48,7 +48,6 @@ public class Savegame {
 
         } catch (Exception ex) {
             currentSaveState = saveCodes[0];
-            ex.printStackTrace();
         }
         return currentSaveState;
     }
@@ -58,7 +57,12 @@ public class Savegame {
     }
 
     public static int getCurrentLevel() {
-        return getSavedLevel() + 1;
+        int savedLevel = getSavedLevel();
+        if (getSavedLevel() == saveCodes.length - 1) {
+            return getSavedLevel();
+        } else {
+            return getSavedLevel() + 1;
+        }
     }
 
 

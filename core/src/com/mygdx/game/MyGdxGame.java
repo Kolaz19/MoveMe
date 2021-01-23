@@ -9,7 +9,7 @@ public class MyGdxGame extends Game {
 	public void create () {
 		//Create char
 		hero = new Hero(4,1,14);
-		setScreen(new MenuScreen(this));
+		setScreen(new MainMenu(this));
 	}
 
 	public void chooseLevel(int levelToPlay) {
@@ -40,6 +40,7 @@ public class MyGdxGame extends Game {
 			break;
 		}
 	}
+
 
 
 	@Override

@@ -1,5 +1,7 @@
-[?] Create methods to recognize button presses
+
 _______________________________________________________________________________
+//17.01.21
+[X] Create methods to recognize button presses
 //16.01.21
 [X] Logic for moving characters around menu screen
 [X] Created start button
