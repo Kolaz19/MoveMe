@@ -193,8 +193,12 @@ public class LevelBasic extends ScreenAdapter {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-            Savegame.writeSavestate(currentLevel);
-            mainGame.chooseLevel(this.currentLevel + 1);
+            if (hero.willDie) {
+                mainGame.chooseLevel(this.currentLevel);
+            } else {
+                Savegame.writeSavestate(currentLevel);
+                mainGame.chooseLevel(Savegame.getCurrentLevel());
+            }
         }
     }
 

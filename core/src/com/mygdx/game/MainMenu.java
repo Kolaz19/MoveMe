@@ -51,7 +51,7 @@ public class MainMenu extends MenuScreen {
         switch (buttonCurrentlyClicked) {
             case PLAY: mainGame.chooseLevel(Savegame.getCurrentLevel());
                 break;
-            case STAGE:
+            case STAGE: mainGame.setScreen(new StageScreen(mainGame));
                 break;
             case EXIT:
                 break;
