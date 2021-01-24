@@ -10,7 +10,7 @@ public class MainMenu extends MenuScreen {
     static Texture stageButtonTexture;
     static Texture exitButtonTexture;
     private Animation playButton;
-    private Animation stageButton;
+    private Animation stageSelectButton;
     private Animation exitButton;
     private boolean isPlayButtonSelected, isStageButtonSelected, isExitButtonSelected;
     private MenuScreen.BUTTON buttonCurrentlyClicked;
@@ -25,11 +25,11 @@ public class MainMenu extends MenuScreen {
     public MainMenu(MyGdxGame maingame) {
         super(maingame);
         playButton = new Animation(playButtonTexture,1,300,100);
-        stageButton = new Animation(stageButtonTexture,1,300,100);
+        stageSelectButton = new Animation(stageButtonTexture,1,300,100);
         exitButton = new Animation(exitButtonTexture,1,50,50);
 
         cordsPlay = new MenuScreen.Coordinate((backgroundWidth / 2) - (playButton.getSpecificFrame(1).getRegionWidth() / 2),270);
-        cordsStage = new MenuScreen.Coordinate((backgroundWidth / 2) - (stageButton.getSpecificFrame(1).getRegionWidth() / 2),120);
+        cordsStage = new MenuScreen.Coordinate((backgroundWidth / 2) - (stageSelectButton.getSpecificFrame(1).getRegionWidth() / 2),120);
         cordsExit = new MenuScreen.Coordinate(367,431);
     }
 
@@ -42,7 +42,7 @@ public class MainMenu extends MenuScreen {
         spriteBatch.begin();
         basicBackgroundRendering();
         spriteBatch.draw(playButton.getSpecificFrame(getAnimationNumber(isPlayButtonSelected)),cordsPlay.x, cordsPlay.y);
-        spriteBatch.draw(stageButton.getSpecificFrame(getAnimationNumber(isStageButtonSelected)),cordsStage.x, cordsStage.y);
+        spriteBatch.draw(stageSelectButton.getSpecificFrame(getAnimationNumber(isStageButtonSelected)),cordsStage.x, cordsStage.y);
         spriteBatch.draw(exitButton.getSpecificFrame(getAnimationNumber(isExitButtonSelected)),cordsExit.x, cordsExit.y);
         spriteBatch.end();
     }
@@ -101,8 +101,8 @@ public class MainMenu extends MenuScreen {
     }
 
     private boolean isStageButtonSelected() {
-        if(mouseCoordinates.x >= cordsStage.x && mouseCoordinates.x <= cordsStage.x + stageButton.getSpecificFrame(1).getRegionWidth()
-                && mouseCoordinates.y >= cordsStage.y && mouseCoordinates.y <= cordsStage.y + stageButton.getSpecificFrame(1).getRegionHeight()) {
+        if(mouseCoordinates.x >= cordsStage.x && mouseCoordinates.x <= cordsStage.x + stageSelectButton.getSpecificFrame(1).getRegionWidth()
+                && mouseCoordinates.y >= cordsStage.y && mouseCoordinates.y <= cordsStage.y + stageSelectButton.getSpecificFrame(1).getRegionHeight()) {
             return true;
         }
         return false;

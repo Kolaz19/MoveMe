@@ -65,9 +65,12 @@ public class Savegame {
         }
     }
 
-
-    public static boolean isLevelUnlocked(int level) throws FileNotFoundException {
+    public static boolean isLevelUnlocked(int level) {
         return getSavedLevel() <= level;
+    }
+
+    public int getAmountOfLevels() {
+        return saveCodes.length - 1;
     }
 
 }
