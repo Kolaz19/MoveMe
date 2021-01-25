@@ -1,4 +1,5 @@
-
+[?] Integrate back button
+[?] Let stageButton lead to stages
 _______________________________________________________________________________
 //17.01.21
 [X] Create methods to recognize button presses

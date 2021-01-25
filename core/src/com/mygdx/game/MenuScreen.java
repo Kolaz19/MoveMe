@@ -79,6 +79,7 @@ public abstract class MenuScreen extends ScreenAdapter {
         orthographicCamera.update();
         moveCharInBackground(3,cordsHero);
         moveCharInBackground(3,cordsEnemy);
+        setMouseCoordinates();
     }
 
 

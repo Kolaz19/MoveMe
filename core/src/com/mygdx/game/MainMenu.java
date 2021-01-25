@@ -59,7 +59,6 @@ public class MainMenu extends MenuScreen {
     }
 
     void assignButtonVariables() {
-        setMouseCoordinates();
         chooseSelectedButton();
         //chooseClickedButton depends on chooseSelectedButton above
         chooseClickedButton();

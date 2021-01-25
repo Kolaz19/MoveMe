@@ -58,18 +58,18 @@ public class Savegame {
 
     public static int getCurrentLevel() {
         int savedLevel = getSavedLevel();
-        if (getSavedLevel() == saveCodes.length - 1) {
-            return getSavedLevel();
+        if (savedLevel == saveCodes.length - 1) {
+            return savedLevel;
         } else {
-            return getSavedLevel() + 1;
+            return savedLevel + 1;
         }
     }
 
     public static boolean isLevelUnlocked(int level) {
-        return getSavedLevel() <= level;
+        return level <= getSavedLevel();
     }
 
-    public int getAmountOfLevels() {
+    public static int getAmountOfLevels() {
         return saveCodes.length - 1;
     }
 
