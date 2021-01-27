@@ -16,7 +16,7 @@ public abstract class MenuScreen extends ScreenAdapter {
     protected final int backgroundHeight;
     protected final int backgroundWidth;
     protected SpriteBatch spriteBatch;
-    protected MenuScreen.Coordinate cordsHero, cordsEnemy, cordsExit, cordsPlay, cordsStage;
+    protected MenuScreen.Coordinate cordsHero, cordsEnemy;
     protected final int borderThickness;
     protected final int sizeOfCharTexture;
     protected Vector3 mouseCoordinates;

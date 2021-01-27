@@ -19,7 +19,7 @@ public class Savegame {
 
     public static void writeSavestate(int levelToSave) throws IOException {
         //Check if level to save is under already saved level
-        if (!isLevelUnlocked(levelToSave)) {
+        if (isLevelUnlocked(levelToSave)) {
             return;
         }
         //Save to file

@@ -1,6 +1,8 @@
-[?] Integrate back button
-[?] Let stageButton lead to stages
+[?] Refactoring of SaveGame
 _______________________________________________________________________________
+//27.01.21
+[X] Integrate back button
+[X] Let stageButton lead to stages
 //17.01.21
 [X] Create methods to recognize button presses
 //16.01.21

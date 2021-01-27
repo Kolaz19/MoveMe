@@ -12,6 +12,7 @@ public class MainMenu extends MenuScreen {
     private Animation playButton;
     private Animation stageSelectButton;
     private Animation exitButton;
+    protected MainMenu.Coordinate cordsExit, cordsPlay, cordsStage;
     private boolean isPlayButtonSelected, isStageButtonSelected, isExitButtonSelected;
     private MenuScreen.BUTTON buttonCurrentlyClicked;
 
