@@ -50,7 +50,7 @@ public class MainMenu extends MenuScreen {
 
     private void processButtonLogic() {
         switch (buttonCurrentlyClicked) {
-            case PLAY: mainGame.chooseLevel(Savegame.getCurrentLevel());
+            case PLAY: mainGame.chooseLevel(Savegame.getCurrentSavedLevel());
                 break;
             case STAGE: mainGame.setScreen(new StageScreen(mainGame));
                 break;

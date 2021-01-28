@@ -6,32 +6,50 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-//Saves levels that are completed!
+//Saves levels that can be played
 public class Savegame {
-    private static final long[] saveCodes = new long[3];
+    private static final long[] saveCodes = new long[2];
 
     static {
-        //Zero is default placeholder level
         saveCodes[0] = 565452221546648L;
         saveCodes[1] = 856235777895645L;
-        saveCodes[2] = 564486518444565L;
     }
 
-    public static void writeSavestate(int levelToSave) throws IOException {
-        //Check if level to save is under already saved level
-        if (isLevelUnlocked(levelToSave)) {
+    public static void writeSavestate(int levelToSave) {
+        if (isLevelPlayable(levelToSave+1)) {
             return;
         }
         //Save to file
-        FileWriter fileWriter = new FileWriter("save.txt");
-        fileWriter.write(String.valueOf(saveCodes[levelToSave]));
-        fileWriter.close();
+        try {
+            FileWriter fileWriter = new FileWriter("save.txt");
+            fileWriter.write(String.valueOf(saveCodes[levelToSave]));
+            fileWriter.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
-    private static int getCorrespondingLevel(long saveStateToTranslate) {
-        int levelCounter = 0;
-        for (long saveState : saveCodes) {
-            if (saveState == saveStateToTranslate) {
+    private static float getCurrentSaveState() {
+        long currentSaveState;
+        try {
+            Scanner fileScanner = new Scanner(new File("save.txt"));
+            currentSaveState = Long.parseLong(fileScanner.nextLine());
+            fileScanner.close();
+        } catch (Exception ex) {
+            currentSaveState = saveCodes[0];
+        }
+        return currentSaveState;
+    }
+
+    public static int getCurrentSavedLevel() {
+        float savestate = getCurrentSaveState();
+        return getLevelToSavestate(savestate);
+    }
+
+    private static int getLevelToSavestate(float saveStateToTranslate) {
+        int levelCounter = 1;
+        for (long savestate : saveCodes) {
+            if (savestate == saveStateToTranslate) {
                 break;
             }
             levelCounter++;
@@ -39,38 +57,12 @@ public class Savegame {
         return levelCounter;
     }
 
-    private static long getCurrentSaveState () {
-        long currentSaveState;
-        try {
-            Scanner fileScanner = new Scanner(new File("save.txt"));
-            currentSaveState = Long.parseLong(fileScanner.nextLine());
-            fileScanner.close();
-
-        } catch (Exception ex) {
-            currentSaveState = saveCodes[0];
-        }
-        return currentSaveState;
-    }
-
-    private static int getSavedLevel() {
-        return getCorrespondingLevel(getCurrentSaveState());
-    }
-
-    public static int getCurrentLevel() {
-        int savedLevel = getSavedLevel();
-        if (savedLevel == saveCodes.length - 1) {
-            return savedLevel;
-        } else {
-            return savedLevel + 1;
-        }
-    }
-
-    public static boolean isLevelUnlocked(int level) {
-        return level <= getSavedLevel();
+    public static boolean isLevelPlayable(int level) {
+        return level <= getCurrentSavedLevel();
     }
 
     public static int getAmountOfLevels() {
-        return saveCodes.length - 1;
+        return saveCodes.length;
     }
 
 }

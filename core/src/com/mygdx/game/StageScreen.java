@@ -105,7 +105,7 @@ public class StageScreen extends MenuScreen {
             cord = new Coordinate(x ,y);
             this.level = level;
             animation = new Animation(stageButtonTexture,500,40,40);
-            if (Savegame.isLevelUnlocked(level)) {
+            if (Savegame.isLevelPlayable(level)) {
                 isLocked = false;
                 frame = animation.getSpecificFrame(3);
             } else {
