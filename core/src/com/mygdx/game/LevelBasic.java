@@ -197,7 +197,7 @@ public class LevelBasic extends ScreenAdapter {
                 mainGame.chooseLevel(this.currentLevel);
             } else {
                 Savegame.writeSavestate(currentLevel);
-                mainGame.chooseLevel(Savegame.getCurrentSavedLevel());
+                mainGame.chooseLevel(currentLevel + 1);
             }
         }
     }
