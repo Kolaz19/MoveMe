@@ -16,7 +16,7 @@ public class Savegame {
     }
 
     public static void writeSavestate(int levelToSave) {
-        if (isLevelPlayable(levelToSave+1)) {
+        if (isLevelPlayable(levelToSave+1) || isLevelEndScreen(levelToSave+1)) {
             return;
         }
         //Save to file
@@ -63,6 +63,10 @@ public class Savegame {
 
     public static int getAmountOfLevels() {
         return saveCodes.length;
+    }
+
+    public static boolean isLevelEndScreen(int level) {
+        return level > saveCodes.length;
     }
 
 }

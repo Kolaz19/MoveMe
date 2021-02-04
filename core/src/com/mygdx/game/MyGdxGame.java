@@ -41,6 +41,10 @@ public class MyGdxGame extends Game {
 		}
 	}
 
+	public void setEndScreen() {
+		EndScreen endScreen = new EndScreen(this);
+		this.setScreen(endScreen);
+	}
 
 
 	@Override
