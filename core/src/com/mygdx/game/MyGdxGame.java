@@ -9,7 +9,8 @@ public class MyGdxGame extends Game {
 	public void create () {
 		//Create char
 		hero = new Hero(4,1,14);
-		setScreen(new MainMenu(this));
+		setScreen(new EndScreen(this));
+		//setScreen(new MainMenu(this));
 	}
 
 	public void chooseLevel(int levelToPlay) {
@@ -31,6 +32,7 @@ public class MyGdxGame extends Game {
 			break;
 			//Level 2
 			case 2:
+			hero.reset(2,7);
 			Enemy enemy1Level2 = new Enemy(2, 3, 14);
 			Enemy[] enemiesLevel2 = new Enemy[2];
 			enemiesLevel2[0] = enemy1Level2;
