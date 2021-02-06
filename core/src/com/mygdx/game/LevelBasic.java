@@ -100,6 +100,7 @@ public class LevelBasic extends ScreenAdapter {
         orthographicCamera.update();
         spriteBatch.setProjectionMatrix(orthographicCamera.combined);
         shapeRenderer.setProjectionMatrix(orthographicCamera.combined);
+
         //Check if inputs should be allowed
         inputRegistered = false;
         if (hero.isTargetSet() || hero.willDie || hero.willWin || hero.isAppearing) {
@@ -148,6 +149,10 @@ public class LevelBasic extends ScreenAdapter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //Check Exit and Reset options
+        checkExitCondition();
+        checkResetCondition();
+
     }
 
     public void processCharacterMovement () {
@@ -303,5 +308,18 @@ public class LevelBasic extends ScreenAdapter {
             }
         }
     }
+
+    private void checkExitCondition() {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            mainGame.setScreen(new MainMenu(mainGame));
+        }
+    }
+
+    private void checkResetCondition() {
+        if (Gdx.input.isKeyPressed(Input.Keys.R)) {
+            mainGame.chooseLevel(this.currentLevel);
+        }
+    }
+
 
 }

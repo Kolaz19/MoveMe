@@ -54,7 +54,7 @@ public class MainMenu extends MenuScreen {
                 break;
             case STAGE: mainGame.setScreen(new StageScreen(mainGame));
                 break;
-            case EXIT:
+            case EXIT: Gdx.app.exit();
                 break;
         }
     }

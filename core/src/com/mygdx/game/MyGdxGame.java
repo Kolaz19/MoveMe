@@ -9,8 +9,7 @@ public class MyGdxGame extends Game {
 	public void create () {
 		//Create char
 		hero = new Hero(4,1,14);
-		setScreen(new EndScreen(this));
-		//setScreen(new MainMenu(this));
+		setScreen(new MainMenu(this));
 	}
 
 	public void chooseLevel(int levelToPlay) {
