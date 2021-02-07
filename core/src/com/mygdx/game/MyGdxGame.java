@@ -59,7 +59,23 @@ public class MyGdxGame extends Game {
 			setScreen(new LevelBasic(this,5,hero,enemies,"Level5.tmx","Default"));
 			break;
 			//Level 6
-
+			case 6:
+			hero.reset(3,5);
+			enemies = new Enemy[3];
+			enemies[0] = new Enemy(3,3);
+			enemies[1] = new Enemy(3,2);
+			enemies[2] = new Enemy(4,2);
+			setScreen(new LevelBasic(this,6,hero,enemies,"Level6.tmx","Default"));
+			break;
+			//Level 7
+			case 7:
+			hero.reset(1,2);
+			enemies = new Enemy[3];
+			enemies[0] = new Enemy(5,2);
+			enemies[1] = new Enemy(5,3);
+			enemies[2] = new Enemy(4,3);
+			setScreen(new LevelBasic(this,7,hero,enemies,"Level7.tmx","Default"));
+			break;
 
 		}
 	}

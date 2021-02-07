@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class StageScreen extends MenuScreen {
-    private static Texture backButtonTexture;
+    public static Texture backButtonTexture;
     private static Texture stageButtonTexture;
     private Animation backButton;
     private Coordinate cordsBack;

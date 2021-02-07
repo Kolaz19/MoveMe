@@ -67,7 +67,7 @@ public class MainMenu extends MenuScreen {
 
     private void chooseClickedButton() {
         buttonCurrentlyClicked = MenuScreen.BUTTON.NOSELECT;
-        if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+        if (!Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             return;
         }
         if (isPlayButtonSelected)  {
