@@ -30,8 +30,8 @@ public class Enemy extends Character {
         moveFaceTextureLeftRight = new Texture("EFaceMoveRightLeft.png");
     }
 
-    public Enemy(int startingCellX, int startingCellY, int heightWidth) {
-        super(startingCellX, startingCellY, heightWidth);
+    public Enemy(int startingCellX, int startingCellY) {
+        super(startingCellX, startingCellY, 14);
         willKill = false;
         animationIdle = new Animation(idleTexture, 60, 14,14);
         animationMove = new Animation(moveTexture, 3, 14,14);

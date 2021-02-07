@@ -8,11 +8,14 @@ import java.util.Scanner;
 
 //Saves levels that can be played
 public class Savegame {
-    private static final long[] saveCodes = new long[2];
+    private static final long[] saveCodes = new long[5];
 
     static {
         saveCodes[0] = 565452221546648L;
         saveCodes[1] = 856235777895645L;
+        saveCodes[2] = 423654451232564L;
+        saveCodes[3] = 447888448934278L;
+        saveCodes[4] = 879324775891129L;
     }
 
     public static void writeSavestate(int levelToSave) {

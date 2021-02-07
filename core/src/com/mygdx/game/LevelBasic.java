@@ -294,6 +294,7 @@ public class LevelBasic extends ScreenAdapter {
                 }
             }
             amountOfChecks--;
+            enemiesToCheckIter = enemiesToCheckAgain.iterator();
         }
 
 
