@@ -272,10 +272,10 @@ public class LevelBasic extends ScreenAdapter {
                 enemiesToCheckAgain.add(enemies[k]);
             }
             //Check if character will die
-            if (hero.getTargetX() == enemies[k].getTargetX() && hero.getTargetY() == enemies[k].getTargetY()) {
+/*            if (hero.getTargetX() == enemies[k].getTargetX() && hero.getTargetY() == enemies[k].getTargetY()) {
                 hero.willDie = true;
                 enemies[k].willKill = true;
-            }
+            }*/
         }
         /*Enemies could be in a row -> Check again if target was set and needs correction
         After every loop and every correction the next enemy could also need correction*/
@@ -308,6 +308,14 @@ public class LevelBasic extends ScreenAdapter {
                 enemies[k].setTargetX(enemies[k].getDrawX());
             }
         }
+
+        for (int k = 0;k < enemies.length; k++) {
+            if (hero.getTargetX() == enemies[k].getTargetX() && hero.getTargetY() == enemies[k].getTargetY()) {
+                hero.willDie = true;
+                enemies[k].willKill = true;
+            }
+        }
+
     }
 
     private void checkExitCondition() {

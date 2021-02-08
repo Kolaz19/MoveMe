@@ -60,11 +60,11 @@ public class MyGdxGame extends Game {
 			break;
 			//Level 6
 			case 6:
-			hero.reset(3,5);
+			hero.reset(1,1);
 			enemies = new Enemy[3];
-			enemies[0] = new Enemy(3,3);
-			enemies[1] = new Enemy(3,2);
-			enemies[2] = new Enemy(4,2);
+			enemies[0] = new Enemy(5,1);
+			enemies[1] = new Enemy(5,3);
+			enemies[2] = new Enemy(6,2);
 			setScreen(new LevelBasic(this,6,hero,enemies,"Level6.tmx","Default"));
 			break;
 			//Level 7
@@ -75,6 +75,36 @@ public class MyGdxGame extends Game {
 			enemies[1] = new Enemy(5,3);
 			enemies[2] = new Enemy(4,3);
 			setScreen(new LevelBasic(this,7,hero,enemies,"Level7.tmx","Default"));
+			break;
+			//Level 8
+			case 8:
+			hero.reset(1,2);
+			enemies = new Enemy[4];
+			enemies[0] = new Enemy(4,1);
+			enemies[1] = new Enemy(4,2);
+			enemies[2] = new Enemy(6,1);
+			enemies[3] = new Enemy(3,5);
+			setScreen(new LevelBasic(this,8,hero,enemies,"Level8.tmx","Default"));
+			break;
+			//Level 9
+			case 9:
+			hero.reset(1,3);
+			enemies = new Enemy[4];
+			enemies[0] = new Enemy(4,4);
+			enemies[1] = new Enemy(5,4);
+			enemies[2] = new Enemy(4,3);
+			enemies[3] = new Enemy(5,3);
+			setScreen(new LevelBasic(this,9,hero,enemies,"Level9.tmx","Default"));
+			break;
+			//Level 10
+			case 10:
+			hero.reset(2,3);
+			enemies = new Enemy[4];
+			enemies[0] = new Enemy(1,1);
+			enemies[1] = new Enemy(4,4);
+			enemies[2] = new Enemy(5,4);
+			enemies[3] = new Enemy(4,1);
+			setScreen(new LevelBasic(this,10,hero,enemies,"Level10.tmx","Default"));
 			break;
 
 		}
