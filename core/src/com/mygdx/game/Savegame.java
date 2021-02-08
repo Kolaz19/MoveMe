@@ -1,14 +1,12 @@
 package com.mygdx.game;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Scanner;
 
 //Saves levels that can be played
 public class Savegame {
-    private static final long[] saveCodes = new long[10];
+    private static final long[] saveCodes = new long[12];
 
     static {
         saveCodes[0] = 565452221546648L;
@@ -21,6 +19,8 @@ public class Savegame {
         saveCodes[7] = 894123125484886L;
         saveCodes[8] = 845465561225468L;
         saveCodes[9] = 345546889113849L;
+        saveCodes[10] = 544685161565564L;
+        saveCodes[11] = 548484561225567L;
     }
 
     public static void writeSavestate(int levelToSave) {
